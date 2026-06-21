@@ -747,8 +747,8 @@
 //#macro		@GetMRActionState(@MRAction)
 //			@MRAction = @MRActionState
 
-#define		@FontA			"モトヤLシータ゛3等幅"
-#define		@FontB			"モトヤLマルベリ3等幅"
+#define		@FontA			"KaiGenSP"
+#define		@FontB			"QingYuanSP"
 #define		@UseFontState	$use_font
 #property	$use_font : str
 

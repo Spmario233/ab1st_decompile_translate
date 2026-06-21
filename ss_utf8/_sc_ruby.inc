@@ -22,4 +22,7 @@
 #define			@ruby跪			ruby("ひざまず") 跪 ruby
 #define			@ruby靡			ruby("なび") 靡 ruby
 #define			@ruby噤			ruby("つぐ") 噤 ruby
-
+//汉化版添加部分
+#define         @ruby死后世界战线    ruby("死后世界战线") "SSS" ruby
+#define         @ruby没有活着的感觉     ruby("含义为“活得提心吊胆”") "没有活着的感觉" ruby
+#define         @ruby婚前忧郁症     ruby("Marriage Blues") "婚前忧郁症" ruby
