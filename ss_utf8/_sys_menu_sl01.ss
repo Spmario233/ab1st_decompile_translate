@@ -638,7 +638,7 @@ return
 	for ($_L[0] = 0, $_L[0] < 10, $_L[0] += 1)	{
 		// 存在しない場合は表示しない
 		if (@SLComDataS00[+$_L[0]] == "") {
-			@SLComDataS00[+$_L[0]] = " クリックでコメントを入力できます"
+			@SLComDataS00[+$_L[0]] = " 点击以输入备注"
 		}
 	}
 	@ex.f.obj[@ObjSysSL03].@cd[_ObjSysSLComText01].create_string(@SLComDataS01.left_len(34), @On,   48, 281)
