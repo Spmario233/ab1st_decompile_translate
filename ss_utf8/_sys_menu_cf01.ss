@@ -421,7 +421,7 @@ return
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtMsgBg00].color_add_b = syscom.get_filter_color_b
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtMsgBg00].tr          = syscom.get_filter_color_a
 		// サンプルテキスト
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtMsg00].create_string("テキストの速度表示サンプルです。", @On, 440, 500)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtMsg00].create_string("这里是文本框显示速度的演示文本。", @On, 440, 500)
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtMsg00].set_string_param(26, 0, 0, 0, 0, 1, -1)
 		// 初期設定に戻す
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn05].create(sys_cf_btn31, @On, 450, 212)
