@@ -1960,12 +1960,12 @@ return
 			if ((counter[@CNoMSP01].check_active == 0) && (counter[@CNoMSP01].get == 0) && (@MSP_TOUCH_STATE03 == @Off))	{
 				counter[@CNoMSP01].start_frame_real(0, 16, @MSState * 26)	// ウェイト
 			}
-			// 全て表示が終了したら300Ⅱ秒ウェイトする
+			// 全て表示が終了したら300㍉秒ウェイトする
 			if ((counter[@CNoMSP01].get >= 16) && (@MSP_TOUCH_STATE03 == @Off))	{
 				counter[@CNoMSP02].start_real
 				@MSP_TOUCH_STATE03 = @ON
 			}
-			// 1000Ⅱ秒経過したら１文字目から再表示
+			// 1000㍉秒経過したら１文字目から再表示
 			if (counter[@CNoMSP02].get >= 1000)	{
 				@MSP_TOUCH_STATE03 = @Off
 				counter[@CNoMSP01].reset

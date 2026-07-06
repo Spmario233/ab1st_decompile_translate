@@ -212,7 +212,7 @@
 
 // 効果音を再生する（エモーション用）
 //エモーションが無効の場合は効果音が鳴らない。
-//@delay_time:指定した場合は、指定Ⅱ秒だけ遅れて鳴る。（pcmeventイベント番号は00固定）
+//@delay_time:指定した場合は、指定㍉秒だけ遅れて鳴る。（pcmeventイベント番号は00固定）
 #macro		@pcm_play_emo(@file_name, @delay_time(0))
 			$pcm_play_emo(@file_name, @delay_time)
 
