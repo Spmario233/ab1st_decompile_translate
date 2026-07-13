@@ -28,3 +28,4 @@
 #define         @ruby婚前忧郁症     ruby("Marriage Blues") "婚前忧郁症" ruby
 //引用外部注释部分
 #define			@ruby注释1_格雷西家族			ruby("详情见注释1") "格雷西家族" ruby
+#define			@ruby性取向 ruby("取向") "想法" ruby
