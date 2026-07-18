@@ -1,4 +1,5 @@
-siglus-ssu -c --tmp cache ss_utf8 binary/1st_beat/Scene.chs
+siglus-ssu -c --tmp cache ss_utf8 binary/1st_beat/Scene.rec
 cd binary/1st_beat/
-del Gameexe.chs
-ren "Gameexe.dat" "Gameexe.chs"
+del Gameexe.rec
+ren "Gameexe.dat" "Gameexe.rec"
+pause
