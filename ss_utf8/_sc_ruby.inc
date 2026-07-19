@@ -26,7 +26,9 @@
 #define         @ruby死后世界战线    ruby("死后世界战线") "SSS" ruby
 #define         @ruby没有活着的感觉     ruby("含义为“活得提心吊胆”") "没有活着的感觉" ruby
 #define         @ruby婚前忧郁症     ruby("Marriage Blues") "婚前忧郁症" ruby
-//引用外部注释部分
-#define			@ruby注释1_格雷西家族			ruby("详情见注释1") "格雷西家族" ruby
 #define			@ruby性取向 ruby("取向") "想法" ruby
 #define			@ruby龙卷风行动_带省略号 ruby("龙卷风行动") "OPERATION…TORNADO" ruby
+
+//引用外部注释部分
+#define			@ruby注释1_格雷西家族			ruby("详情见注释1") "格雷西家族" ruby
+#define			@ruby注释2_ARENA ruby("详情见注释2") "ARENA" ruby
