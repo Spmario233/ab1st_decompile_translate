@@ -401,7 +401,15 @@ command $aa_sc_add(property $switch        : int,
 	@SC_LAYER(@SC_LAYER_DEF)
 }
 
-
+//汉化版添加部分
+//动态换算游戏内的日元金额，并显示为【XXX元】+上方注释【XXX日元】的形式。
+//目前的日元汇率是写死在函数内部的。后续再考虑添加从外部文件动态获取日元汇率的方式。
+command $$yen_calc(property $yen_cost : int)
+{
+	property $rmb_cost : int
+	$rmb_cost = $yen_cost * database[@DB_RATE].get_num(0, 1) / 10000
+	ruby(math.tostr($yen_cost) + "日元")  print(math.tostr($rmb_cost)) "元" ruby
+}	// 日元换算
 
 
 
