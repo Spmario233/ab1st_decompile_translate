@@ -30,5 +30,11 @@
 #define			@ruby龙卷风行动_带省略号 ruby("龙卷风行动") "OPERATION…TORNADO" ruby
 
 //引用外部注释部分
-#define			@ruby注释1_格雷西家族			ruby("详情见注释1") "格雷西家族" ruby
+#define			@ruby注释1_格雷西家族 ruby("详情见注释1") "格雷西家族" ruby
 #define			@ruby注释2_ARENA ruby("详情见注释2") "ARENA" ruby
+
+//餐品注释部分
+#define			@ruby餐品1_冬阴功咖喱 ruby("详情见餐品注释1") "冬阴功咖喱" ruby
+
+//日元汇率部分（按照1人民币:25日元汇率换算，动态凑整）
+#define         @ruby_800日元 ruby("800日元") "32元" ruby
