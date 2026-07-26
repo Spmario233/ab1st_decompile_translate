@@ -36,5 +36,6 @@
 //餐品注释部分
 #define			@ruby餐品1_冬阴功咖喱 ruby("详情见餐品注释1") "冬阴功咖喱" ruby
 
-//日元汇率部分（按照1人民币:25日元汇率换算，动态凑整）
-#define         @ruby_800日元 ruby("800日元") "32元" ruby
+//歌曲注释部分
+#define			@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
+#define			@ruby歌曲2_太陽のKomachiAngel ruby("详情见歌曲注释2") "认真来场" ruby

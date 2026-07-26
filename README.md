@@ -20,7 +20,7 @@ Siglus引擎的`Scene.pck`剧本在生成过程中会进行编译，将UTF-8字�
 
 本次新版本汉化使用的加密密钥为原光盘版`Scene.pck`的密钥，与旧版本汉化使用的基于ALKA英化组版本的`Scene.pck`文件密钥不同。
 
-本次汉化额外添加了**动态汇率换算**功能。在启动游戏前，玩家可以启动`1st_beat`文件夹下的`JPYRateUpdater.exe`。该程序会自动获取当天最新的日元对人民币汇率，并将汇率写入到`dbs`文件夹下的`jpyrate.dbs`文件夹里。游戏在运行时会从数据库中读取该数据，并自动将游戏内的日元换算为人民币。汇率数据的来源为[ExchangeRate.fun API](https://api.exchangerate.fun/)
+本次汉化额外添加了**动态汇率换算**功能。在启动游戏前，玩家可以启动`1st_beat`文件夹下的`JPYRateUpdater.exe`。该程序会自动获取当天最新的日元对人民币汇率，并将汇率写入到`dat`文件夹下的`jpyrate.dbs`文件夹里。游戏在运行时会从数据库中读取该数据，并自动将游戏内的日元换算为人民币。汇率数据的来源为[ExchangeRate.fun API](https://api.exchangerate.fun/)
 
 所有的人名翻译，均通过将文本映射挂载到Gameexe.ini的方式实现，不对原本的姓名进行改动。
 

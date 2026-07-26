@@ -21,8 +21,8 @@ os.chdir(BASE_DIR)
 
 API_URL = "https://open.er-api.com/v6/latest/JPY"
 
-CSV_FILE = BASE_DIR / "dbs" / "jpyrate.csv"
-DBS_FILE = BASE_DIR / "dbs" / "jpyrate.dbs"
+CSV_FILE = BASE_DIR / "dat" / "jpyrate.csv"
+DBS_FILE = BASE_DIR / "dat" / "jpyrate.dbs"
 SIGLUS_ENGINE = BASE_DIR / "SiglusEngine_CHS_RECOMPILE.exe"
 
 MAX_RETRY = 3
