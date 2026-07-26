@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 import requests
 from siglus_ssu import dbs
+import subprocess
 
 if getattr(sys, "frozen", False):
     BASE_DIR = Path(sys.executable).parent
@@ -22,6 +23,7 @@ API_URL = "https://open.er-api.com/v6/latest/JPY"
 
 CSV_FILE = BASE_DIR / "dbs" / "jpyrate.csv"
 DBS_FILE = BASE_DIR / "dbs" / "jpyrate.dbs"
+SIGLUS_ENGINE = BASE_DIR / "SiglusEngine_CHS_RECOMPILE.exe"
 
 MAX_RETRY = 3
 RETRY_INTERVAL = 2  # 秒
@@ -41,11 +43,11 @@ def compile_dbs(csv_file, dbs_file,
 def get_rate():
     """获取10000日元对应人民币（四舍五入）"""
 
-    print("正在从ExchangeRate.fun (https://api.exchangerate.fun/)获取最新的日元汇率……")
+    print("正在从ExchangeRate.fun (https://api.exchangerate.fun/)获取最新的日元汇率...")
 
     for attempt in range(1, MAX_RETRY + 1):
         try:
-            print(f"正在获取汇率（第 {attempt}/{MAX_RETRY} 次）...")
+            print(f"正在获取汇率（第 {attempt} 次）...")
 
             response = requests.get(API_URL, timeout=1000)
             response.raise_for_status()
@@ -68,10 +70,11 @@ def get_rate():
                 print(f"{RETRY_INTERVAL} 秒后重试...\n")
                 time.sleep(RETRY_INTERVAL)
 
-    raise RuntimeError("连续多次获取汇率失败。")
+    raise RuntimeError("错误：无法获取在线汇率。请检查网络连接。")
 
 
 def modify_csv(value):
+    print("正在将汇率写入本地csv文件...")
     """修改第五行第三列"""
 
     if not CSV_FILE.exists():
@@ -96,21 +99,41 @@ def modify_csv(value):
 
 
 def build_dbs():
+    print("正在调用siglus-ssu生成dbs文件...")
     compile_dbs(CSV_FILE, DBS_FILE)
     print("DBS已生成。")
 
+def launch_siglus():
+    """启动 SiglusEngine.exe 后立即返回"""
+    print("正在启动游戏...")
+    
+    if not SIGLUS_ENGINE.exists():
+        print(f"启动游戏时错误：未找到 {SIGLUS_ENGINE}")
+        error_handle()
+
+    subprocess.Popen(
+        [str(SIGLUS_ENGINE)],
+        cwd=str(BASE_DIR)
+    )
+
+def error_handle():
+    print("按任意键继续...")
+    input()
 
 def main():
     try:
         amount = get_rate()
         modify_csv(amount)
         build_dbs()
-        print("\n全部完成。")
+        print("\n汇率更新完成，即将启动游戏...")
 
     except Exception as e:
-        print("\n发生错误：")
+        print("\n汇率换算过程中发生错误，即将直接启动游戏：")
         print(e)
-        sys.exit(1)
+        error_handle()
+
+    launch_siglus()
+    sys.exit(0)
 
 
 if __name__ == "__main__":

@@ -15,3 +15,5 @@ binary/1st_beat/UpdateJPNRate.exe
 *.lnk
 binary/1st_beat/JPYRateUpdater.exe
 更新实时汇率.spec
+/build
+/dist
