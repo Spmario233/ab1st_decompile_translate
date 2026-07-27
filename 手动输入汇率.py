@@ -1,13 +1,9 @@
-#实时汇率更新工具，在汉化版游戏启动前先行启动，用于实时更新游戏内日元换算后的金额
-#汇率数据来源：ExchangeRate.fun API（https://api.exchangerate.fun/）
-#本工具仅提供参考汇率。
+#手动汇率更新工具，在汉化版游戏启动前先行启动，用于手动更新游戏内日元换算后的金额
 
 import csv
 import os
 import sys
-import time
 from pathlib import Path
-import requests
 from siglus_ssu import dbs
 import subprocess
 
@@ -18,7 +14,6 @@ else:
 
 os.chdir(BASE_DIR)
 
-API_URL = "https://open.er-api.com/v6/latest/JPY"
 
 CSV_FILE = BASE_DIR / "dat" / "jpyrate.csv"
 DBS_FILE = BASE_DIR / "dat" / "jpyrate.dbs"
@@ -39,37 +34,6 @@ def compile_dbs(csv_file, dbs_file,
         m_type=m_type,
     )
 
-def get_rate():
-    """获取10000日元对应人民币（四舍五入）"""
-
-    print("正在从ExchangeRate.fun (https://api.exchangerate.fun/)获取最新的日元汇率...")
-
-    for attempt in range(1, MAX_RETRY + 1):
-        try:
-            print(f"正在获取汇率（第 {attempt} 次）...")
-
-            response = requests.get(API_URL, timeout=1000)
-            response.raise_for_status()
-
-            data = response.json()
-
-            rate = data["rates"]["CNY"]
-
-            amount = round(10000 * rate)
-
-            print(f"当前汇率：1 JPY = {rate:.8f} CNY")
-            print(f"10000 JPY = {amount} CNY")
-
-            return amount
-
-        except Exception as e:
-            print(f"获取失败：{e}")
-
-            if attempt < MAX_RETRY:
-                print(f"{RETRY_INTERVAL} 秒后重试...\n")
-                time.sleep(RETRY_INTERVAL)
-
-    raise RuntimeError("错误：无法获取在线汇率。请检查网络连接。")
 
 
 def modify_csv(value):
@@ -119,15 +83,19 @@ def error_handle():
     print("按任意键继续...")
     input()
 
+def input_amount():
+    amount = input("请输入想要设置的汇率（10000日元可兑换的人民币金额，仅保留整数）:")
+    return int(amount)
+
 def main():
     try:
-        amount = get_rate()
+        amount = input_amount()
         modify_csv(amount)
         build_dbs()
         print("\n汇率更新完成，即将启动游戏...")
 
     except Exception as e:
-        print("\n汇率换算过程中发生错误，即将直接启动游戏：")
+        print("\n汇率设置过程中发生错误，即将直接启动游戏：")
         print(e)
         error_handle()
 
