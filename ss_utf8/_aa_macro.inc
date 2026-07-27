@@ -170,10 +170,3 @@
 
 #command	$aa_sc_add(int, int, int, int, int, int, int, int)
 
-//汉化版添加
-#macro @日元换算(@yen_cost)
-	$$yen_calc(@yen_cost)
-
-#command	$$yen_calc(int)
-//日元换算汇率
-#define		@DB_RATE 1
