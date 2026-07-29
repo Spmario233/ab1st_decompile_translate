@@ -110,6 +110,8 @@ def launch_siglus():
         print(f"启动游戏时错误：未找到 {SIGLUS_ENGINE}")
         error_handle()
 
+    time.sleep(2)
+
     subprocess.Popen(
         [str(SIGLUS_ENGINE)],
         cwd=str(BASE_DIR)

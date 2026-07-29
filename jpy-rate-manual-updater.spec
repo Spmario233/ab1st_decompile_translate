@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['手动输入汇率.py'],
+    ['jpy-rate-manual-updater.py'],
     pathex=[],
     binaries=[],
     datas=[

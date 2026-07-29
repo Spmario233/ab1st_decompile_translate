@@ -3,6 +3,7 @@
 import csv
 import os
 import sys
+import time
 from pathlib import Path
 from siglus_ssu import dbs
 import subprocess
@@ -73,6 +74,8 @@ def launch_siglus():
     if not SIGLUS_ENGINE.exists():
         print(f"启动游戏时错误：未找到 {SIGLUS_ENGINE}")
         error_handle()
+
+    time.sleep(2)
 
     subprocess.Popen(
         [str(SIGLUS_ENGINE)],
