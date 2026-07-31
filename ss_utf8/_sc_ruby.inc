@@ -22,20 +22,3 @@
 #define			@ruby跪			ruby("ひざまず") 跪 ruby
 #define			@ruby靡			ruby("なび") 靡 ruby
 #define			@ruby噤			ruby("つぐ") 噤 ruby
-//汉化版添加部分
-#define         @ruby死后世界战线    ruby("死后世界战线") "SSS" ruby
-#define         @ruby没有活着的感觉     ruby("含义为“活得提心吊胆”") "没有活着的感觉" ruby
-#define         @ruby婚前忧郁症     ruby("Marriage Blues") "婚前忧郁症" ruby
-#define			@ruby性取向 ruby("取向") "想法" ruby
-#define			@ruby龙卷风行动_带省略号 ruby("龙卷风行动") "OPERATION…TORNADO" ruby
-
-//引用外部注释部分
-#define			@ruby注释1_格雷西家族 ruby("详情见注释1") "格雷西家族" ruby
-#define			@ruby注释2_ARENA ruby("详情见注释2") "ARENA" ruby
-
-//餐品注释部分
-#define			@ruby餐品1_冬阴功咖喱 ruby("详情见餐品注释1") "冬阴功咖喱" ruby
-
-//歌曲注释部分
-#define			@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
-#define			@ruby歌曲2_太陽のKomachiAngel ruby("详情见歌曲注释2") "认真来场" ruby
