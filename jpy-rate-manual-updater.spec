@@ -28,7 +28,7 @@ exe = EXE(
     a.datas,
     [],
     name='JPYRateManualUpdater',
-    icon='AngelBeats!.ico',
+    icon='jpyrate.ico',
     version='version-rate-manual.txt',
     debug=False,
     bootloader_ignore_signals=False,

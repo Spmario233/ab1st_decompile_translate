@@ -17,6 +17,7 @@
 #define	@ruby餐品2_冬阴功咖喱 ruby("详情见餐品注释2") "冬阴功咖喱" ruby
 #define	@ruby餐品3_味噌猪排盖饭 ruby("详情见餐品注释3") "味噌猪排盖饭" ruby
 #define	@ruby餐品4_焗饭 ruby("详情见餐品注释4") "芝士焗饭" ruby
+#define	@ruby餐品5_法式长条泡芙 ruby("详情见餐品注释4") "法式巧克力长条泡芙" ruby
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
