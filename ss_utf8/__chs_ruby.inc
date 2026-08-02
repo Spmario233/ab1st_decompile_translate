@@ -15,6 +15,7 @@
 //餐品注释部分
 #define	@ruby餐品1_炸猪排套餐 ruby("详情见餐品注释1") "炸猪排套餐" ruby
 #define	@ruby餐品2_冬阴功咖喱 ruby("详情见餐品注释2") "冬阴功咖喱" ruby
+#define	@ruby餐品10_方盒鳗鱼饭 ruby("详情见餐品注释10") "鳗鱼" ruby
 #define	@ruby餐品3_味噌猪排盖饭 ruby("详情见餐品注释3") "味噌猪排盖饭" ruby
 #define	@ruby餐品4_焗饭 ruby("详情见餐品注释4") "芝士焗饭" ruby
 #define	@ruby餐品5_法式长条泡芙 ruby("详情见餐品注释5") "法式巧克力长条泡芙" ruby
