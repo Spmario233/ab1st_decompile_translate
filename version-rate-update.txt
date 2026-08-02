@@ -15,11 +15,11 @@ VSVersionInfo(
         '080404B0',
         [
           StringStruct('CompanyName', '死了没法儿忍汉化组'),
-          StringStruct('FileDescription', '实时获取最新的日元汇率并写入汉化版游戏'),
+          StringStruct('FileDescription', 'Angel Beats! -1st beat- Game Launcher'),
           StringStruct('FileVersion', '1.0.0'),
           StringStruct('InternalName', 'JPYRateUpdater'),
           StringStruct('OriginalFilename', 'JPYRateUpdater.exe'),
-          StringStruct('ProductName', 'JPY Rate Updater'),
+          StringStruct('ProductName', 'Angel Beats! -1st beat- Game Launcher'),
           StringStruct('ProductVersion', '1.0.0'),
           StringStruct('LegalCopyright', 'Copyright © 2026 死了没法儿忍汉化组')
         ]
