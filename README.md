@@ -22,9 +22,11 @@ Siglus引擎的`Scene.pck`剧本在生成过程中会进行编译，将UTF-8字�
 
 本次汉化额外添加了**动态汇率换算**功能。在启动游戏前，玩家可以启动`1st_beat`文件夹下的`JPYRateUpdater.exe`。该程序会自动获取当天最新的日元对人民币汇率，并将汇率写入到`dat`文件夹下的`jpyrate.dbs`文件夹里。游戏在运行时会从数据库中读取该数据，并自动将游戏内的日元换算为人民币。汇率数据的来源为[ExchangeRate.fun API](https://api.exchangerate.fun/)
 
+本次汉化通过将SiglusEngine.exe升级到**anemoi所使用的版本**，为游戏提供了原生Xbox手柄支持。由于鼠标点击事件的`input.decide.is_up`属性在最新版本的Siglus引擎中已经被废弃，故将其全部等效替代为`input.decide.is_down`的反向布尔值判断。
+
 所有的人名翻译，均通过将文本映射挂载到Gameexe.ini的方式实现，不对原本的姓名进行改动。
 
-`Scene.pck`文件、`Gameexe.dat`文件和`savedata`文件夹的位置、分别被重定向到了`Scene.rec`文件、`Scene.rec`文件和`save_rec`文件夹。
+`Scene.pck`文件、`Gameexe.dat`文件和`savedata`文件夹的位置、分别被重定向到了`Scene.pck.recompile`文件、`Scene.rec.recompile`文件和`savedata_recompile`文件夹。
 
 # 旧版汉化制作人员名单（排名不分先后）
 **英化：** `ALKA Translation`

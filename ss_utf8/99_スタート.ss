@@ -36,6 +36,7 @@ if(@IS_EXIT_GAME_IN_EXTRA == 1) {
 // ダミー認証
 //-----------------------------------------------------------------
 @sys_com_disable
+//光盘版的正版验证竟然是放在ss脚本里的，比较意外，总之注释掉即可屏蔽
 //system.check_dummy_file_once("dummy", 124, "hidechin_kyuff")
 //@sys_com_enable		//下に動かした。
 
