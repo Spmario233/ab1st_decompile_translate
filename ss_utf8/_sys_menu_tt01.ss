@@ -738,7 +738,7 @@ command $MsBtnInputDecide
 	}
 	if (input.cancel.on_down_up == @On)	{
 		input.clear
-//		$break_switch = @On
+		//$break_switch = @On
 	}
 	elseif (input.decide.on_down_up == @On)	{
 		if (@MS_STATE_PREV != @MSBTN_INIT){

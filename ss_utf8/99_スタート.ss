@@ -36,7 +36,7 @@ if(@IS_EXIT_GAME_IN_EXTRA == 1) {
 // ダミー認証
 //-----------------------------------------------------------------
 @sys_com_disable
-system.check_dummy_file_once("dummy", 124, "hidechin_kyuff")
+//system.check_dummy_file_once("dummy", 124, "hidechin_kyuff")
 //@sys_com_enable		//下に動かした。
 
 
