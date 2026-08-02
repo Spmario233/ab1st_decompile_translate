@@ -601,7 +601,7 @@ S[1000] - S[1999]：システム
 #macro		@MsBtnInputDecide(@Type, @Num(0))
 			if ((@Type == @TypeDF) || (@Type == @TypeSM) || (@Type == @TypeSL) || (@Type == @TypeCF) || (@Type == @TypeSC) || (@Type == @TypeOP) || (@Type == @TypeEX))	{
 				// マウスボタン入力判定
-				if (input.decide.is_up == @On)	{
+				if (input.decide.is_down == @Off)	{
 					if (@MSCHK != @MSBTN_NONE){
 						if (@MSCHK != @MSCHK_PREV)	{
 							if (@MSWHL_STATE == @Init)	{
@@ -816,7 +816,7 @@ S[1000] - S[1999]：システム
 // マウスボタン入力判定ＳＣ
 #macro		@MsBtnInputDecideSC(@Type(0))
 			// マウスボタン入力判定
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				if (@MSCHK != @MSBTN_NONE){
 					if (@MSCHK != @MSCHK_PREV)	{
 						@se_play(000)

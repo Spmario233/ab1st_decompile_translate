@@ -135,7 +135,7 @@ command $sys_quick_save_btn
 			@MS_STATE_CONF_PREV = @MS_STATE_CONF
 
 			// 初期化処理（キーが放されていたら状態を初期化する）
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				@MS_STATE_CONF = @MSBTN_INIT
 				@S_CTL_BAR_ACTIVE      = @Off
 				@S_CTL_BAR_CTLACTIVE   = @Off
@@ -151,7 +151,7 @@ command $sys_quick_save_btn
 			@if_(@Off, @Off, 2, @ObjSysTMenu00, _ObjSysQDataChk00)
 
 			// マウスボタン入力判定
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				if (@MSCHK != @MSBTN_NONE){
 					if (@MSCHK != @MSCHK_PREV)	{
 						@se_play(000)
@@ -446,7 +446,7 @@ command $sys_quick_load_btn
 			@MS_STATE_CONF_PREV = @MS_STATE_CONF
 
 			// 初期化処理（キーが放されていたら状態を初期化する）
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				@MS_STATE_CONF = @MSBTN_INIT
 				@S_CTL_BAR_ACTIVE      = @Off
 				@S_CTL_BAR_CTLACTIVE   = @Off
@@ -462,7 +462,7 @@ command $sys_quick_load_btn
 			@if_(@Off, @Off, 2, @ObjSysTMenu00, _ObjSysQDataChk00)
 
 			// マウスボタン入力判定
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				if (@MSCHK != @MSBTN_NONE){
 					if (@MSCHK != @MSCHK_PREV)	{
 						@se_play(000)
@@ -653,7 +653,7 @@ command $sys_undo_btn
 			@MS_STATE_CONF_PREV = @MS_STATE_CONF
 
 			// 初期化処理（キーが放されていたら状態を初期化する）
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				@MS_STATE_CONF = @MSBTN_INIT
 				@S_CTL_BAR_ACTIVE      = @Off
 				@S_CTL_BAR_CTLACTIVE   = @Off
@@ -669,7 +669,7 @@ command $sys_undo_btn
 			@if_(@Off, @Off, 2, @ObjSysTMenu00, _ObjSysQDataChk00)
 
 			// マウスボタン入力判定
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				if (@MSCHK != @MSBTN_NONE){
 					if (@MSCHK != @MSCHK_PREV)	{
 						@se_play(000)
@@ -1199,7 +1199,7 @@ command $sys_returnmenu_btn
 			@MS_STATE_CONF_PREV = @MS_STATE_CONF
 
 			// 初期化処理（キーが放されていたら状態を初期化する）
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				@MS_STATE_CONF = @MSBTN_INIT
 				@S_CTL_BAR_ACTIVE      = @Off
 				@S_CTL_BAR_CTLACTIVE   = @Off
@@ -1215,7 +1215,7 @@ command $sys_returnmenu_btn
 			@if_(@Off, @Off, 2, @ObjSysTMenu00, _ObjSysQDataChk00)
 
 			// マウスボタン入力判定
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				if (@MSCHK != @MSBTN_NONE){
 					if (@MSCHK != @MSCHK_PREV)	{
 						@se_play(000)
@@ -1410,7 +1410,7 @@ command $sys_gameend_btn
 			@MS_STATE_CONF_PREV = @MS_STATE_CONF
 
 			// 初期化処理（キーが放されていたら状態を初期化する）
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				@MS_STATE_CONF = @MSBTN_INIT
 				@S_CTL_BAR_ACTIVE      = @Off
 				@S_CTL_BAR_CTLACTIVE   = @Off
@@ -1426,7 +1426,7 @@ command $sys_gameend_btn
 			@if_(@Off, @Off, 2, @ObjSysTMenu00, _ObjSysQDataChk00)
 
 			// マウスボタン入力判定
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				if (@MSCHK != @MSBTN_NONE){
 					if (@MSCHK != @MSCHK_PREV)	{
 						@se_play(000)
@@ -1632,7 +1632,7 @@ command $msgbk_btn_load
 			@MS_STATE_CONF_PREV = @MS_STATE_CONF
 
 			// 初期化処理（キーが放されていたら状態を初期化する）
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				@MS_STATE_CONF = @MSBTN_INIT
 				@S_CTL_BAR_ACTIVE      = @Off
 				@S_CTL_BAR_CTLACTIVE   = @Off
@@ -1648,7 +1648,7 @@ command $msgbk_btn_load
 			@exif_(@Off, @Off, 2, @ObjSysTMenu00, _ObjSysQDataChk00)
 
 			// マウスボタン入力判定
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				if (@MSCHK != @MSBTN_NONE){
 					if (@MSCHK != @MSCHK_PREV)	{
 						@se_play(000)

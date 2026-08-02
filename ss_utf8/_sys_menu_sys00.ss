@@ -417,7 +417,7 @@ return
 		@MS_STATE_PREV = @MS_STATE
 
 		// 初期化処理（キーが放されていたら状態を初期化する）
-		if (input.decide.is_up == @On)	{
+		if (input.decide.is_down == @Off)	{
 			@MS_STATE = @MSBTN_INIT
 			@S_CTL_BAR_ACTIVE      = @Off
 			@S_CTL_BAR_CTLACTIVE   = @Off
@@ -710,7 +710,7 @@ return
 			@MS_STATE_PREV = @MS_STATE
 
 			// 初期化処理（キーが放されていたら状態を初期化する）
-			if (input.decide.is_up == @On)	{
+			if (input.decide.is_down == @Off)	{
 				@MS_STATE = @MSBTN_INIT
 				@S_CTL_BAR_ACTIVE      = @Off
 				@S_CTL_BAR_CTLACTIVE   = @Off
@@ -859,7 +859,7 @@ return
 command $MsBtnInputDecide
 {
 	// マウスボタン入力判定
-	if (input.decide.is_up == @On)	{
+	if (input.decide.is_down == @Off)	{
 		if (@MSCHK != @MSBTN_NONE){
 			if (@MSCHK != @MSCHK_PREV)	{
 				@se_play(000)
