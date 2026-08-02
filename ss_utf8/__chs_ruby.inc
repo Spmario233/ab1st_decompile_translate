@@ -15,14 +15,16 @@
 //餐品注释部分
 #define	@ruby餐品1_炸猪排套餐 ruby("详情见餐品注释1") "炸猪排套餐" ruby
 #define	@ruby餐品2_冬阴功咖喱 ruby("详情见餐品注释2") "冬阴功咖喱" ruby
-#define	@ruby餐品10_方盒鳗鱼饭 ruby("详情见餐品注释10") "鳗鱼" ruby
-#define	@ruby餐品3_味噌猪排盖饭 ruby("详情见餐品注释3") "味噌猪排盖饭" ruby
-#define	@ruby餐品4_焗饭 ruby("详情见餐品注释4") "芝士焗饭" ruby
-#define	@ruby餐品5_法式长条泡芙 ruby("详情见餐品注释5") "法式巧克力长条泡芙" ruby
-#define	@ruby餐品6_盐味拉面 ruby("详情见餐品注释6") "盐味拉面" ruby
-#define	@ruby餐品7_酱油拉面 ruby("详情见餐品注释7") "酱油拉面" ruby
-#define	@ruby餐品8_南蛮炸鸡套餐 ruby("详情见餐品注释8") "南蛮炸鸡套餐" ruby
-#define	@ruby餐品9_卷面 ruby("详情见餐品注释9") "卷面" ruby
+#define	@ruby餐品10_方盒鳗鱼饭 ruby("详情见餐品注释3") "鳗鱼" ruby
+#define	@ruby餐品3_味噌猪排盖饭 ruby("详情见餐品注释4") "味噌猪排盖饭" ruby
+#define	@ruby餐品4_焗饭 ruby("详情见餐品注释5") "芝士焗饭" ruby
+#define	@ruby餐品5_法式长条泡芙 ruby("详情见餐品注释6") "法式巧克力长条泡芙" ruby
+#define	@ruby餐品6_盐味拉面 ruby("详情见餐品注释7") "盐味拉面" ruby
+#define	@ruby餐品7_酱油拉面 ruby("详情见餐品注释8") "酱油拉面" ruby
+#define	@ruby餐品8_南蛮炸鸡套餐 ruby("详情见餐品注释9") "南蛮炸鸡套餐" ruby
+#define	@ruby餐品9_卷面 ruby("详情见餐品注释10") "卷面" ruby
+#define	@ruby餐品11_玛格丽特披萨 ruby("详情见餐品注释11") "玛格丽特披萨" ruby
+#define	@ruby餐品12_火腿热狗 ruby("详情见餐品注释12") "火腿热狗" ruby
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby

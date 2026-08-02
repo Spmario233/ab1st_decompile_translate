@@ -1,7 +1,5 @@
 pyinstaller "jpy-rate-updater.spec"
-pyinstaller "jpy-rate-manual-updater.spec"
 
-copy "dist\JPYRateUpdater.exe" "binary\1st_beat\JPYRateUpdater.exe" /Y
-copy "dist\JPYRateManualUpdater.exe" "binary\1st_beat\JPYRateManualUpdater.exe" /Y
+copy "dist\JPYRateUpdater.exe" "binary\GameLauncher.exe" /Y
 
 pause

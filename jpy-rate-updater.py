@@ -11,6 +11,12 @@ import requests
 from siglus_ssu import dbs
 import subprocess
 
+import tkinter as tk
+from tkinter import scrolledtext
+from PIL import Image, ImageTk
+import threading
+import io
+
 if getattr(sys, "frozen", False):
     BASE_DIR = Path(sys.executable).parent
 else:
@@ -20,12 +26,22 @@ os.chdir(BASE_DIR)
 
 API_URL = "https://open.er-api.com/v6/latest/JPY"
 
-CSV_FILE = BASE_DIR / "dat" / "jpyrate.csv"
-DBS_FILE = BASE_DIR / "dat" / "jpyrate.dbs"
-SIGLUS_ENGINE = BASE_DIR / "SiglusEngine_CHS_RECOMPILE.exe"
+CSV_FILE = BASE_DIR / "1st_beat" / "dat" / "jpyrate.csv"
+DBS_FILE = BASE_DIR / "1st_beat" / "dat" / "jpyrate.dbs"
+SIGLUS_ENGINE = BASE_DIR / "1st_beat" / "SiglusEngine_CHS_RECOMPILE.exe"
+
+def resource_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        return Path(sys._MEIPASS) / relative_path
+
+    return Path(__file__).parent / relative_path
+
+ICON_FILE = resource_path("icon.png")
 
 MAX_RETRY = 3
 RETRY_INTERVAL = 2  # 秒
+
+
 
 def compile_dbs(csv_file, dbs_file,
                 m_type=1,
@@ -108,7 +124,6 @@ def launch_siglus():
     
     if not SIGLUS_ENGINE.exists():
         print(f"启动游戏时错误：未找到 {SIGLUS_ENGINE}")
-        error_handle()
 
     time.sleep(2)
 
@@ -117,25 +132,164 @@ def launch_siglus():
         cwd=str(BASE_DIR)
     )
 
-def error_handle():
-    print("按任意键继续...")
-    input()
 
-def main():
+
+def update_and_launch():
     try:
         amount = get_rate()
         modify_csv(amount)
         build_dbs()
+
         print("\n汇率更新完成，即将启动游戏...")
 
     except Exception as e:
         print("\n汇率换算过程中发生错误，即将直接启动游戏：")
         print(e)
-        error_handle()
 
     launch_siglus()
-    sys.exit(0)
+
+
+def direct_launch():
+    launch_siglus()
+
+class RedirectOutput(io.StringIO):
+    def __init__(self, textbox):
+        self.textbox = textbox
+
+    def write(self, text):
+        self.textbox.after(
+            0,
+            self._write,
+            text
+        )
+
+    def _write(self, text):
+        self.textbox.insert(
+            tk.END,
+            text
+        )
+        self.textbox.see(tk.END)
+
+    def flush(self):
+        pass
+
+
+def run_update():
+    threading.Thread(
+        target=update_and_launch,
+        daemon=True
+    ).start()
+
+
+def run_direct():
+    threading.Thread(
+        target=direct_launch,
+        daemon=True
+    ).start()
+
+
+def create_gui():
+
+    root = tk.Tk()
+
+    root.title("Angel Beats! -1st beat- 汉化启动器")
+    root.geometry("700x450")
+    root.iconbitmap(
+        resource_path("jpyrate.ico")
+    )
+
+    # ===== 顶部区域 =====
+
+    top = tk.Frame(root)
+    top.pack(
+        fill=tk.X,
+        padx=10,
+        pady=10
+    )
+
+    # 左侧图片
+
+    if ICON_FILE.exists():
+
+        img = Image.open(ICON_FILE)
+
+        img.thumbnail(
+            (160, 160)
+        )
+
+        icon = ImageTk.PhotoImage(img)
+
+        img_label = tk.Label(
+            top,
+            image=icon
+        )
+
+        img_label.image = icon
+
+        img_label.pack(
+            side=tk.LEFT
+        )
+
+
+    # 右侧按钮
+
+    btn_frame = tk.Frame(top)
+
+    btn_frame.pack(
+        side=tk.RIGHT,
+        padx=10
+    )
+
+
+    btn1 = tk.Button(
+        btn_frame,
+        text="更新汇率并启动游戏",
+        width=140,
+        height=4,
+        command=run_update
+    )
+
+    btn1.pack(
+        pady=5
+    )
+
+
+    btn2 = tk.Button(
+        btn_frame,
+        text="直接启动游戏",
+        width=140,
+        height=4,
+        command=run_direct
+    )
+
+    btn2.pack(
+        pady=5
+    )
+
+
+    # ===== 输出窗口 =====
+
+    output = scrolledtext.ScrolledText(
+        root,
+        height=18
+    )
+
+    output.pack(
+        fill=tk.BOTH,
+        expand=True,
+        padx=10,
+        pady=10
+    )
+
+
+    # 重定向 print
+
+    sys.stdout = RedirectOutput(output)
+    sys.stderr = RedirectOutput(output)
+
+
+    root.mainloop()
 
 
 if __name__ == "__main__":
-    main()
+    create_gui()
