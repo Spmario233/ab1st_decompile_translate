@@ -353,7 +353,7 @@ def boot():
     print("==========================================================")
     try:
         boot_loading_csv()
-    except ValueError as e:
+    except Exception as e:
         print("本地文件丢失！请检查 1st_beat\\dat\\jpyrate.csv 是否存在！")
         print(e)
 
