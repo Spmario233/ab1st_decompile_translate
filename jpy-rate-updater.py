@@ -2,6 +2,7 @@
 #汇率数据来源：ExchangeRate.fun API（https://api.exchangerate.fun/）
 #本工具仅提供参考汇率。
 
+import ctypes
 import csv
 import os
 import sys
@@ -13,6 +14,7 @@ import subprocess
 from datetime import datetime
 
 import tkinter as tk
+from tkinter import font as tkfont
 from tkinter import scrolledtext
 from PIL import Image, ImageTk
 import threading
@@ -234,14 +236,102 @@ def run_direct():
     ).start()
 
 
+def enable_high_dpi():
+    """在 Windows 上启用系统级 DPI 感知，使界面按屏幕原生分辨率渲染，避免低分辨率拉伸模糊。"""
+    try:
+        ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    except Exception:
+        try:
+            ctypes.windll.user32.SetProcessDPIAware()
+        except Exception:
+            pass
+
+
+class ScaledCheckbutton(tk.Canvas):
+    """原生 tk.Checkbutton 的勾选框尺寸为固定像素，不随 DPI 缩放，这里用 Canvas 自绘一个等比放大的勾选框。"""
+
+    def __init__(self, master, text="", variable=None, scale=1.0):
+        self.var = variable if variable is not None else tk.BooleanVar()
+        self.scale = scale
+        self.text = text
+        self.font = tkfont.nametofont("TkDefaultFont")
+        self.box = max(3, round(13 * scale))
+        self.gap = round(5 * scale)
+        self.pad = round(2 * scale)
+        text_w = self.font.measure(text)
+        w = self.box + self.gap + text_w + 2 * self.pad
+        h = max(self.box, self.font.metrics("linespace")) + 2 * self.pad
+        super().__init__(
+            master,
+            width=w,
+            height=h,
+            bg=master.cget("bg"),
+            highlightthickness=0,
+            bd=0,
+            takefocus=1,
+        )
+        self.var.trace_add("write", self._redraw)
+        self.bind("<Button-1>", self._toggle)
+        self.bind("<space>", self._toggle)
+        self._redraw()
+
+    def _redraw(self, *args):
+        self.delete("all")
+        s = self.scale
+        b = self.box
+        p = self.pad
+        cx = self.winfo_reqwidth() // 2
+        cy = self.winfo_reqheight() // 2
+        x0 = p
+        y0 = cy - b // 2
+        x1 = x0 + b
+        y1 = y0 + b
+        self.create_rectangle(
+            x0, y0, x1, y1,
+            fill="white",
+            outline="#6b6b6b",
+            width=max(1, round(1 * s)),
+        )
+        if self.var.get():
+            w = max(1, round(0.13 * b))
+            self.create_line(
+                x0 + 0.22 * b, y0 + 0.52 * b,
+                x0 + 0.44 * b, y0 + 0.72 * b,
+                x0 + 0.80 * b, y0 + 0.26 * b,
+                width=w,
+                fill="black",
+                capstyle="round",
+                joinstyle="round",
+            )
+        self.create_text(
+            x1 + self.gap,
+            cy,
+            text=self.text,
+            anchor="w",
+            font=self.font,
+            fill="black",
+        )
+
+    def _toggle(self, event=None):
+        self.var.set(not self.var.get())
+        if event is not None:
+            self.focus_set()
+        return "break"
+
+
 def create_gui():
 
     global custom_rate_var
     global custom_rate_entry
 
+    enable_high_dpi()
+
     root = tk.Tk()
+    scale = root.winfo_fpixels('1i') / 96.0
     root.title("Angel Beats! -1st beat- 简体中文重编译汉化版启动器")
-    root.geometry("700x450")
+    root.geometry(
+        f"{round(700 * scale)}x{round(450 * scale)}"
+    )
     root.iconbitmap(
         resource_path("jpyrate.ico")
     )
@@ -249,14 +339,16 @@ def create_gui():
     top = tk.Frame(root)
     top.pack(
         fill=tk.X,
-        padx=10,
-        pady=10
+        padx=10 * scale,
+        pady=10 * scale
     )
 
     # 左侧图片
     if ICON_FILE.exists():
         img = Image.open(ICON_FILE)
-        img.thumbnail((240, 240))
+        img.thumbnail(
+            (round(200 * scale), round(200 * scale))
+        )
         icon = ImageTk.PhotoImage(img)
         img_label = tk.Label(top,image=icon)
         img_label.image = icon
@@ -265,7 +357,7 @@ def create_gui():
     btn_frame = tk.Frame(top)
     btn_frame.pack(
         side=tk.RIGHT,
-        padx=10
+        padx=10 * scale
     )
 
     btn1 = tk.Button(
@@ -276,7 +368,7 @@ def create_gui():
         command=run_update
     )
     btn1.pack(
-        pady=10
+        pady=10 * scale
     )
 
     btn2 = tk.Button(
@@ -287,7 +379,7 @@ def create_gui():
         command=run_direct
     )
     btn2.pack(
-        pady=10
+        pady=10 * scale
     )
 
     # 自定义汇率区域
@@ -295,16 +387,17 @@ def create_gui():
     custom_frame = tk.Frame(btn_frame)
 
     custom_frame.pack(
-        pady=20
+        pady=20 * scale
     )
 
     custom_rate_var = tk.BooleanVar()
 
 
-    custom_check = tk.Checkbutton(
+    custom_check = ScaledCheckbutton(
         custom_frame,
         text="使用自定义汇率（输入10000日元的兑换金额）",
-        variable=custom_rate_var
+        variable=custom_rate_var,
+        scale=scale
     )
 
     custom_check.pack(
@@ -333,8 +426,8 @@ def create_gui():
     output.pack(
         fill=tk.BOTH,
         expand=True,
-        padx=10,
-        pady=10
+        padx=10 * scale,
+        pady=10 * scale
     )
 
 
