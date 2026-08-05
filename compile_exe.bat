@@ -1,3 +1,3 @@
-python exe_export\import_strings.py exe_export\SiglusEngine_CHS_RECOMPILE.exe exe_export\SiglusEngine_CHS_RECOMPILE.exe binary\1st_beat\SiglusEngine_CHS_RECOMPILE.exe
+python exe_export\import_strings.py exe_export\SiglusEngine_CHS_RECOMPILE.exe exe_export\SiglusEngine.txt binary\1st_beat\SiglusEngine_CHS_RECOMPILE.exe
 
 pause

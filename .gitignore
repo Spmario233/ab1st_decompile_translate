@@ -25,3 +25,4 @@ binary/GameLauncher.exe
 binary/GameLauncher.exe
 /__pycache__
 exe_export/SiglusEngine_CHS_RECOMPILE.exe
+*.pyc

@@ -1,141 +1,53 @@
 # -*- coding: utf-8 -*-
 """
-SiglusEngine exe 汉化译文导入脚本
+SiglusEngine exe 汉化译文导入脚本 (v2)
 
 用法:
     python import_strings.py <exe路径> <译文文件路径> [新exe输出路径]
 
-译文文件由 export_strings.py 生成，格式为每组三行:
-    # CAP: 容量上限 N 字符, 出现 M 次
+译文文件由 export_strings.py (v2) 生成, 格式为每条三行:
+    #@<偏移>|<区域>|...|cap <容量上限>
     原文(对照)
     译文(由您填写; 留空表示不修改)
 
 导入规则:
-    1. 从原文 exe 重新扫描字符串并记录每个文本的所有偏移与槽位容量。
-    2. 对每条译文, 校验 UTF-16LE 编码后的字节长度(含 2 字节空终止符)
-       不超过该文本在任意偏移处的槽位容量。
-    3. 超长的译文会被跳过并打印警告, 其余正常写回。
-    4. 生成新的 exe 文件（默认在 exe 同级目录, 文件名加 .patched 后缀）。
-
-注意:
-    同一文本若在 exe 中出现多次, 会全部替换为同一条译文。
-    扫描区域与导出脚本一致: .rdata 0x64D900~0x681500, .rsrc 0x82FEC0~0x834800。
+    1. rdata(普通文本池): 按偏移直接替换。译文可短于原文(不足补0), 不可超长。
+    2. rsrc(对话框资源): 按 资源id|item序号|字段 定位, 修改 DLGTEMPLATE 中
+       对应控件文本, 重新序列化整个对话框模板(重新计算 DWORD 对齐),
+       然后更新 .rsrc 资源表(该资源 Size 与后续所有资源 data_rva)并搬移数据。
+       译文长度不限(可不等长), 安全。
+    3. 生成新的 exe 文件。
 """
 
 import sys
 import struct
 
+try:
+    import dlgtemplate
+except ImportError:
+    sys.path.insert(0, __file__ and __file__.rsplit('\\', 1)[0])
+    import dlgtemplate
+
 
 # ---------------------------------------------------------------------------
-# PE 解析
+# PE / 资源表
 # ---------------------------------------------------------------------------
 def parse_pe(data):
     if data[:2] != b'MZ':
-        raise ValueError('不是有效的 PE 文件（缺少 MZ 头）')
+        raise ValueError('不是有效的 PE 文件')
     pe_off = struct.unpack_from('<I', data, 0x3C)[0]
-    if data[pe_off:pe_off + 4] != b'PE\x00\x00':
-        raise ValueError('PE 头无效')
-    num_sections = struct.unpack_from('<H', data, pe_off + 6)[0]
+    num_sec = struct.unpack_from('<H', data, pe_off + 6)[0]
     opt_size = struct.unpack_from('<H', data, pe_off + 20)[0]
     sec_start = pe_off + 24 + opt_size
     image_base = struct.unpack_from('<I', data, pe_off + 24 + 28)[0]
     sections = []
-    for i in range(num_sections):
+    for i in range(num_sec):
         off = sec_start + i * 40
         name = data[off:off + 8].rstrip(b'\x00').decode('ascii', 'replace')
         vsize, vaddr, raw_size, raw_ptr = struct.unpack_from('<IIII', data, off + 8)
-        sections.append((name, raw_ptr, raw_size, image_base + vaddr, vsize))
+        # 与 dlgtemplate 一致: 第4项为 RVA (vaddr)
+        sections.append((name, raw_ptr, raw_size, vaddr, vsize))
     return sections
-
-
-def find_section(sections, name):
-    for n, ro, rs, va, vs in sections:
-        if n == name:
-            return (ro, rs, va, vs)
-    return None
-
-
-def _allowed(c):
-    if c == 0x00A6:
-        return False
-    if 0x00A0 <= c <= 0x00FF and c not in (0x00D7, 0x00F7):
-        return False
-    return (
-        0x2000 <= c <= 0x206F or 0x2200 <= c <= 0x22FF or 0x3000 <= c <= 0x303F or 0x3040 <= c <= 0x30FF
-        or 0x31F0 <= c <= 0x31FF or 0x4E00 <= c <= 0x9FFF or 0xFF01 <= c <= 0xFF60
-        or 0xFF61 <= c <= 0xFF9F or 0xFFE0 <= c <= 0xFFEE or 0x20 <= c <= 0x7E
-        or 0x2190 <= c <= 0x21FF or 0x2500 <= c <= 0x257F or 0x25A0 <= c <= 0x25FF
-        or 0x2600 <= c <= 0x26FF or 0xFE30 <= c <= 0xFE4F or c in (0x000A, 0x000D, 0x0009)
-        or c in (0x00D7, 0x00F7)
-    )
-
-
-def _has_kana(s):
-    return any(0x3040 <= ord(c) <= 0x30FF or 0x31F0 <= ord(c) <= 0x31FF or 0xFF61 <= ord(c) <= 0xFF9F for c in s)
-
-
-def _is_charset_roster(s):
-    chars = [ord(c) for c in s]
-    if len(s) < 6:
-        return False
-    symbols = sum(1 for c in chars if (0xFF01 <= c <= 0xFF5E) or c in (0xFFE5, 0x2018, 0x2019, 0x201C, 0x201D))
-    return symbols >= len(chars) * 0.9
-
-
-def _is_byteswap_garbage(s):
-    cjk = [ord(c) for c in s if 0x4E00 <= ord(c) <= 0x9FFF]
-    if not cjk:
-        return False
-    return all(0x20 <= c & 0xFF <= 0x7E and 0x20 <= (c >> 8) & 0xFF <= 0x7E for c in cjk)
-
-
-def _is_text_str(s, offset=0):
-    chars = [ord(ch) for ch in s]
-    if not (2 <= len(s) <= 300):
-        return False
-    if not all(_allowed(c) for c in chars):
-        return False
-    if _is_charset_roster(s):
-        return False
-    kana = sum(1 for c in chars if 0x3040 <= c <= 0x30FF or 0x31F0 <= c <= 0x31FF or 0xFF61 <= c <= 0xFF9F)
-    cjk = sum(1 for c in chars if 0x4E00 <= c <= 0x9FFF)
-    fw = sum(1 for c in chars if 0xFF01 <= c <= 0xFF5E)
-    if kana > 0:
-        return True
-    if cjk == 0 and fw == 0:
-        return False
-    if _is_byteswap_garbage(s) and fw == 0:
-        return 0x64DA00 <= offset < 0x64E000 and len(s) <= 4
-    return True
-
-
-def _is_english_control(s):
-    for w in ('msctls', 'Sys', 'Static', 'IDC', 'New', 'OK', 'Screen', 'Close',
-              'Display', 'Reset', 'Cancel', 'MCI', 'Button', 'Edit', 'ComboBox',
-              'ListBox', 'ScrollBar', 'TrackBar', 'UpDown', 'Progress', 'TabControl'):
-        if w in s:
-            return True
-    return False
-
-
-def _good_start(s):
-    c = ord(s[0])
-    if not ((0x3040 <= c <= 0x30FF) or (0xFF61 <= c <= 0xFF9F) or (0x4E00 <= c <= 0x9FFF)
-            or (0xFF01 <= c <= 0xFF5E) or (0x3000 <= c <= 0x303F) or (0x2600 <= c <= 0x26FF)
-            or (0x2500 <= c <= 0x257F) or (0x25A0 <= c <= 0x25FF)):
-        return False
-    for ch in s[:3]:
-        cc = ord(ch)
-        if (0xE000 <= cc <= 0xF8FF) or cc < 0x20 or cc == 0xFFFF or cc in (0x0060, 0x00A6):
-            return False
-    return True
-
-
-def _slide_candidate_ok(ss):
-    if len(ss) < 6:
-        return False
-    kana = sum(1 for c in ss if 0x3040 <= ord(c) <= 0x30FF or 0xFF61 <= ord(c) <= 0xFF9F)
-    return kana >= 2
 
 
 def _read_utf16(data, start, rend):
@@ -150,78 +62,9 @@ def _read_utf16(data, start, rend):
     return None, None
 
 
-def scan_strings(data, sections):
-    """返回 {text: [(offset, cap_chars), ...]} ，text 为原文。"""
-    rdata = find_section(sections, '.rdata')
-    if rdata is None:
-        raise ValueError('未找到 .rdata 段')
-
-    regions = [
-        ('rdata', 0x64D900, 0x681500),
-        ('rsrc', 0x82FEC0, 0x834800),
-    ]
-
-    entries = {}
-    for rname, rstart, rend in regions:
-        i = rstart
-        while i < rend - 1:
-            c = data[i] | (data[i + 1] << 8)
-            if c == 0:
-                i += 2
-                continue
-            if rname == 'rsrc' and c == 0xFFFF and i + 3 < rend:
-                c1 = data[i + 2] | (data[i + 3] << 8)
-                if c1 in (0x0080, 0x0082):
-                    i += 4
-                    continue
-            if (0x20 <= c < 0xD800) or (0xE000 <= c < 0xFFFE) or c in (0x000A, 0x000D, 0x0009):
-                s, term = _read_utf16(data, i, rend)
-                if s is None:
-                    break
-                ok = _is_text_str(s, offset=i)
-                if rname == 'rsrc' and _is_english_control(s):
-                    ok = False
-                if not ok:
-                    # 合并串被拒时, 在串内滑动重扫找回被夹住的真实文本
-                    if _has_kana(s):
-                        best = None
-                        for j in range(i + 2, term - 1, 2):
-                            ss, tt = _read_utf16(data, j, rend)
-                            if ss is None or tt is None:
-                                break
-                            s_ok = _is_text_str(ss, offset=j) and _good_start(ss) and _slide_candidate_ok(ss)
-                            if rname == 'rsrc' and _is_english_control(ss):
-                                s_ok = False
-                            if s_ok and (best is None or len(ss) > len(best[2])):
-                                best = (j, tt, ss)
-                        if best:
-                            j, tt, ss = best
-                            k = tt
-                            while k < rend and data[k] == 0:
-                                k += 1
-                            cap_chars = (k - j) // 2 - 1
-                            if cap_chars < len(ss):
-                                cap_chars = len(ss)
-                            entries.setdefault(ss, []).append((j, cap_chars))
-                            i = tt
-                        else:
-                            i = term
-                    else:
-                        i = term
-                    continue
-                k = term
-                while k < rend and data[k] == 0:
-                    k += 1
-                cap_chars = (k - i) // 2 - 1
-                if cap_chars < len(s):
-                    cap_chars = len(s)
-                entries.setdefault(s, []).append((i, cap_chars))
-                i = term
-            else:
-                i += 2
-    return entries
-
-
+# ---------------------------------------------------------------------------
+# 译文文件解析
+# ---------------------------------------------------------------------------
 def _unesc(text):
     return (text.replace('\\\\', '\x00BSLASH\x00')
                 .replace('\\n', '\n').replace('\\r', '\r').replace('\\t', '\t')
@@ -229,18 +72,31 @@ def _unesc(text):
 
 
 def parse_translation_file(path):
-    """返回 [(original, translation), ...]，original 为还原后的原文。"""
+    """返回 [(header_dict, original, translation), ...]
+    header_dict = {'off': int, 'region': str, 'extra': str, 'cap': int}
+    """
     with open(path, 'r', encoding='utf-8-sig') as f:
         raw_lines = f.read().split('\n')
-    pairs = []
+    out = []
     i = 0
     while i < len(raw_lines):
         line = raw_lines[i].rstrip('\r')
-        if line.startswith('# CAP:'):
+        if line.startswith('#@'):
             if i + 2 < len(raw_lines):
+                hdr = line[2:]
+                parts = hdr.split('|')
+                off = int(parts[0], 16)
+                region = parts[1] if len(parts) > 1 else 'rdata'
+                extra = ''
+                cap = None
+                for p in parts[2:]:
+                    if p.startswith('cap '):
+                        cap = int(p[4:])
+                    elif p:
+                        extra = (extra + '|' + p) if extra else p
                 orig = _unesc(raw_lines[i + 1].rstrip('\r'))
                 trans = _unesc(raw_lines[i + 2].rstrip('\r'))
-                pairs.append((orig, trans))
+                out.append(({'off': off, 'region': region, 'extra': extra, 'cap': cap}, orig, trans))
                 i += 3
             else:
                 i += 1
@@ -250,13 +106,111 @@ def parse_translation_file(path):
             if i + 1 < len(raw_lines):
                 orig = _unesc(line)
                 trans = _unesc(raw_lines[i + 1].rstrip('\r'))
-                pairs.append((orig, trans))
+                out.append(({'off': None, 'region': 'rdata', 'extra': '', 'cap': None}, orig, trans))
                 i += 2
             else:
                 i += 1
-    return pairs
+    return out
 
 
+# ---------------------------------------------------------------------------
+# rdata 替换
+# ---------------------------------------------------------------------------
+def replace_rdata(data, off, orig, trans):
+    """rdata 文本: 按偏移替换, 译文可短于原文(补0), 不可超长。"""
+    cap = len(orig)  # 至少等长; 若有更大空间(到下一非零)可略放宽, 但保守用原文长
+    new_bytes = trans.encode('utf-16-le') + b'\x00\x00'
+    if len(new_bytes) > cap * 2 + 2:
+        return False, f'译文超长: {orig[:20]} -> {trans[:20]} ({len(trans)}>={len(orig)})'
+    data[off:off + len(new_bytes)] = new_bytes
+    for j in range(off + len(new_bytes), off + cap * 2 + 2):
+        if j < len(data):
+            data[j] = 0
+    return True, ''
+
+
+# ---------------------------------------------------------------------------
+# rsrc 替换 (重新序列化 + 更新资源表)
+# ---------------------------------------------------------------------------
+def build_rsrc_index(data, sections):
+    """返回 {raw_off: (rid, lang, data_rva, size)}"""
+    return dlgtemplate.get_dlg_resources(data, sections)
+
+
+def apply_rsrc_translations(data, sections, dlg_translations):
+    """
+    按 (rid, item_idx, field) 原位替换对话框资源中的文本。
+
+    策略: 在原始 DLGTEMPLATEEX 模板的精确字节位置替换字符串, 译文填充到
+    与原文字节数相同(不足用零宽空格 U+200B 补齐, 不占显示宽度), 从而保持
+    模板布局完全不变, 不触发重新对齐, 避免 Windows/游戏解析错位。
+
+    译文不能超过原字段字节数(超长则报错跳过)。
+    """
+    errors = []
+
+    # 原位替换: 每个要修改的字符串字段, 在原始模板的精确字节位置替换文本。
+    # 译文填充到与原文字节数相同(用零宽空格 U+200B, 不占显示宽度),
+    # 从而保持 DLGTEMPLATEEX 模板布局完全不变, 不触发重新对齐。
+    modified_dlgs = {}  # raw_off -> set()
+    for raw_off, texts in dlg_translations.items():
+        dlg, st = dlgtemplate.parse_dlg(data, raw_off)
+        if st != 'OK':
+            errors.append(f'解析对话框 {raw_off:#x} 失败: {st}')
+            continue
+        for item_idx, field_map in texts.items():
+            for field, newval in field_map.items():
+                if newval is None:
+                    continue
+                if item_idx == -1:
+                    # 对话框窗口标题 (header title)
+                    if field == 'htitle':
+                        part = dlg['header_parts'][2]
+                    else:
+                        continue
+                elif item_idx < len(dlg['items']):
+                    it = dlg['items'][item_idx]
+                    part = it[field]
+                else:
+                    errors.append(f'对话框 {raw_off:#x} item{item_idx} 越界')
+                    continue
+                if not (isinstance(part, tuple) and len(part) == 4 and part[0] == 'str'):
+                    errors.append(f'对话框 {raw_off:#x} item{item_idx} {field} 不是可替换文本')
+                    continue
+                str_start, str_end = part[2], part[3]
+                orig_len = str_end - str_start  # 原文字节数(含null终止符)
+                # 译文编码为 UTF-16LE
+                body = newval.encode('utf-16-le')
+                if len(body) + 2 > orig_len:
+                    # 译文超长: 无法原位替换
+                    errors.append(f'对话框 {raw_off:#x} item{item_idx} {field} 译文超长'
+                                  f'({len(body) + 2} > {orig_len}字节)')
+                    continue
+                # 不足部分用零宽空格(U+200B)填充在 null 之前, 保持 null 在字段末尾
+                while len(body) + 2 < orig_len:
+                    body += '\u200b'.encode('utf-16-le')
+                new_b = body + b'\x00\x00'
+                data[str_start:str_end] = new_b
+                modified_dlgs.setdefault(raw_off, set()).add((item_idx, field))
+
+
+    if errors:
+        return False, errors
+
+    # 原位替换不改变任何资源的大小或偏移, 无需更新资源表。
+    return True, errors
+
+
+def rva_to_raw_from(data, sections, rva):
+    for name, rptr, rsize, vaddr, vsize in sections:
+        if vaddr <= rva < vaddr + max(vsize, rsize):
+            return rptr + (rva - vaddr)
+    return None
+
+
+# ---------------------------------------------------------------------------
+# 主流程
+# ---------------------------------------------------------------------------
 def main():
     if len(sys.argv) < 3:
         print(__doc__)
@@ -267,53 +221,78 @@ def main():
 
     with open(exe_path, 'rb') as f:
         data = bytearray(f.read())
-
     sections = parse_pe(data)
-    scan = scan_strings(data, sections)
 
     pairs = parse_translation_file(trans_path)
     print(f'译文文件共 {len(pairs)} 条记录')
 
     replaced = 0
-    skipped = []
     unchanged = 0
     not_found = []
+    too_long = []
+    rsrc_trans = {}  # raw_off -> {item_idx: {field: newval}}
+    rsrc_entries = []  # 记录 rsrc 条目的 id/item/f 用于定位
 
-    for orig, trans in pairs:
+    # 先收集 rsrc 翻译, 再统一处理
+    for hdr, orig, trans in pairs:
         if not trans:
             unchanged += 1
             continue
-        if orig not in scan:
-            not_found.append((orig, trans))
-            continue
-        occs = scan[orig]
-        new_bytes = trans.encode('utf-16-le') + b'\x00\x00'
-        ok = all(len(new_bytes) <= (cap * 2 + 2) for _, cap in occs)
-        if not ok:
-            min_cap = min(cap for _, cap in occs)
-            skipped.append((orig, trans, min_cap, len(trans)))
-            continue
-        for off, cap in occs:
-            data[off:off + len(new_bytes)] = new_bytes
-            clear_from = off + len(new_bytes)
-            clear_to = off + (cap * 2 + 2)
-            if clear_to > clear_from:
-                for j in range(clear_from, min(clear_to, len(data))):
-                    data[j] = 0
-        replaced += 1
+        if hdr['region'] == 'rsrc':
+            # extra 格式: id=X|item=Y|f=Z (或 id=X|f=htitle 表示对话框窗口标题)
+            extra = hdr['extra']
+            import re
+            m_id = re.search(r'id=(\d+)', extra)
+            m_item = re.search(r'item=(\d+)', extra)
+            m_f = re.search(r'f=(\w+)', extra)
+            if not (m_id and m_f):
+                not_found.append((orig, trans))
+                continue
+            rid = int(m_id.group(1))
+            item_idx = int(m_item.group(1)) if m_item else -1
+            field = m_f.group(1)
+            # 找到该 id 的对话框 raw_off
+            raw_off = None
+            for r_off, (r_id, lang, drva, size) in dlgtemplate.get_dlg_resources(data, sections).items():
+                if r_id == rid:
+                    raw_off = r_off
+                    break
+            if raw_off is None:
+                not_found.append((orig, trans))
+                continue
+            rsrc_trans.setdefault(raw_off, {}).setdefault(item_idx, {})[field] = trans
+            rsrc_entries.append((raw_off, item_idx, field, orig, trans))
+        else:
+            # rdata
+            off = hdr['off']
+            if off is None:
+                not_found.append((orig, trans))
+                continue
+            ok, err = replace_rdata(data, off, orig, trans)
+            if ok:
+                replaced += 1
+            else:
+                too_long.append((orig, trans))
+
+    # 处理 rsrc 对话框
+    if rsrc_trans:
+        ok, errs = apply_rsrc_translations(data, sections, rsrc_trans)
+        if ok:
+            replaced += sum(len(v) for v in rsrc_trans.values())
+        else:
+            print('rsrc 处理错误:')
+            for e in errs:
+                print('  ', e)
+            sys.exit(1)
 
     print(f'成功替换: {replaced} 条')
     print(f'译文留空(未修改): {unchanged} 条')
-    print(f'超长被跳过: {len(skipped)} 条')
-    for orig, trans, cap, ln in skipped[:30]:
-        print(f'  [超长] 容量{cap} < 译文长度{ln}: {orig[:30]} -> {trans[:30]}')
-    if len(skipped) > 30:
-        print(f'  ... 其余 {len(skipped) - 30} 条略')
-    print(f'未在exe中找到原文: {len(not_found)} 条')
-    for orig, trans in not_found[:10]:
-        print(f'  [未找到] {orig[:40]!r}')
+    print(f'超长被跳过: {len(too_long)} 条')
+    for orig, trans in too_long[:20]:
+        print(f'  [超长] {orig[:30]} -> {trans[:30]}')
+    print(f'未找到: {len(not_found)} 条')
 
-    if replaced == 0 and not skipped:
+    if replaced == 0 and not too_long:
         print('没有写入任何译文，未生成新文件。')
         return
 
