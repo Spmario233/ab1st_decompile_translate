@@ -61,7 +61,7 @@ def _allowed(c):
     if 0x00A0 <= c <= 0x00FF and c not in (0x00D7, 0x00F7):
         return False
     return (
-        0x2000 <= c <= 0x206F or 0x3000 <= c <= 0x303F or 0x3040 <= c <= 0x30FF
+        0x2000 <= c <= 0x206F or 0x2200 <= c <= 0x22FF or 0x3000 <= c <= 0x303F or 0x3040 <= c <= 0x30FF
         or 0x31F0 <= c <= 0x31FF or 0x4E00 <= c <= 0x9FFF or 0xFF01 <= c <= 0xFF60
         or 0xFF61 <= c <= 0xFF9F or 0xFFE0 <= c <= 0xFFEE or 0x20 <= c <= 0x7E
         or 0x2190 <= c <= 0x21FF or 0x2500 <= c <= 0x257F or 0x25A0 <= c <= 0x25FF
@@ -118,6 +118,26 @@ def _is_english_control(s):
     return False
 
 
+def _good_start(s):
+    c = ord(s[0])
+    if not ((0x3040 <= c <= 0x30FF) or (0xFF61 <= c <= 0xFF9F) or (0x4E00 <= c <= 0x9FFF)
+            or (0xFF01 <= c <= 0xFF5E) or (0x3000 <= c <= 0x303F) or (0x2600 <= c <= 0x26FF)
+            or (0x2500 <= c <= 0x257F) or (0x25A0 <= c <= 0x25FF)):
+        return False
+    for ch in s[:3]:
+        cc = ord(ch)
+        if (0xE000 <= cc <= 0xF8FF) or cc < 0x20 or cc == 0xFFFF or cc in (0x0060, 0x00A6):
+            return False
+    return True
+
+
+def _slide_candidate_ok(ss):
+    if len(ss) < 6:
+        return False
+    kana = sum(1 for c in ss if 0x3040 <= ord(c) <= 0x30FF or 0xFF61 <= ord(c) <= 0xFF9F)
+    return kana >= 2
+
+
 def _read_utf16(data, start, rend):
     buf = []
     i = start
@@ -162,7 +182,32 @@ def scan_strings(data, sections):
                 if rname == 'rsrc' and _is_english_control(s):
                     ok = False
                 if not ok:
-                    i = term
+                    # 合并串被拒时, 在串内滑动重扫找回被夹住的真实文本
+                    if _has_kana(s):
+                        best = None
+                        for j in range(i + 2, term - 1, 2):
+                            ss, tt = _read_utf16(data, j, rend)
+                            if ss is None or tt is None:
+                                break
+                            s_ok = _is_text_str(ss, offset=j) and _good_start(ss) and _slide_candidate_ok(ss)
+                            if rname == 'rsrc' and _is_english_control(ss):
+                                s_ok = False
+                            if s_ok and (best is None or len(ss) > len(best[2])):
+                                best = (j, tt, ss)
+                        if best:
+                            j, tt, ss = best
+                            k = tt
+                            while k < rend and data[k] == 0:
+                                k += 1
+                            cap_chars = (k - j) // 2 - 1
+                            if cap_chars < len(ss):
+                                cap_chars = len(ss)
+                            entries.setdefault(ss, []).append((j, cap_chars))
+                            i = tt
+                        else:
+                            i = term
+                    else:
+                        i = term
                     continue
                 k = term
                 while k < rend and data[k] == 0:
