@@ -25,6 +25,8 @@
 #define	@ruby餐品9_卷面 ruby("详情见餐品注释10") "卷面" ruby
 #define	@ruby餐品11_玛格丽特披萨 ruby("详情见餐品注释11") "玛格丽特披萨" ruby
 #define	@ruby餐品12_火腿热狗 ruby("详情见餐品注释12") "火腿热狗" ruby
+#define	@ruby餐品13_炸牡蛎套餐 ruby("详情见餐品注释13") "炸牡蛎套餐" ruby
+#define	@ruby餐品14_台湾臭豆腐 ruby("详情见餐品注释14") "台湾特产" ruby
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
