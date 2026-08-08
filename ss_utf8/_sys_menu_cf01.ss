@@ -238,9 +238,9 @@ return
 	// 壁紙------------------------------------------------------------------------------------------------------------
 
 	// メニューボタン--------------------------------------------------------------------------------------------------
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn01].create(sys_cf_page01, @On,  788, 26)							// システム
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn02].create(sys_cf_page02, @On,  942, 26)							// テキスト
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn03].create(sys_cf_page03, @On, 1096, 26)							// サウンド
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn01].create(cn_sys_cf_page01, @On,  788, 26)							// システム
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn02].create(cn_sys_cf_page02, @On,  942, 26)							// テキスト
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn03].create(cn_sys_cf_page03, @On, 1096, 26)							// サウンド
 	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn01+@SysCFPage].patno = @Operate
 
 	// 下部メニューボタン----------------------------------------------------------------------------------------------
@@ -255,105 +255,108 @@ return
 	// システム--------------------------------------------------------------------------------------------------------
 	if (@SysCFPage == 0)	{
 
-		// 下地
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFSysBg00].create(sys_cf_bg01, @On, 0, 0)
+		// 背景
+		//@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFSysBg00].create(sys_cf_bg01, @On, 0, 0)
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFSysBg00].create(cn_sys_cf_bg01_FZFWQYT, @On, 0, 0)
 		// 画面モード
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow01].create(sys_cf_btn01, @On, 224, 99)					// 標準ウィンドウ
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow02].create(sys_cf_btn02, @On, 349, 99)					// フルスクリーン
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow03].create(sys_cf_btn03, @On, 474, 99)					// 詳細設定
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow01].create(cn_sys_cf_btn01, @On, 224, 99)					// 標準ウィンドウ
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow02].create(cn_sys_cf_btn02, @On, 349, 99)					// フルスクリーン
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow03].create(cn_sys_cf_btn03, @On, 474, 99)					// 詳細設定
 		    if (@WWSizeState == @Off)	{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow01].patno = @Operate}
 		elseif (@WWSizeState == @On)	{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow02].patno = @Operate}
 		// 現在地表示
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLocation01].create(sys_cf_btn04, @On, 349, 156)					// 表示する
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLocation02].create(sys_cf_btn05, @On, 474, 156)					// 表示しない
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLocation01].create(cn_sys_cf_btn04, @On, 349, 156)					// 表示する
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLocation02].create(cn_sys_cf_btn05, @On, 474, 156)					// 表示しない
 		    if (@SpotDispState == @On)  {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLocation01].patno = @Operate}
 		elseif (@SpotDispState == @Off) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLocation02].patno = @Operate}
 		// キャラクター演出
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBsFadeMode01].create(sys_cf_btn06, @On, 349, 248)				// 通常
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBsFadeMode03].create(sys_cf_btn07, @On, 474, 248)				// 瞬時
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBsFadeMode01].create(cn_sys_cf_btn06, @On, 349, 248)				// 通常
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBsFadeMode03].create(cn_sys_cf_btn07, @On, 474, 248)				// 瞬時
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBsFadeMode01+@BsFadeState].patno = @Operate
 		// 背景演出
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBgFadeMode01].create(sys_cf_btn06, @On, 349, 282)				// 通常
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBgFadeMode03].create(sys_cf_btn07, @On, 474, 282)				// 瞬時
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBgFadeMode01].create(cn_sys_cf_btn06, @On, 349, 282)				// 通常
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBgFadeMode03].create(cn_sys_cf_btn07, @On, 474, 282)				// 瞬時
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFBgFadeMode01+@BgFadeState].patno = @Operate
 		// イベントＣＧ演出
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFEvFadeMode01].create(sys_cf_btn06, @On, 349, 316)				// 通常
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFEvFadeMode03].create(sys_cf_btn07, @On, 474, 316)				// 瞬時
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFEvFadeMode01].create(cn_sys_cf_btn06, @On, 349, 316)				// 通常
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFEvFadeMode03].create(cn_sys_cf_btn07, @On, 474, 316)				// 瞬時
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFEvFadeMode01+@EvFadeState].patno = @Operate
 		// メッセージウィンドウ演出
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMwFadeMode01].create(sys_cf_btn06, @On, 349, 350)				// 通常
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMwFadeMode03].create(sys_cf_btn07, @On, 474, 350)				// 瞬時
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMwFadeMode01].create(cn_sys_cf_btn06, @On, 349, 350)				// 通常
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMwFadeMode03].create(cn_sys_cf_btn07, @On, 474, 350)				// 瞬時
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMwFadeMode01+@MwFadeState].patno = @Operate
 		// システムメニュー演出
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMeFadeMode01].create(sys_cf_btn06, @On, 349, 384)				// 通常
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMeFadeMode03].create(sys_cf_btn07, @On, 474, 384)				// 瞬時
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMeFadeMode01].create(cn_sys_cf_btn06, @On, 349, 384)				// 通常
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMeFadeMode03].create(cn_sys_cf_btn07, @On, 474, 384)				// 瞬時
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMeFadeMode01+@MeFadeState].patno = @Operate
 		// エモーション表示
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFDSBtn01].create(sys_cf_btn08, @On, 349, 418)					// ＯＮ
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFDSBtn02].create(sys_cf_btn09, @On, 474, 418)					// ＯＦＦ
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFDSBtn01].create(cn_sys_cf_btn08, @On, 349, 418)					// ＯＮ
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFDSBtn02].create(cn_sys_cf_btn09, @On, 474, 418)					// ＯＦＦ
 		    if (@EmDispState == @On)	{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFDSBtn01].patno = @Operate}
 		elseif (@EmDispState == @Off)	{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFDSBtn02].patno = @Operate}
 		// メッセージスキップ
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMSSkipBtn01].create(sys_cf_btn10, @On, 349, 475)				// 既読のみ
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMSSkipBtn02].create(sys_cf_btn11, @On, 474, 475)				// 未読も含む
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMSSkipBtn01].create(cn_sys_cf_btn10, @On, 349, 475)				// 既読のみ
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMSSkipBtn02].create(cn_sys_cf_btn11, @On, 474, 475)				// 未読も含む
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMSSkipBtn01+@MsgSkipState].patno = @Operate
 		// オートセーブ
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFASaveBtn01].create(sys_cf_btn12, @On, 349, 532)					// 有効
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFASaveBtn02].create(sys_cf_btn13, @On, 474, 532)					// 無効
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFASaveBtn01].create(cn_sys_cf_btn12, @On, 349, 532)					// 有効
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFASaveBtn02].create(cn_sys_cf_btn13, @On, 474, 532)					// 無効
 		    if (@EsAutoSave == @On)		{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFASaveBtn01].patno = @Operate}
 		elseif (@EsAutoSave == @Off)	{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFASaveBtn02].patno = @Operate}
 		// 実績システム（仮）※リリースモードでは表示
 		if( @trial_check())	{
 		}
 		else	{
-			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFResultBtn01].create(sys_cf_btn04, @On, 349, 589)					// 有効
-			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFResultBtn02].create(sys_cf_btn05, @On, 474, 589)					// 無効
+			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFResultBtn01].create(cn_sys_cf_btn04, @On, 349, 589)					// 有効
+			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFResultBtn02].create(cn_sys_cf_btn05, @On, 474, 589)					// 無効
 			    if (@実績獲得表示する == @On)	{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFResultBtn01].patno = @Operate}
 			elseif (@実績獲得表示する == @Off)	{@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFResultBtn02].patno = @Operate}
 		}
 		// 右クリック動作
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn01].create(sys_cf_btn14, @On,  720, 131)				// クイックメニュー
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn02].create(sys_cf_btn15, @On,  869, 131)				// ウィンドウ消去
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn03].create(sys_cf_btn16, @On, 1018, 131)				// セーブ画面
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn04].create(sys_cf_btn17, @On,  720, 161)				// ロード画面
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn05].create(sys_cf_btn18, @On,  869, 161)				// Config画面
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn01].create(cn_sys_cf_btn14, @On,  720, 131)				// クイックメニュー
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn02].create(cn_sys_cf_btn15, @On,  869, 131)				// ウィンドウ消去
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn03].create(cn_sys_cf_btn16, @On, 1018, 131)				// セーブ画面
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn04].create(cn_sys_cf_btn17, @On,  720, 161)				// ロード画面
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn05].create(cn_sys_cf_btn18, @On,  869, 161)				// Config画面
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFRClickBtn01+@MRActionState].patno = @Operate
 		// 確認メッセージ
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn01].create(sys_cf_btn19, @On, 709, 254)					// セーブ／ロード
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn02].create(sys_cf_btn20, @On, 937, 254)					// クイックセーブ／クイックロード
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn03].create(sys_cf_btn21, @On, 709, 286)					// 上書きセーブ
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn04].create(sys_cf_btn22, @On, 937, 286)					// 前の選択肢に戻る
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn05].create(sys_cf_btn23, @On, 709, 318)					// セーブデータの入れ替え
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn06].create(sys_cf_btn24, @On, 937, 318)					// タイトルに戻る
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn07].create(sys_cf_btn25, @On, 709, 350)					// セーブデータの削除
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn08].create(sys_cf_btn26, @On, 937, 350)					// ゲームを終了する
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn01].create(cn_sys_cf_btn19, @On, 709, 254)					// セーブ／ロード
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn02].create(cn_sys_cf_btn20, @On, 937, 254)					// クイックセーブ／クイックロード
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn03].create(cn_sys_cf_btn21, @On, 709, 286)					// 上書きセーブ
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn04].create(cn_sys_cf_btn22, @On, 937, 286)					// 前の選択肢に戻る
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn05].create(cn_sys_cf_btn23, @On, 709, 318)					// セーブデータの入れ替え
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn06].create(cn_sys_cf_btn24, @On, 937, 318)					// タイトルに戻る
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn07].create(cn_sys_cf_btn25, @On, 709, 350)					// セーブデータの削除
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn08].create(cn_sys_cf_btn26, @On, 937, 350)					// ゲームを終了する
 		for ($_L[0] = 0, $_L[0] < 8, $_L[0] += 1)	{
 			if (@CDState[+$_L[0]] == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFConDLBtn01+$_L[0]].patno = @Operate}
 		}
 		// その他の設定
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk01].create(sys_cf_chk01, @On, 709, 442)					// マウスホイールボタンの…
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk02].create(sys_cf_chk02, @On, 709, 477)					// 本プログラムの動作を…
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk01].create(cn_sys_cf_chk01, @On, 709, 442)					// マウスホイールボタンの…
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk02].create(cn_sys_cf_chk02, @On, 709, 477)					// 本プログラムの動作を…
 		if (@EsState[3]  == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk01].patno = @Operate}
 		if (@EsState[0]  == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk02].patno = @Operate}
 		// ムービー設定
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].create(sys_cf_btn27, @On, 1073, 532)
-
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].create(cn_sys_cf_btn27, @On, 1073, 532)
+		// 汉化版添加：手柄设置
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].create(cn_sys_cf_btn_controller, @On, 1073, 572)
 	}
 	// テキスト--------------------------------------------------------------------------------------------------------
 	elseif (@SysCFPage == 1)	{
 
 		// 下地
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBg00].create(sys_cf_bg02, @On, 0, 0)
+		//@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBg00].create(sys_cf_bg02, @On, 0, 0)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBg00].create(cn_sys_cf_bg02_FZFWQYT, @On, 0, 0)
 		// フォント
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn01].create(sys_cf_btn28, @On, 220, 99)						// フォントＡ
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn02].create(sys_cf_btn29, @On, 320, 99)						// フォントＢ
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn01].create(cn_sys_cf_btn28, @On, 220, 99)						// フォントＡ
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn02].create(cn_sys_cf_btn29, @On, 320, 99)						// フォントＢ
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn03].create(sys_cf_btn30, @On, 420, 99)						// フォント設定
 		@UseFontState = syscom.get_font_name
 		    if (@UseFontState == @FontA) {@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn01].patno =  @Operate}
 		elseif (@UseFontState == @FontB) {@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn02].patno =  @Operate}
 		else                             {@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn03].patno += @Operate}
 		// ノーウェイト
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtChk01].create(sys_cf_chk03, @On, 78, 153)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtChk01].create(cn_sys_cf_chk03, @On, 78, 153)
 		if (@MSChkState == @On) {@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtChk01].patno = @StateOn}
 		// メッセージ速度
 		@MSP_SET = math.timetable(@MSState, 0, 255, [0, 100, 0])
@@ -424,9 +427,9 @@ return
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtMsg00].create_string("这里是文本框显示速度的演示文本。", @On, 440, 500)
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtMsg00].set_string_param(26, 0, 0, 0, 0, 1, -1)
 		// 初期設定に戻す
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn05].create(sys_cf_btn31, @On, 450, 212)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn05].create(cn_sys_cf_btn31, @On, 450, 212)
 		// オートモードチェック
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtChk02].create(sys_cf_chk04, @On, 709, 149)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtChk02].create(cn_sys_cf_chk04, @On, 709, 149)
 		if (@AmCheckState == @On) {@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtChk02].patno += @Operate}
 		// 文字時間スクロール
 		L[0] = ((@TTimeState / 5) * 2) + @S_CTL_BAR_TTIME_STPOS
@@ -463,7 +466,7 @@ return
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtANum09].create(sys_cf_num00, @On,  994, 391)
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtANum10].create(sys_cf_num00, @On, 1014, 391)
 		// 初期設定に戻す
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn06].create(sys_cf_btn31, @On, 1073, 99)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn06].create(cn_sys_cf_btn31, @On, 1073, 99)
 
 		// オートモード時間構築
 		@TTIME_SET = @TTimeState
@@ -475,11 +478,12 @@ return
 	// サウンド--------------------------------------------------------------------------------------------------------
 	elseif (@SysCFPage == 2)	{
 
-		// 下地
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndBg00].create(sys_cf_bg03, @On, 0, 0)
+		// 背景
+		//@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndBg00].create(sys_cf_bg03, @On, 0, 0)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndBg00].create(cn_sys_cf_bg03_FZFWQYT, @On, 0, 0)
 		// 全体
 		L[0] = @AllVolState + @S_CTL_BAR_VOL_ALL_STPOS
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk01 ].create(sys_cf_chk05, @On,   78, 147)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk01 ].create(cn_sys_cf_chk05, @On,   78, 147)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar01 ].create(sys_cf_bar01, @On,  265, 161-1)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolCtl01 ].create(sys_cf_ctl01, @On, L[0], 152)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar01e].create(sys_cf_bar01, @On,  265, 161-1)
@@ -492,7 +496,7 @@ return
 		if (@AllChkState == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk01].patno = @Operate}
 		// ＢＧＭ
 		L[0] = @BgmVolState + @S_CTL_BAR_VOL_BGM_STPOS
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk02 ].create(sys_cf_chk06, @On,   78, 192)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk02 ].create(cn_sys_cf_chk06, @On,   78, 192)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar02 ].create(sys_cf_bar01, @On,  265, 206-1)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolCtl02 ].create(sys_cf_ctl01, @On, L[0], 197)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar02e].create(sys_cf_bar01, @On,  265, 206-1)
@@ -505,7 +509,7 @@ return
 		if (@BgmChkState == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk02].patno = @Operate}
 		// ＢＧＭフェード
 		L[0] = @BFadeVolState + @S_CTL_BAR_VOL_BFADE_STPOS
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk03 ].create(sys_cf_chk07, @On,   78, 237)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk03 ].create(cn_sys_cf_chk07, @On,   78, 237)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar03 ].create(sys_cf_bar01, @On,  265, 251-1)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolCtl03 ].create(sys_cf_ctl01, @On, L[0], 242)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar03e].create(sys_cf_bar01, @On,  265, 251-1)
@@ -518,7 +522,7 @@ return
 		if (@BFadeChk01State == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk03].patno = @Operate}
 		// 音声
 		L[0] = @VoiceVolState + @S_CTL_BAR_VOL_VOICE_STPOS
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk04 ].create(sys_cf_chk08, @On,   78, 282)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk04 ].create(cn_sys_cf_chk08, @On,   78, 282)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar04 ].create(sys_cf_bar01, @On,  265, 296-1)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolCtl04 ].create(sys_cf_ctl01, @On, L[0], 287)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar04e].create(sys_cf_bar01, @On,  265, 296-1)
@@ -531,7 +535,7 @@ return
 		if (@VoiceChkState == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk04].patno = @Operate}
 		// 効果音
 		L[0] = @SeVolState + @S_CTL_BAR_VOL_SE_STPOS
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk05 ].create(sys_cf_chk09, @On,   78, 327)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk05 ].create(cn_sys_cf_chk09, @On,   78, 327)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar05 ].create(sys_cf_bar01, @On,  265, 341-1)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolCtl05 ].create(sys_cf_ctl01, @On, L[0], 332)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar05e].create(sys_cf_bar01, @On,  265, 341-1)
@@ -544,7 +548,7 @@ return
 		if (@SeChkState == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk05].patno = @Operate}
 		// システム音
 		L[0] = @SysVolState + @S_CTL_BAR_VOL_SYS_STPOS
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk06 ].create(sys_cf_chk10, @On,   78, 372)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk06 ].create(cn_sys_cf_chk10, @On,   78, 372)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar06 ].create(sys_cf_bar01, @On,  265, 386-1)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolCtl06 ].create(sys_cf_ctl01, @On, L[0], 377)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar06e].create(sys_cf_bar01, @On,  265, 386-1)
@@ -557,7 +561,7 @@ return
 		if (@SysChkState == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk06].patno = @Operate}
 		// ムービー
 		L[0] = @MovVolState + @S_CTL_BAR_VOL_MOV_STPOS
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk07 ].create(sys_cf_chk11, @On,   78, 417)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk07 ].create(cn_sys_cf_chk11, @On,   78, 417)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar07 ].create(sys_cf_bar01, @On,  265, 431-1)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolCtl07 ].create(sys_cf_ctl01, @On, L[0], 422)
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar07e].create(sys_cf_bar01, @On,  265, 431-1)
@@ -569,7 +573,7 @@ return
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBar07e].clip_bottom = 720
 		if (@MovChkState == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk07].patno = @Operate}
 		// 初期設定に戻す
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn01].create(sys_cf_btn31, @On, 450, 99)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn01].create(cn_sys_cf_btn31, @On, 450, 99)
 		// ボリュームテスト再生ボタン
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn02].create(sys_cf_btn32, @On, 573, 152)				// 全体
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn03].create(sys_cf_btn32, @On, 573, 197)				// ＢＧＭ
@@ -580,35 +584,35 @@ return
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn08].create(sys_cf_btn32, @On, 573, 422)				// ムービー
 
 		// 音声の再生（声の再生中に次の文章に進んでも再生を続ける）
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn09].create(sys_cf_chk12, @On, 99, 536)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn09].create(cn_sys_cf_chk12, @On, 99, 536)
 		if (@EsState[4] == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn09].patno = @Operate}
 
 		// キャラクター別音声[ボタン]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn01].create(sys_cf_cvbtn01, @On,   698, 152)			// キャラ０１[音無]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn02].create(sys_cf_cvbtn02, @On,   786, 152)			// キャラ０２[ゆり]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn03].create(sys_cf_cvbtn03, @On,   874, 152)			// キャラ０３[天使]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn04].create(sys_cf_cvbtn04, @On,   962, 152)			// キャラ０４[日向]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn05].create(sys_cf_cvbtn05, @On,  1050, 152)			// キャラ０５[ユイ]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn06].create(sys_cf_cvbtn06, @On,  1138, 152)			// キャラ０６[岩沢]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn01].create(cn_sys_cf_cvbtn01, @On,   698, 152)			// キャラ０１[音無]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn02].create(cn_sys_cf_cvbtn02, @On,   786, 152)			// キャラ０２[ゆり]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn03].create(cn_sys_cf_cvbtn03, @On,   874, 152)			// キャラ０３[天使]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn04].create(cn_sys_cf_cvbtn04, @On,   962, 152)			// キャラ０４[日向]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn05].create(cn_sys_cf_cvbtn05, @On,  1050, 152)			// キャラ０５[ユイ]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn06].create(cn_sys_cf_cvbtn06, @On,  1138, 152)			// キャラ０６[岩沢]
 
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn07].create(sys_cf_cvbtn07, @On,   698, 257)			// キャラ０７[松下]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn08].create(sys_cf_cvbtn08, @On,   786, 257)			// キャラ０８[野田]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn09].create(sys_cf_cvbtn09, @On,   874, 257)			// キャラ０９[高松]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn10].create(sys_cf_cvbtn10, @On,   962, 257)			// キャラ１０[大山]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn11].create(sys_cf_cvbtn11, @On,  1050, 257)			// キャラ１１[藤巻]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn12].create(sys_cf_cvbtn12, @On,  1138, 257)			// キャラ１２[ＴＫ]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn07].create(cn_sys_cf_cvbtn07, @On,   698, 257)			// キャラ０７[松下]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn08].create(cn_sys_cf_cvbtn08, @On,   786, 257)			// キャラ０８[野田]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn09].create(cn_sys_cf_cvbtn09, @On,   874, 257)			// キャラ０９[高松]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn10].create(cn_sys_cf_cvbtn10, @On,   962, 257)			// キャラ１０[大山]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn11].create(cn_sys_cf_cvbtn11, @On,  1050, 257)			// キャラ１１[藤巻]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn12].create(cn_sys_cf_cvbtn12, @On,  1138, 257)			// キャラ１２[ＴＫ]
 
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn13].create(sys_cf_cvbtn13, @On,   698, 362)			// キャラ１３[椎名]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn14].create(sys_cf_cvbtn14, @On,   786, 362)			// キャラ１４[遊佐]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn15].create(sys_cf_cvbtn15, @On,   874, 362)			// キャラ１５[ひさ子]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn16].create(sys_cf_cvbtn16, @On,   962, 362)			// キャラ１６[関根]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn17].create(sys_cf_cvbtn17, @On,  1050, 362)			// キャラ１７[入江]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn18].create(sys_cf_cvbtn18, @On,  1138, 362)			// キャラ１８[チャー]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn13].create(cn_sys_cf_cvbtn13, @On,   698, 362)			// キャラ１３[椎名]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn14].create(cn_sys_cf_cvbtn14, @On,   786, 362)			// キャラ１４[遊佐]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn15].create(cn_sys_cf_cvbtn15, @On,   874, 362)			// キャラ１５[ひさ子]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn16].create(cn_sys_cf_cvbtn16, @On,   962, 362)			// キャラ１６[関根]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn17].create(cn_sys_cf_cvbtn17, @On,  1050, 362)			// キャラ１７[入江]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn18].create(cn_sys_cf_cvbtn18, @On,  1138, 362)			// キャラ１８[チャー]
 
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn19].create(sys_cf_cvbtn19, @On,   698, 467)			// キャラ１９[竹山]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn20].create(sys_cf_cvbtn20, @On,   786, 467)			// キャラ２０[直井]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn21].create(sys_cf_cvbtn21, @On,   874, 467)			// キャラ２１[その他・男]
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn22].create(sys_cf_cvbtn22, @On,   962, 467)			// キャラ２２[その他・女]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn19].create(cn_sys_cf_cvbtn19, @On,   698, 467)			// キャラ１９[竹山]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn20].create(cn_sys_cf_cvbtn20, @On,   786, 467)			// キャラ２０[直井]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn21].create(cn_sys_cf_cvbtn21, @On,   874, 467)			// キャラ２１[その他・男]
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn22].create(cn_sys_cf_cvbtn22, @On,   962, 467)			// キャラ２２[その他・女]
 		for ($_L[0] = 0, $_L[0] < 22, $_L[0] += 1)	{
 			if (@CVState[+$_L[0]] == @On) {@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBtn01+$_L[0]].patno += @Operate}
 		}
@@ -899,10 +903,10 @@ return
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndCVBar22e].clip_bottom = 720
 
 		// キャラクター音声の再生
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn10].create(sys_cf_btn33, @On, 1073, 499)				// 全てＯＮ
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn11].create(sys_cf_btn34, @On, 1073, 533)				// 全てＯＦＦ
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn10].create(cn_sys_cf_btn33, @On, 1073, 499)				// 全てＯＮ
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn11].create(cn_sys_cf_btn34, @On, 1073, 533)				// 全てＯＦＦ
 
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn12].create(sys_cf_btn31, @On, 1073, 99)				// 初期設定に戻す
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolBtn12].create(cn_sys_cf_btn31, @On, 1073, 99)				// 初期設定に戻す
 	}
 
 	frame
@@ -1071,6 +1075,8 @@ return
 			@exif_(@Off, @Off,                   44, @ObjSysCF02, _ObjSysCFESChk02)				// 本プログラムの動作を…
 			// ムービー設定
 			@exif_(@Off, @Off,                   45, @ObjSysCF02, _ObjSysCFMovSetBtn00)
+			// 汉化版添加：手柄设置
+			@exif_(@Off, @Off,                   48, @ObjSysCF02, _ObjSysCFControllerSetBtn00)
 
 		}
 		// テキスト--------------------------------------------------------------------------------------------------------
@@ -1407,6 +1413,8 @@ return
 			if (@EsState[+0]  == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk02].patno += @Operate}
 			// ムービー設定
 			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].patno = @ObjBtnState[45]
+			//汉化版添加：手柄设置
+			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].patno = @ObjBtnState[48]
 		}
 		// テキストページ
 		elseif (@SysCFPage == 1)	{
@@ -2213,6 +2221,15 @@ return
 					case (45)
 						// ムービー設定
 						syscom.call_config_movie_menu
+					case (48)
+						// 汉化版添加：手柄设置
+						// ジョイパッド操作時、ボタンの選択が分かるように少しウェイトを入れる
+						if( syscom.check_joypad_mode == 1 ) {
+							timewait_key(150)
+						}
+						
+						// ゲームパッドの設定ダイアログを呼び出す
+						syscom.call_config_joypad_menu
 				}
 			}
 			// テキスト

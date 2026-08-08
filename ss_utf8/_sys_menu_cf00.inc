@@ -83,6 +83,8 @@
 // 実績システム（仮）
 #define		_ObjSysCFResultBtn01			 43			// 表示する
 #define		_ObjSysCFResultBtn02			 44			// 表示しない
+//汉化版添加：手柄设置按钮
+#define		_ObjSysCFControllerSetBtn00			 45			// 手柄设置
 
 // ----------------------------------------------------------------------------
 // テキスト
