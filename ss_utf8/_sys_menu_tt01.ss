@@ -238,7 +238,7 @@ return
 	}
 
 	// Angel Beats!
-	@b.obj[@ObjSysTMenu00].@cd[_ObjSysTMenuBg02].create(sys_tm_1st_logo01, @On, $btn_x[0], $btn_y[0])
+	@b.obj[@ObjSysTMenu00].@cd[_ObjSysTMenuBg02].create(cn_sys_tm_1st_logo01, @On, $btn_x[0], $btn_y[0])
 	@b.obj[@ObjSysTMenu00].@cd[_ObjSysTMenuBg02].tr = 0
 	@b.obj[@ObjSysTMenu00].@cd[_ObjSysTMenuBg02].layer = 300
 	@b.obj[@ObjSysTMenu00].@cd[_ObjSysTMenuBg02].patno = L[0]

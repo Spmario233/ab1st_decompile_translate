@@ -17,14 +17,9 @@ binary/1st_beat/JPYRateUpdater.exe
 更新实时汇率.spec
 /build
 /dist
-binary/1st_beat/JPYRateManualUpdater.exe
-binary/1st_beat/Scene.pck.recompile
-binary/1st_beat/Gameexe.dat.recompile
-binary/GameLauncher.exe
-binary/GameLauncher.exe
-binary/GameLauncher.exe
 /__pycache__
 exe_export/SiglusEngine_CHS_RECOMPILE.exe
 *.pyc
 /images
 *.g00
+/binary
