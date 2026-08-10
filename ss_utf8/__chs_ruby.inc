@@ -27,7 +27,9 @@
 #define	@ruby餐品12_火腿热狗 ruby("详情见餐品注释12") "火腿热狗" ruby
 #define	@ruby餐品13_炸牡蛎套餐 ruby("详情见餐品注释13") "炸牡蛎套餐" ruby
 #define	@ruby餐品14_台湾臭豆腐 ruby("详情见餐品注释14") "台湾特产" ruby
+#define	@ruby餐品15_猪肉味噌汤纳豆套餐 ruby("详情见餐品注释15") "猪肉味噌汤配纳豆的套餐" ruby
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
 #define	@ruby歌曲2_太陽のKomachiAngel ruby("详情见歌曲注释2") "认真来场" ruby
+#define	@ruby歌曲3_快嘴约翰 ruby("详情见歌曲注释3") "快嘴约翰" ruby
