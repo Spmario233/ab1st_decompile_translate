@@ -23,3 +23,4 @@ exe_export/SiglusEngine_CHS_RECOMPILE.exe
 /images
 *.g00
 /binary
+/debug

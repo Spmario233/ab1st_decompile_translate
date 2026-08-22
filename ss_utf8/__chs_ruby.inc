@@ -28,6 +28,7 @@
 #define	@ruby餐品13_炸牡蛎套餐 ruby("详情见餐品注释13") "炸牡蛎套餐" ruby
 #define	@ruby餐品14_台湾臭豆腐 ruby("详情见餐品注释14") "台湾特产" ruby
 #define	@ruby餐品15_猪肉味噌汤纳豆套餐 ruby("详情见餐品注释15") "猪肉味噌汤配纳豆的套餐" ruby
+#define	@ruby餐品16_猪排咖喱饭 ruby("详情见餐品注释16") "猪排咖喱饭" ruby
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
