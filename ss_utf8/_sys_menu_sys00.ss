@@ -186,6 +186,8 @@ return
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuLoad02     ].create(sys_qm_btn05b, @Off)	// ＬＯＡＤボタン
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSave02     ].create(sys_qm_btn06b, @Off)	// ＳＡＶＥボタン
 
+	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].create(cn_comment_01, @On, 0, 0)	// 注释背景（默认为1号）
+
 	// ＡＵＴＯボタン状態
 	if (syscom.get_auto_mode_onoff_flag == @On)	{
 		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuAutoCheck01].patno += @StateOn
@@ -253,33 +255,57 @@ return
 
 	// メニュー表示速度
 	switch (@MeFadeState)	{
-		case (@Def ) L[20] = 250   L[21] = 0 L[22] = 50 L[23] = 100 L[24] = 150 L[25] = 200 L[26] = 250
+		case (@Def ) L[20] = 250   L[21] = 0 L[22] = 50 L[23] = 100 L[24] = 150 L[25] = 200 L[26] = 250 
 		case (@Fast) L[20] = 250/2
-		case (@Inst) L[20] = 0     L[21] = 0 L[22] =  0 L[23] =   0 L[24] =   0 L[25] =   0 L[26] =   0
+		case (@Inst) L[20] = 0     L[21] = 0 L[22] =  0 L[23] =   0 L[24] =   0 L[25] =   0 L[26] =   0 
 	}
 
 	$_L[0] = @Init
 	$_L[1] = @Init
 
-	// マウスのＸ座標を取得
-	if ((@MX > 150) && (@MX < 1120))	{
-		$_L[0] = @MX
+	if (@当前注释编号 > 0) {
+		// 注释编号大于0的情况，预留左半边和上半边给注释
+		if ((@MX > 850) && (@MX < 1120))	{
+			$_L[0] = @MX
+		}
+		elseif (@MX <= 850)	{
+			$_L[0] = 850
+		}
+		elseif (@MX >= 1120)	{
+			$_L[0] = 1120
+		}
+		// マウスのＹ座標を取得
+		if (@MY > 510 && @MY < 570)	{
+			$_L[1] = @MY
+		}
+		elseif (@MY <= 510)	{
+			$_L[1] = 510
+		}
+		elseif (@MY >= 570)	{
+			$_L[1] = 570
+		}
 	}
-	elseif (@MX <= 150)	{
-		$_L[0] = 150
-	}
-	elseif (@MX >= 1120)	{
-		$_L[0] = 1120
-	}
-	// マウスのＹ座標を取得
-	if (@MY > 150 && @MY < 570)	{
-		$_L[1] = @MY
-	}
-	elseif (@MY <= 150)	{
-		$_L[1] = 150
-	}
-	elseif (@MY >= 570)	{
-		$_L[1] = 570
+	else {
+		// マウスのＸ座標を取得
+		if ((@MX > 150) && (@MX < 1120))	{
+			$_L[0] = @MX
+		}
+		elseif (@MX <= 150)	{
+			$_L[0] = 150
+		}
+		elseif (@MX >= 1120)	{
+			$_L[0] = 1120
+		}
+		// マウスのＹ座標を取得
+		if (@MY > 150 && @MY < 570)	{
+			$_L[1] = @MY
+		}
+		elseif (@MY <= 150)	{
+			$_L[1] = 150
+		}
+		elseif (@MY >= 570)	{
+			$_L[1] = 570
+		}
 	}
 
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSkip01     ].set_pos( -49+$_L[0], -129+$_L[1])
@@ -295,6 +321,8 @@ return
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuConfig02   ].set_pos( -49+$_L[0],   49+$_L[1])
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuLoad02     ].set_pos(-127+$_L[0],    4+$_L[1])
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSave02     ].set_pos(-127+$_L[0],  -84+$_L[1])
+	//注释背景
+	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment     ].set_pos(0,  0)
 
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSkip_selbg     ].set_pos( -49+$_L[0], -129+$_L[1])
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSel_selbg      ].set_pos(  30+$_L[0],  -84+$_L[1])
@@ -318,6 +346,8 @@ return
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuConfig02   ].tr = 0
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuLoad02     ].tr = 0
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSave02     ].tr = 0
+	//注释图层
+	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].tr = 0
 
 
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuBg01].tr_eve.set(255, L[20], L[21], 2)
@@ -335,9 +365,13 @@ return
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuConfig02   ].tr_eve.set(255, L[20], L[24], 2)
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuLoad02     ].tr_eve.set(255, L[20], L[25], 2)
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSave02     ].tr_eve.set(255, L[20], L[26], 2)
-
+	
+	if (@当前注释编号 > 0) {
+		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].create("cn_comment_" + math.tostr_zero(@当前注释编号, 2), @On, 0, 0)	// 替换新的注释背景
+		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].tr_eve.set(255, L[20], L[22], 2)
+	}
+	
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSave01     ].tr_eve.wait
-
 
 
 return
@@ -371,6 +405,11 @@ return
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuBg0102     ].tr_eve.set(0, L[20], L[26], 2)
 
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuBg01].tr_eve.set(0, L[20], L[26], 2)
+
+	if (@当前注释编号 > 0) {
+		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].tr_eve.set(0, L[20], L[21], 2)
+	}
+
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuBg01].tr_eve.wait
 
 
@@ -394,8 +433,7 @@ return
 	}
 
 	// システム音声消去
-//	@se_stop
-
+	//@se_stop
 
 return
 
@@ -926,5 +964,3 @@ command $Menu_btn_disp(
 	L[1] = math.timetable(L[0], 0, $disp00, [0, 400, $disp01], [400, 800, $disp02])
 	$obj.disp = L[1]
 }
-
-

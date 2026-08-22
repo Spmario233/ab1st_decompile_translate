@@ -9,8 +9,8 @@
 #define @ruby龙卷风行动_带省略号 ruby("龙卷风行动") "OPERATION…TORNADO" ruby
 
 //引用外部注释部分
-#define @ruby注释1_格雷西家族 ruby("详情见注释1") "格雷西家族" ruby
-#define @ruby注释2_ARENA ruby("详情见注释2") "ARENA" ruby
+#define @ruby注释1_格雷西家族 ruby("右键查看注释") "格雷西家族" ruby
+#define @ruby注释2_ARENA ruby("右键查看注释") "ARENA" ruby
 
 //餐品注释部分
 #define	@ruby餐品1_炸猪排套餐 ruby("详情见餐品注释1") "炸猪排套餐" ruby
@@ -34,3 +34,14 @@
 #define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
 #define	@ruby歌曲2_太陽のKomachiAngel ruby("详情见歌曲注释2") "认真来场" ruby
 #define	@ruby歌曲3_快嘴约翰 ruby("详情见歌曲注释3") "快嘴约翰" ruby
+
+//代码部分
+#macro @创建注释(@index)
+	$$create_comment(@index)
+
+#command	$$create_comment(int)
+
+#macro @清除注释
+    $$clear_comment
+
+#command $$clear_comment
