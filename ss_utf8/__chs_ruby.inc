@@ -8,6 +8,7 @@
 #define @ruby性取向 ruby("取向") "想法" ruby
 #define @ruby龙卷风行动_带省略号 ruby("龙卷风行动") "OPERATION…TORNADO" ruby
 #define @ruby丑八怪由理 ruby("ユリブサイク") "yu ri bu sa i ku" ruby
+#define @ruby级进下行 ruby("cliché") "级进下行" ruby
 
 //引用外部注释部分
 #define @ruby注释1_格雷西家族 ruby("右键查看注释") "格雷西家族" ruby
