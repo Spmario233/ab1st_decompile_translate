@@ -13,41 +13,44 @@ if (@TM_STATE != 0)	{
 }
 
 // ウィンドウ消去以外はＳＥ再生
-if (@MRActionState != 1)	{
+if (@MRActionState != 1 || @当前注释编号 > 0) {
 	@se_play(001)
 }
 
-// 右クリックをウィンドウ消去に割り当てている場合、マップ画面ではクイックメニューを表示するようにする
-if ((@MRActionState == 1) && (@マップ選択 == 2))	{	// if ((@MRActionState == 1) && (@マップ選択 == @On))	{	■2015.07.07修正
-	goto #z01
-}
+//汉化版添加：有注释时强行打开固定菜单
+if (@当前注释编号 == 0){
+	// 右クリックをウィンドウ消去に割り当てている場合、マップ画面ではクイックメニューを表示するようにする
+	if ((@MRActionState == 1) && (@マップ選択 == 2))	{	// if ((@MRActionState == 1) && (@マップ選択 == @On))	{	■2015.07.07修正
+		goto #z01
+	}
 
-// セーブが禁止されていない場合
-if (syscom.get_save_enable_flag() == @On)	{
-	if (@MRActionState == 2)	{
+	// セーブが禁止されていない場合
+	if (syscom.get_save_enable_flag() == @On)	{
+		if (@MRActionState == 2)	{
+			// システムコール準備
+			$excall_ready
+			goto #z02
+		}
+	}
+	// ロードが禁止されていない場合
+	if (syscom.get_load_enable_flag() == @On)	{
+		if (@MRActionState == 3)	{
+			// システムコール準備
+			$excall_ready
+			goto #z02
+		}
+	}
+	// コンフィグ表示
+	if (@MRActionState == 4)	{
 		// システムコール準備
 		$excall_ready
 		goto #z02
 	}
-}
-// ロードが禁止されていない場合
-if (syscom.get_load_enable_flag() == @On)	{
-	if (@MRActionState == 3)	{
-		// システムコール準備
-		$excall_ready
-		goto #z02
+	// メッセージウィンドウ消去
+	elseif (@MRActionState == 1)	{
+		syscom.set_hide_mwnd_onoff_flag(@On)
+		return
 	}
-}
-// コンフィグ表示
-if (@MRActionState == 4)	{
-	// システムコール準備
-	$excall_ready
-	goto #z02
-}
-// メッセージウィンドウ消去
-elseif (@MRActionState == 1)	{
-	syscom.set_hide_mwnd_onoff_flag(@On)
-	return
 }
 
 // ---------------------------------------------
@@ -82,16 +85,17 @@ gosub #SysMenuPut
 gosub #ObjErase
 
 #z02
+//汉化版添加：有注释时不进入下列菜单
+if(@当前注释编号 == 0){
+	if (@MRActionState == 2) {@ex.F[$sys_sa_mode] = @On}	// セーブ画面
+	elseif (@MRActionState == 3) {@ex.F[$sys_lo_mode] = @On}	// ロード画面
+	elseif (@MRActionState == 4) {@ex.F[$sys_cf_mode] = @On}	// コンフィグ画面
 
-    if (@MRActionState == 2) {@ex.F[$sys_sa_mode] = @On}	// セーブ画面
-elseif (@MRActionState == 3) {@ex.F[$sys_lo_mode] = @On}	// ロード画面
-elseif (@MRActionState == 4) {@ex.F[$sys_cf_mode] = @On}	// コンフィグ画面
-
-// メニュー切り替え判定
-    if (@ex.F[$sys_sa_mode] == @On)	{jump(_sys_menu_sl01, 00)}
-elseif (@ex.F[$sys_lo_mode] == @On)	{jump(_sys_menu_sl01, 00)}
-elseif (@ex.F[$sys_cf_mode] == @On)	{jump(_sys_menu_cf01, 01)}
-
+	// メニュー切り替え判定
+	if (@ex.F[$sys_sa_mode] == @On)	{jump(_sys_menu_sl01, 00)}
+	elseif (@ex.F[$sys_lo_mode] == @On)	{jump(_sys_menu_sl01, 00)}
+	elseif (@ex.F[$sys_cf_mode] == @On)	{jump(_sys_menu_cf01, 01)}
+}
 
 
 
