@@ -7,6 +7,7 @@
 #define @ruby婚前忧郁症 ruby("Marriage Blues") "婚前忧郁症" ruby
 #define @ruby性取向 ruby("取向") "想法" ruby
 #define @ruby龙卷风行动_带省略号 ruby("龙卷风行动") "OPERATION…TORNADO" ruby
+#define @ruby丑八怪由理 ruby("ユリブサイク") "yu ri bu sa i ku" ruby
 
 //引用外部注释部分
 #define @ruby注释1_格雷西家族 ruby("右键查看注释") "格雷西家族" ruby
@@ -29,6 +30,8 @@
 #define	@ruby餐品14_台湾臭豆腐 ruby("详情见餐品注释14") "台湾特产" ruby
 #define	@ruby餐品15_猪肉味噌汤纳豆套餐 ruby("详情见餐品注释15") "猪肉味噌汤配纳豆的套餐" ruby
 #define	@ruby餐品16_猪排咖喱饭 ruby("详情见餐品注释16") "猪排咖喱饭" ruby
+#define	@ruby餐品17_混合烤肉套餐 ruby("详情见餐品注释17") "混合烤肉套餐" ruby
+#define	@ruby餐品18_生鸡蛋拌饭套餐 ruby("详情见餐品注释18") "生鸡蛋拌饭套餐" ruby
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby

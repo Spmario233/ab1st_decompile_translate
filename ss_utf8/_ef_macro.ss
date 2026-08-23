@@ -891,7 +891,7 @@ command $$ef_otonashi_syougou_start(property $obj : object, property $type) : in
 		case(@ただのエロ少年と呼ぶ) $str = "进化为了只是个色批少年！"
 		case(@エロ侍と呼ぶ) $str = "转职成了色批武士！"
 		case(@エロエロ団ナンバー１と呼ぶ) $str = "组成了老色批战队！"
-		case(@ユリブサイクと呼ぶ) $str = "日向がユリブサイクを習得した！"
+		case(@ユリブサイクと呼ぶ) $str = "日向习得了技能“丑八怪由理”！"
 		case(@アメリカンエロドッグと呼ぶ) $str = "アメリカンエロドッグに進化した！"
 		case(@ゼウスと呼ぶ) $str = "ゼウスにクラスチェンジした！　もう、誰にも彼は止められない…"
 		case(@日向markⅡと呼ぶ) $str = "日向markⅡにレベルアップした！"
