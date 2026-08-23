@@ -264,12 +264,12 @@ return
 	$_L[1] = @Init
 
 	if (@当前注释编号 > 0) {
-		// 注释编号大于0的情况，预留左半边和上半边给注释
-		if ((@MX > 850) && (@MX < 1120))	{
+		// 注释编号大于0的情况，预留左半750像素和上半510像素给注释
+		if ((@MX > 750) && (@MX < 1120))	{
 			$_L[0] = @MX
 		}
-		elseif (@MX <= 850)	{
-			$_L[0] = 850
+		elseif (@MX <= 750)	{
+			$_L[0] = 750
 		}
 		elseif (@MX >= 1120)	{
 			$_L[0] = 1120
@@ -406,6 +406,7 @@ return
 
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuBg01].tr_eve.set(0, L[20], L[26], 2)
 
+	//如果当前对话存在注释，则显示注释图层
 	if (@当前注释编号 > 0) {
 		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].tr_eve.set(0, L[20], L[21], 2)
 	}

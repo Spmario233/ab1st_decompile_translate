@@ -35,7 +35,7 @@
 #define		_ObjSysMenuConfig_selbg		26		// 環境設定
 #define		_ObjSysMenuSel_selbg		27		// 前の選択肢に戻る
 //汉化版添加
-#define		_ObjSysMenu_Comment		28		// 前の選択肢に戻る
+#define		_ObjSysMenu_Comment		28		// 注释界面
 
 
 
