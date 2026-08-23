@@ -11,33 +11,33 @@
 #define @ruby级进下行 ruby("cliché") "级进下行" ruby
 
 //引用外部注释部分
-#define @ruby注释1_格雷西家族 ruby("右键查看注释") "格雷西家族" ruby
-#define @ruby注释2_ARENA ruby("右键查看注释") "ARENA" ruby
+#define @ruby注释1_格雷西家族 ruby("右键查看注释") "格雷西家族" ruby //01
+#define @ruby注释2_ARENA ruby("右键查看注释") "ARENA" ruby //02
 
 //餐品注释部分
-#define	@ruby餐品1_炸猪排套餐 ruby("详情见餐品注释1") "炸猪排套餐" ruby
-#define	@ruby餐品2_冬阴功咖喱 ruby("详情见餐品注释2") "冬阴功咖喱" ruby
-#define	@ruby餐品10_方盒鳗鱼饭 ruby("详情见餐品注释3") "鳗鱼" ruby
-#define	@ruby餐品3_味噌猪排盖饭 ruby("详情见餐品注释4") "味噌猪排盖饭" ruby
-#define	@ruby餐品4_焗饭 ruby("详情见餐品注释5") "芝士焗饭" ruby
-#define	@ruby餐品5_法式长条泡芙 ruby("详情见餐品注释6") "法式巧克力长条泡芙" ruby
-#define	@ruby餐品6_盐味拉面 ruby("详情见餐品注释7") "盐味拉面" ruby
-#define	@ruby餐品7_酱油拉面 ruby("详情见餐品注释8") "酱油拉面" ruby
-#define	@ruby餐品8_南蛮炸鸡套餐 ruby("详情见餐品注释9") "南蛮炸鸡套餐" ruby
-#define	@ruby餐品9_卷面 ruby("详情见餐品注释10") "卷面" ruby
-#define	@ruby餐品11_玛格丽特披萨 ruby("详情见餐品注释11") "玛格丽特披萨" ruby
-#define	@ruby餐品12_火腿热狗 ruby("详情见餐品注释12") "火腿热狗" ruby
-#define	@ruby餐品13_炸牡蛎套餐 ruby("详情见餐品注释13") "炸牡蛎套餐" ruby
-#define	@ruby餐品14_台湾臭豆腐 ruby("详情见餐品注释14") "台湾特产" ruby
-#define	@ruby餐品15_猪肉味噌汤纳豆套餐 ruby("详情见餐品注释15") "猪肉味噌汤配纳豆的套餐" ruby
-#define	@ruby餐品16_猪排咖喱饭 ruby("详情见餐品注释16") "猪排咖喱饭" ruby
-#define	@ruby餐品17_混合烤肉套餐 ruby("详情见餐品注释17") "混合烤肉套餐" ruby
-#define	@ruby餐品18_生鸡蛋拌饭套餐 ruby("详情见餐品注释18") "生鸡蛋拌饭套餐" ruby
+#define	@ruby餐品1_炸猪排套餐 ruby("右键查看注释") "炸猪排套餐" ruby //03
+#define	@ruby餐品2_冬阴功咖喱 ruby("右键查看注释") "冬阴功咖喱" ruby //04
+#define	@ruby餐品10_方盒鳗鱼饭 ruby("右键查看注释") "鳗鱼" ruby //05
+#define	@ruby餐品3_味噌猪排盖饭 ruby("右键查看注释") "味噌猪排盖饭" ruby //06
+#define	@ruby餐品4_焗饭 ruby("右键查看注释") "芝士焗饭" ruby //07
+#define	@ruby餐品5_法式长条泡芙 ruby("右键查看注释") "法式巧克力长条泡芙" ruby //08
+#define	@ruby餐品6_盐味拉面 ruby("右键查看注释") "盐味拉面" ruby //09
+#define	@ruby餐品7_酱油拉面 ruby("右键查看注释") "酱油拉面" ruby //10
+#define	@ruby餐品8_南蛮炸鸡套餐 ruby("右键查看注释") "南蛮炸鸡套餐" ruby //11
+#define	@ruby餐品9_卷面 ruby("右键查看注释") "卷面" ruby //12
+#define	@ruby餐品11_玛格丽特披萨 ruby("右键查看注释") "玛格丽特披萨" ruby //13
+#define	@ruby餐品12_火腿热狗 ruby("右键查看注释") "火腿热狗" ruby //14
+#define	@ruby餐品13_炸牡蛎套餐 ruby("右键查看注释") "炸牡蛎套餐" ruby //15
+#define	@ruby餐品14_台湾臭豆腐 ruby("右键查看注释") "台湾特产" ruby //16
+#define	@ruby餐品15_猪肉味噌汤纳豆套餐 ruby("右键查看注释") "猪肉味噌汤配纳豆的套餐" ruby //17
+#define	@ruby餐品16_猪排咖喱饭 ruby("右键查看注释") "猪排咖喱饭" ruby //18
+#define	@ruby餐品17_混合烤肉套餐 ruby("右键查看注释") "混合烤肉套餐" ruby //19
+#define	@ruby餐品18_生鸡蛋拌饭套餐 ruby("右键查看注释") "生鸡蛋拌饭套餐" ruby //20
 
 //歌曲注释部分
-#define	@ruby歌曲1_HURRYUP ruby("详情见歌曲注释1") "Hurry up!" ruby
-#define	@ruby歌曲2_太陽のKomachiAngel ruby("详情见歌曲注释2") "认真来场" ruby
-#define	@ruby歌曲3_快嘴约翰 ruby("详情见歌曲注释3") "快嘴约翰" ruby
+#define	@ruby歌曲1_HURRYUP ruby("右键查看注释") "Hurry up!" ruby //21
+#define	@ruby歌曲2_太陽のKomachiAngel ruby("右键查看注释") "认真来场" ruby //22
+#define	@ruby歌曲3_快嘴约翰 ruby("右键查看注释") "快嘴约翰" ruby //23
 
 //代码部分
 #macro @创建注释(@index)
