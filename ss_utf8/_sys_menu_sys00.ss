@@ -86,6 +86,7 @@ gosub #ObjErase
 
 #z02
 //汉化版添加：有注释时不进入下列菜单
+//TODO：考虑是否添加禁用注释的选项
 if(@当前注释编号 == 0){
 	if (@MRActionState == 2) {@ex.F[$sys_sa_mode] = @On}	// セーブ画面
 	elseif (@MRActionState == 3) {@ex.F[$sys_lo_mode] = @On}	// ロード画面
