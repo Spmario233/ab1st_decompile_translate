@@ -3675,7 +3675,7 @@ Twitter 認証
 
 #@0x84eb20|rsrc|id=302|f=htitle|cap 10
 コントローラーの設定
-手柄设置
+Xbox手柄设置
 #@0x84eb20|rsrc|id=302|item=0|f=title|cap 3
 閉じる
 关闭
