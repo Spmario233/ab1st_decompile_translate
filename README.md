@@ -30,6 +30,12 @@ Siglus引擎的`Scene.pck`剧本在生成过程中会进行编译，将UTF-8字�
 
 `Scene.pck`文件、`Gameexe.dat`文件和`savedata`文件夹的位置、分别被重定向到了`Scene.pck.recompile`文件、`Scene.rec.recompile`文件和`savedata_recompile`文件夹。
 
+# 免责声明
+
+本汉化中绝大部分餐品•日语特殊用法•棒球规则•外国文化作品等相关的考证，
+均是通过生成式人工智能收集互联网信息、经过简单的人工整合后完成。
+所有内容仅供参考，汉化组不保证所有考证内容的完全准确。
+
 # 旧版汉化制作人员名单（排名不分先后）
 **英化：** `ALKA Translation`
 
