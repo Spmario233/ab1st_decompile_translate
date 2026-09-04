@@ -348,7 +348,7 @@ def create_gui():
 
     # ===== “启动游戏”选项卡 =====
     launch_tab = ttk.Frame(notebook)
-    notebook.add(launch_tab, text="启动游戏")
+    notebook.add(launch_tab, text=" 启动游戏 ")
 
     # ===== 顶部区域 =====
     top = tk.Frame(launch_tab)
@@ -447,7 +447,7 @@ def create_gui():
 
     # ===== “音乐播放”选项卡 =====
     music_tab = ttk.Frame(notebook)
-    notebook.add(music_tab, text="音乐播放")
+    notebook.add(music_tab, text=" 音乐播放 ")
     music_player = MusicPlayer(
         music_tab,
         root,

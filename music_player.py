@@ -4,6 +4,7 @@
 import io
 import os
 import random
+import re
 import time
 from pathlib import Path
 
@@ -85,6 +86,82 @@ def _read_mp3_info(path):
         return 0.0, None
 
 
+_LRC_TIME_RE = re.compile(r"\[(\d{1,3}):(\d{1,2})(?:[.:](\d{1,3}))?\]")
+
+
+def _lrc_time_to_ms(minutes, seconds, fraction):
+    minutes = int(minutes)
+    seconds = int(seconds)
+    fraction_text = fraction or "0"
+
+    if len(fraction_text) == 2:
+        millis = int(fraction_text) * 10
+    elif len(fraction_text) == 3:
+        millis = int(fraction_text)
+    elif len(fraction_text) == 1:
+        millis = int(fraction_text) * 100
+    else:
+        millis = int(fraction_text[:3])
+
+    return minutes * 60000 + seconds * 1000 + millis
+
+
+def load_lrc_lyrics(mp3_path):
+    """读取与 mp3 同名的 .lrc 文件，返回按时间排序的 [(时间ms, 歌词文本)] 列表。"""
+    lrc_path = Path(mp3_path).with_suffix(".lrc")
+    if not lrc_path.exists():
+        return []
+
+    try:
+        text = lrc_path.read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return []
+
+    lyrics = []
+    for raw_line in text.splitlines():
+        timestamps = []
+        for match in _LRC_TIME_RE.finditer(raw_line):
+            timestamps.append(
+                _lrc_time_to_ms(
+                    match.group(1),
+                    match.group(2),
+                    match.group(3),
+                )
+            )
+
+        if not timestamps:
+            continue
+
+        line_text = _LRC_TIME_RE.sub("", raw_line).strip()
+        for timestamp in timestamps:
+            lyrics.append((timestamp, line_text))
+
+    # sort 是稳定的，因此同一时间戳的多条歌词仍保持文件中的原始顺序。
+    lyrics.sort(key=lambda item: item[0])
+    return lyrics
+
+
+def get_lyrics_at_position(lyrics, position_ms):
+    """返回当前时间应显示的全部歌词行；同一时间戳有多条时按顺序返回。"""
+    if not lyrics:
+        return []
+
+    latest_time = None
+    lines = []
+
+    for timestamp, line_text in lyrics:
+        if timestamp <= position_ms:
+            if latest_time is None or timestamp > latest_time:
+                latest_time = timestamp
+                lines = [line_text]
+            elif timestamp == latest_time:
+                lines.append(line_text)
+        else:
+            break
+
+    return lines
+
+
 class MusicPlayer:
     """音乐播放选项卡的界面和播放控制。"""
 
@@ -94,6 +171,7 @@ class MusicPlayer:
         self.base_dir = Path(base_dir)
 
         self.playlist = load_music_playlist(self.base_dir)
+        self.lyrics = []
         self.current_index = -1
         self.playing = False
         self.paused = False
@@ -303,6 +381,17 @@ class MusicPlayer:
         )
         self.status_label.pack(fill=tk.X, pady=(margin, 0))
 
+        # 歌词显示：与状态栏相同格式的文本区域，位于 status_label 下方。
+        self.lyrics_label = tk.Label(
+            right,
+            text="暂无歌词",
+            bg=right.cget("bg"),
+            anchor="nw",
+            justify="left",
+            wraplength=round(360 * self.scale),
+        )
+        self.lyrics_label.pack(fill=tk.X, pady=(margin, 0))
+
     def _on_list_double_click(self, event=None):
         selection = self.listbox.curselection()
         if selection:
@@ -343,6 +432,29 @@ class MusicPlayer:
             self.cover_photo = None
             self.cover_label.config(image="", text="无封面")
 
+    def _load_lyrics(self):
+        if self.current_index < 0:
+            self.lyrics = []
+            self.lyrics_label.config(text="暂无歌词")
+            return
+
+        self.lyrics = load_lrc_lyrics(self.playlist[self.current_index])
+        if self.lyrics:
+            self.lyrics_label.config(text="")
+        else:
+            self.lyrics_label.config(text="暂无歌词")
+
+    def _update_lyrics(self, position_ms):
+        if not self.lyrics:
+            self.lyrics_label.config(text="暂无歌词")
+            return
+
+        lines = get_lyrics_at_position(self.lyrics, position_ms)
+        if lines:
+            self.lyrics_label.config(text="\n".join(lines))
+        else:
+            self.lyrics_label.config(text="")
+
     def _load_track(self, index, autoplay=True):
         if not self.playlist:
             return
@@ -374,6 +486,7 @@ class MusicPlayer:
         self.listbox.see(index)
 
         self._load_cover()
+        self._load_lyrics()
         self.title_label.config(text=path.stem)
         self.total_time_label.config(text=_format_time(self._length_ms))
         self._update_progress_view(0)
@@ -485,6 +598,9 @@ class MusicPlayer:
         # 使用变量更新进度条：程序自动更新不会触发 command，避免误判为用户拖动进度条。
         self.progress_var.set(percent)
 
+        # 同步刷新歌词显示。
+        self._update_lyrics(pos_ms)
+
     def _on_seek(self, value):
         if not self.audio_ready or self.current_index < 0:
             return
@@ -550,7 +666,7 @@ class MusicPlayer:
             elif self.playing or self.paused:
                 self._update_progress_view(self.get_position_ms())
 
-        self.root.after(500, self._poll)
+        self.root.after(100, self._poll)
 
     def destroy(self):
         if self.audio_ready:
