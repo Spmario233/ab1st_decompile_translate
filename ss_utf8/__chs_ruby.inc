@@ -40,6 +40,8 @@
 #define	@ruby歌曲1_HURRYUP ruby("右键查看注释") "Hurry up!" ruby //21
 #define	@ruby歌曲2_太陽のKomachiAngel ruby("右键查看注释") "认真来场" ruby //22
 #define	@ruby歌曲3_快嘴约翰 ruby("右键查看注释") "快嘴约翰" ruby //23
+#define	@ruby歌曲4_WildHeaven ruby("右键查看注释") "Just" ruby //24
+#define	@ruby歌曲5_CrazyForYou ruby("右键查看注释") "Crazy" ruby //25
 
 //代码部分
 #macro @创建注释(@index)

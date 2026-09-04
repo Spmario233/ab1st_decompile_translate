@@ -29,6 +29,8 @@ command $$create_comment(property $index : int)
 		case(21) @ruby歌曲1_HURRYUP
 		case(22) @ruby歌曲2_太陽のKomachiAngel
 		case(23) @ruby歌曲3_快嘴约翰
+		case(24) @ruby歌曲4_WildHeaven
+		case(25) @ruby歌曲5_CrazyForYou
 	}
 }
 
