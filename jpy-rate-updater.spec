@@ -3,7 +3,7 @@
 
 a = Analysis(
     ['jpy-rate-updater.py'],
-    pathex=[],
+    pathex=['.'],
     binaries=[],
     datas=[
 		(
@@ -20,8 +20,15 @@ a = Analysis(
 		),
 	],
     hiddenimports=[
-		"PIL"
-	],
+        "music_player",
+        "PIL",
+        "PIL.ImageTk",
+        "pygame",
+        "pygame.mixer",
+        "mutagen",
+        "mutagen.mp3",
+        "mutagen.id3",
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

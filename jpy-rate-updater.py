@@ -16,7 +16,9 @@ from datetime import datetime
 import tkinter as tk
 from tkinter import font as tkfont
 from tkinter import scrolledtext
+from tkinter import ttk
 from PIL import Image, ImageTk
+from music_player import MusicPlayer
 import threading
 import io
 
@@ -332,11 +334,24 @@ def create_gui():
     root.geometry(
         f"{round(700 * scale)}x{round(450 * scale)}"
     )
+    root.resizable(False, False)
     root.iconbitmap(
         resource_path("jpyrate.ico")
     )
+
+    # ===== 选项卡 =====
+    notebook = ttk.Notebook(root)
+    notebook.pack(
+        fill=tk.BOTH,
+        expand=True
+    )
+
+    # ===== “启动游戏”选项卡 =====
+    launch_tab = ttk.Frame(notebook)
+    notebook.add(launch_tab, text="启动游戏")
+
     # ===== 顶部区域 =====
-    top = tk.Frame(root)
+    top = tk.Frame(launch_tab)
     top.pack(
         fill=tk.X,
         padx=10 * scale,
@@ -419,7 +434,7 @@ def create_gui():
     # ===== 输出窗口 =====
 
     output = scrolledtext.ScrolledText(
-        root,
+        launch_tab,
         height=18
     )
 
@@ -430,11 +445,26 @@ def create_gui():
         pady=10 * scale
     )
 
+    # ===== “音乐播放”选项卡 =====
+    music_tab = ttk.Frame(notebook)
+    notebook.add(music_tab, text="音乐播放")
+    music_player = MusicPlayer(
+        music_tab,
+        root,
+        scale,
+        BASE_DIR
+    )
 
     # 重定向 print
 
     sys.stdout = RedirectOutput(output)
     sys.stderr = RedirectOutput(output)
+
+    def on_close():
+        music_player.destroy()
+        root.destroy()
+
+    root.protocol("WM_DELETE_WINDOW", on_close)
 
     boot()
 
