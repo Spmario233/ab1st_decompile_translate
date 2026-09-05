@@ -14,6 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent
 SS_DIR = BASE_DIR / "ss_utf8"
 CREATE_MARK = "@创建注释"
 CLEAR_MARK = "@清除注释"
+CODES_NEED_TO_CHECK = "・♪"
 
 
 def main() -> int:
