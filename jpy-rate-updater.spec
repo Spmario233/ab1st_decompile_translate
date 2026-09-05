@@ -18,6 +18,10 @@ a = Analysis(
 			"jpyrate.ico",
 			"."
 		),
+        (
+			"yunoseek.png",
+			"."
+		),
 	],
     hiddenimports=[
         "music_player",

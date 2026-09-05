@@ -42,6 +42,39 @@ def resource_path(relative_path):
     return Path(__file__).parent / relative_path
 
 ICON_FILE = resource_path("icon.png")
+YUNOSEEK_FILE = resource_path("yunoseek.png")
+
+ABOUT_TEXT = """《Angel Beats! -1st beat-》简体中文重编译汉化版
+
+原版汉化：死了没法儿忍汉化组
+翻译：苏婆玛丽奥
+技术支持：Jirehov
+
+本汉化的程序和文本基于GPLv3协议开源。您可在遵循该许可证的情况下，对汉化补丁进行二次分发、自行修改或跨平台移植。但在进行二次分发的过程中，必须保持遵守上述开源许可证，对源代码进行同步分发。不得对被分享者的二次分发行为进行限制，也不得更换为其他更宽松的许可证。
+"""
+
+OLD_TRANSLATE_TEXT = """旧版汉化制作人员名单（排名不分先后）：
+
+英化： ALKA Translation
+
+技术支持：Hanavi、able1214、X'moe、ALKA Translation
+
+翻译： 苏婆玛丽奥、姜姜QAQ
+
+校对＆润色：古河羽未、苏婆玛丽奥、篝酱的丝带、姜姜QAQ
+
+修图：苏婆玛丽奥
+
+视频特效字幕：AyErti
+
+鸣谢：鸢泽由理、晚安Sion、~л☆Γе←、幻剑之子、邻苍、Spoalove、
+hengxin、小小星法、王者凯旋、加拿大妹子、homeee9、无糖柠檬水、
+鬼畜评鉴师天狐、久岛旋律、虐、42、Angel、奏、秋风、历历乐乐、
+-库特莉亚芙卡-、kawaws66、mint julep
+
+歌词翻译参考：Shika_zigaa、虎纹鲨鱼子
+==================================================================== 
+"""
 
 MAX_RETRY = 3
 RETRY_INTERVAL = 2  # 秒
@@ -455,6 +488,67 @@ def create_gui():
         BASE_DIR
     )
 
+    # ===== “关于”选项卡 =====
+    about_tab = ttk.Frame(notebook)
+    notebook.add(about_tab, text=" 关于 ")
+
+    about_top = tk.Frame(about_tab)
+    about_top.pack(
+        fill=tk.X,
+        padx=10 * scale,
+        pady=10 * scale
+    )
+
+    # 左上角 yunoseek.png，位置和大小与前两个选项卡保持一致。
+    if YUNOSEEK_FILE.exists():
+        about_img = Image.open(YUNOSEEK_FILE)
+        about_img.thumbnail(
+            (round(200 * scale), round(200 * scale))
+        )
+        about_icon = ImageTk.PhotoImage(about_img)
+        about_img_label = tk.Label(about_top, image=about_icon)
+        about_img_label.image = about_icon
+        about_img_label.pack(side=tk.LEFT)
+
+    # 右侧关于文本。
+    about_text_label = tk.Label(
+        about_top,
+        text=ABOUT_TEXT,
+        justify=tk.LEFT,
+        anchor="nw",
+        wraplength=round(400 * scale),
+    )
+    about_text_label.pack(
+        side=tk.RIGHT,
+        fill=tk.BOTH,
+        expand=True,
+        padx=10 * scale,
+        pady=10 * scale
+    )
+
+    # 下方大文本框，展示 LICENSE 文件内容。
+    about_license = scrolledtext.ScrolledText(
+        about_tab,
+        height=18
+    )
+    about_license.pack(
+        fill=tk.BOTH,
+        expand=True,
+        padx=10 * scale,
+        pady=10 * scale
+    )
+    try:
+        license_content = (BASE_DIR / "LICENSE").read_text(
+            encoding="utf-8",
+            errors="replace"
+        )
+    except Exception as e:
+        license_content = f"无法读取 LICENSE 文件：{e}"
+
+    about_license.insert(tk.END, OLD_TRANSLATE_TEXT)
+    about_license.insert(tk.END, license_content)
+    about_license.configure(state=tk.DISABLED)
+
     # 重定向 print
 
     sys.stdout = RedirectOutput(output)
@@ -473,7 +567,7 @@ def create_gui():
 def boot():
     print("Angel Beats! -1st -beat- 简体中文重编译汉化版")
     print("Originally translated by 死了没法儿忍汉化组, 2020-2021")
-    print("==========================================================")
+    print("====================================================================")
     try:
         boot_loading_csv()
     except Exception as e:
