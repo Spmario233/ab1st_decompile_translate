@@ -35,6 +35,7 @@
 #define	@ruby餐品16_猪排咖喱饭 ruby("右键查看注释") "猪排咖喱饭" ruby //18
 #define	@ruby餐品17_混合烤肉套餐 ruby("右键查看注释") "混合烤肉套餐" ruby //19
 #define	@ruby餐品18_生鸡蛋拌饭套餐 ruby("右键查看注释") "生鸡蛋拌饭套餐" ruby //20
+#define	@ruby餐品_年糕小豆汤 ruby("右键查看注释") "年糕小豆汤" ruby //26
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("右键查看注释") "Hurry up!" ruby //21
