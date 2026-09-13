@@ -20,6 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent
 SS_DIR = BASE_DIR / "ss_utf8"
 CREATE_MARK = "@创建注释"
 CLEAR_MARK = "@清除注释"
+IGNORE_MARK = "check-ignore"
 CODES_NEED_TO_CHECK = "・♪"
 HALF_WIDTH_SPACE = " "
 
@@ -55,6 +56,7 @@ def main() -> int:
         if START_FILE <= file_path.name <= END_FILE
     )
     warnings = []
+    ignored = []
 
     for file_path in files:
         try:
@@ -70,8 +72,10 @@ def main() -> int:
             content = line.rstrip("\r\n")
 
             # 原有检查：@创建注释 后必须紧跟 @创建注释 或 @清除注释
-            if CREATE_MARK in line:
-                if i + 1 < len(lines):
+            if CREATE_MARK in line :
+                if IGNORE_MARK in line:
+                    ignored.append((file_path.name, line_no, "已被标记为不被自检"))
+                elif i + 1 < len(lines):
                     next_line = lines[i + 1]
                     if CREATE_MARK not in next_line and CLEAR_MARK not in next_line:
                         warnings.append((file_path.name, line_no, content))
@@ -82,6 +86,9 @@ def main() -> int:
             # 新增检查：双引号字符串中的待检字符后必须紧跟半角空格
             if has_code_without_following_space(line):
                 warnings.append((file_path.name, line_no, content))
+    if ignored:
+        for file_name, line_no, content in ignored:
+            print(f"忽略：{file_name} 第 {line_no} 行：{content}")
 
     if warnings:
         for file_name, line_no, content in warnings:

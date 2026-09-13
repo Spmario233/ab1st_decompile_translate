@@ -36,6 +36,7 @@
 #define	@ruby餐品17_混合烤肉套餐 ruby("右键查看注释") "混合烤肉套餐" ruby //19
 #define	@ruby餐品18_生鸡蛋拌饭套餐 ruby("右键查看注释") "生鸡蛋拌饭套餐" ruby //20
 #define	@ruby餐品_年糕小豆汤 ruby("右键查看注释") "年糕小豆汤" ruby //26
+#define	@ruby餐品_BLT三明治 ruby("右键查看注释") "BLT三明治" ruby //28
 
 //歌曲注释部分
 #define	@ruby歌曲1_HURRYUP ruby("右键查看注释") "Hurry up!" ruby //21
@@ -43,6 +44,12 @@
 #define	@ruby歌曲3_快嘴约翰 ruby("右键查看注释") "快嘴约翰" ruby //23
 #define	@ruby歌曲4_WildHeaven ruby("右键查看注释") "Just" ruby //24
 #define	@ruby歌曲5_CrazyForYou ruby("右键查看注释") "Crazy" ruby //25
+
+//棒球注释部分
+#define @ruby棒球1_巨人队铃木 ruby("右键查看注释") "铃木" ruby //27
+#define @ruby棒球2_巨人队川相 ruby("右键查看注释") "川相" ruby //直接引用
+#define @ruby棒球3_巨人队山仓 ruby("右键查看注释") "山仓" ruby //直接引用
+#define @ruby棒球4_巨人队村田 ruby("右键查看注释") "村田" ruby //直接引用
 
 //代码部分
 #macro @创建注释(@index)
