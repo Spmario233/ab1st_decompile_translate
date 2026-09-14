@@ -34,6 +34,7 @@ command $$create_comment(property $index : int)
 		case(26) @ruby餐品_年糕小豆汤
 		case(27) @ruby棒球1_巨人队铃木
 		case(28) @ruby餐品_BLT三明治
+		case(29) @ruby歌曲6_闭眼偷情
 	}
 }
 

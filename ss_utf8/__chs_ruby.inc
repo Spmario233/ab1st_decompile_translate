@@ -44,6 +44,7 @@
 #define	@ruby歌曲3_快嘴约翰 ruby("右键查看注释") "快嘴约翰" ruby //23
 #define	@ruby歌曲4_WildHeaven ruby("右键查看注释") "Just" ruby //24
 #define	@ruby歌曲5_CrazyForYou ruby("右键查看注释") "Crazy" ruby //25
+#define	@ruby歌曲6_闭眼偷情 ruby("右键查看注释") "闭上眼睛" ruby //29
 
 //棒球注释部分
 #define @ruby棒球1_巨人队铃木 ruby("右键查看注释") "铃木" ruby //27
