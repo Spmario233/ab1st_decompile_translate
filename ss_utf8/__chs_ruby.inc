@@ -13,6 +13,7 @@
 #define @ruby棒球2_巨人队川相 ruby("右键查看注释") "川相" ruby //直接引用
 #define @ruby棒球3_巨人队山仓 ruby("右键查看注释") "山仓" ruby //直接引用
 #define @ruby棒球4_巨人队村田 ruby("右键查看注释") "村田" ruby //直接引用
+#define @ruby勃起功能障碍 ruby("erectile dysfunction") "勃起功能障碍" ruby //直接引用
 
 //代码部分
 #macro @创建注释(@index)
