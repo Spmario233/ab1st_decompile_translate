@@ -15,6 +15,7 @@
 #define @ruby棒球4_巨人队村田 ruby("右键查看注释") "村田" ruby //直接引用
 #define @ruby勃起功能障碍 ruby("erectile dysfunction") "勃起功能障碍" ruby //直接引用
 #define @ruby棒球封杀 ruby("force out") "封杀" ruby
+#define @ruby宝永四年 ruby("公元1707年") "宝永四年" ruby
 
 //代码部分
 #macro @创建注释(@index)
