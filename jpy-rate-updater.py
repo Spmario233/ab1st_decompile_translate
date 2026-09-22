@@ -9,6 +9,7 @@ import sys
 import time
 from pathlib import Path
 import requests
+#虽然5.0版本以后的siglus-ssu内建了const.py，但鉴于这里只导入了dbs，还是需要手动把const.py写入编译库
 from siglus_ssu import dbs
 import subprocess
 from datetime import datetime

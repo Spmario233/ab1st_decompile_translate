@@ -894,7 +894,7 @@ command $$ef_otonashi_syougou_start(property $obj : object, property $type) : in
 		case(@ユリブサイクと呼ぶ) $str = "日向习得了技能“丑八怪由理”！"
 		case(@アメリカンエロドッグと呼ぶ) $str = "アメリカンエロドッグに進化した！"
 		case(@ゼウスと呼ぶ) $str = "ゼウスにクラスチェンジした！　もう、誰にも彼は止められない…"
-		case(@日向markⅡと呼ぶ) $str = "日向markⅡにレベルアップした！"
+		case(@日向markⅡと呼ぶ) $str = "进化为了日向markⅡ！"
 		case(@糞虫と呼ぶ) $str = "糞虫に降格した！"
 		case(@量産型日向と呼ぶ) $str = "量産型日向にレベルアップした！"
 		case(999) $str = "エロいのは重々承知だが、十字架を背負って暮らして行く決心をした！"
