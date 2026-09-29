@@ -61,8 +61,10 @@
 	#define		@AE_TYPE_JUDGE_STR_COUNT	30
 	
 	
-	#define		@AE_STATIC_STR				"レコードを獲得しました"		// 獲得時に固定で出す文字列
-	#define		@AE_STATIC_HINT_STR			"レコードを獲得しました"	// 獲得時に固定で出す文字列（ヒント実績）
+	//#define		@AE_STATIC_STR				"レコードを獲得しました"		// 獲得時に固定で出す文字列
+	#define		@AE_STATIC_STR				"获得了成就"		// 獲得時に固定で出す文字列
+	//#define		@AE_STATIC_HINT_STR			"レコードを獲得しました"	// 獲得時に固定で出す文字列（ヒント実績）
+	#define		@AE_STATIC_HINT_STR			"获得了成就"	// 獲得時に固定で出す文字列（ヒント実績）
 	
 	#define		@AE_IS_RUNNING				0			// エフェクトの実行中かどうか（汎用フラグ要素番号）
 	
