@@ -189,7 +189,8 @@
 	#property	$ac_mouse_old_y		// 1フレーム前のマウスY座標
 	#property	$ac_mouse_acc_y		// マウスの加速度
 	
-	#define		@AC_ROOT_Y_MIN			-3360
+	//这个变量决定成就列表的高度，但话说回来，这玩意都要写死吗，哈基VA你这家伙
+	#define		@AC_ROOT_Y_MIN			-3410
 	#define		@AC_ROOT_Y_MAX			100
 	
 	#define		@STR_FONT_SIZE		18
