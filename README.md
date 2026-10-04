@@ -32,6 +32,10 @@ Siglus引擎的`Scene.pck`剧本在生成过程中会进行编译，将UTF-8字�
 
 `Scene.pck`文件、`Gameexe.dat`文件和`savedata`文件夹的位置、分别被重定向到了`Scene.pck.recompile`文件、`Scene.rec.recompile`文件和`savedata_recompile`文件夹。
 
+# 关于仓库内文件的说明
+
+movie文件夹下存储的是大肥鱼在处理视频文件去字幕的流程时留下的可复现工作记录。源文件未存储进仓库，但AI工作记录和中间脚本已经全部保留，可用于随时复现，避免因硬盘损坏等原因导致丢失。
+
 # 免责声明
 
 本汉化中绝大部分餐品/日语特殊用法/棒球规则/外国文化作品等相关的考证，
