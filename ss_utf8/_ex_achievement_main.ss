@@ -21,6 +21,9 @@
 	#define		ACHIEVEMENT_RANK_BRONZE			4
 	#define		ACHIEVEMENT_RANK_HINT			5
 	#define		ACHIEVEMENT_RANK_FOOD			6
+
+	//汉化版添加：成就文件的版本号，用于在后续继续添加成就时，更新固化在存档里的成就列表缓存
+	#define		ACHIEVEMENT_VERSION 			2
 	
 	// フラグの種類
 	#define		F_FLAG							1
@@ -636,7 +639,7 @@ command $$initialize_achievement_system() {
 	//@debug($array_idx)
 	
 	// 初期化完了
-	$initialized_achievement_system = 1
+	$initialized_achievement_system = ACHIEVEMENT_VERSION
 	
 	// デバッグ用
 //	if(ACHIEVEMENT_DEBUG_ON != 0) {
@@ -654,7 +657,7 @@ command $$check_achievement(property $effect_flag_type : int) : int {
 	
 	// 初期化終わっていない場合
 	// 注意：添加新成就的时候需要手动初始化序列
-	if($initialized_achievement_system != 1) {
+	if($initialized_achievement_system != ACHIEVEMENT_VERSION) {
 		@実績システム初期化
 	}
 	
