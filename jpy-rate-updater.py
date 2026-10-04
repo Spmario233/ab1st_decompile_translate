@@ -556,8 +556,8 @@ def create_gui():
             encoding="utf-8",
             errors="replace"
         )
-    except Exception as e:
-        license_content = f"无法读取 LICENSE 文件：{e}"
+    except Exception:
+        license_content = f"关于 GNU 通用公共许可证的具体条款，请查阅：<https://www.gnu.org/licenses/>"
 
     about_license.insert(tk.END, OLD_TRANSLATE_TEXT)
     about_license.insert(tk.END, license_content)

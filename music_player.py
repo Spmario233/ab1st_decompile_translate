@@ -377,7 +377,7 @@ class MusicPlayer:
             text="",
             bg=right.cget("bg"),
             anchor="w",
-            wraplength=round(360 * self.scale),
+            wraplength=round(450 * self.scale),
         )
         self.status_label.pack(fill=tk.X, pady=(margin, 0))
 
@@ -388,7 +388,7 @@ class MusicPlayer:
             bg=right.cget("bg"),
             anchor="nw",
             justify="left",
-            wraplength=round(360 * self.scale),
+            wraplength=round(450 * self.scale),
         )
         self.lyrics_label.pack(fill=tk.X, pady=(margin, 0))
 

@@ -26,6 +26,8 @@ Siglus引擎的`Scene.pck`剧本在生成过程中会进行编译，将UTF-8字�
 
 本次汉化通过将SiglusEngine.exe升级到**anemoi所使用的版本**，为游戏提供了原生Xbox手柄支持。由于鼠标点击事件的`input.decide.is_up`属性在最新版本的Siglus引擎中已经被废弃，故将其全部等效替代为`input.decide.is_down`的反向布尔值判断。
 
+本次汉化还原了部分**在开发过程中被注释掉的原剧情**，并补全了相关的成就。上述操作可能会导致游戏原有成就的编号发生变化，还请查阅攻略时多加注意。
+
 所有的人名翻译，均通过将文本映射挂载到Gameexe.ini的方式实现，不对原本的姓名进行改动。
 
 `Scene.pck`文件、`Gameexe.dat`文件和`savedata`文件夹的位置、分别被重定向到了`Scene.pck.recompile`文件、`Scene.rec.recompile`文件和`savedata_recompile`文件夹。
