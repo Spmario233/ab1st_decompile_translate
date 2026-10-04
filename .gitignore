@@ -26,3 +26,7 @@ exe_export/SiglusEngine_CHS_RECOMPILE.exe
 /binary
 /debug
 exe_export/SiglusEngine_CHS_RECOMPILE.exe.bak
+/GameLauncher/build
+/GameLauncher/dist
+*.bak
+SiglusEngine/SiglusEngine_CHS_RECOMPILE.exe
