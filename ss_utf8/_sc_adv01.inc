@@ -40,7 +40,8 @@
 *********************************************************/
 #macro		@アイキャッチ
 			@bgm_stop(1000)
-			@b.obj[@OBJ_FADE].create_movie(sys_ecatch00, @Off, ready_only = @On, auto_free = @Off)
+			//将引用改为中文版
+			@b.obj[@OBJ_FADE].create_movie(cn_sys_ecatch00, @Off, ready_only = @On, auto_free = @Off)
 			@b.obj[@OBJ_FADE].layer = 100000
 			@pcmch_ready(0, sys_ecatch00)
 
