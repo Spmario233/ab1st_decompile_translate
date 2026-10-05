@@ -339,7 +339,12 @@ return
 		// ムービー設定
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].create(cn_sys_cf_btn27, @On, 1073, 532)
 		// 汉化版添加：手柄设置
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].create(cn_sys_cf_btn_controller, @On, 1073, 572)
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].create("cn_sys_cf_btn_controller", @On, 1073, 572)
+		// 汉化版添加：注释设置
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].create("cn_sys_cf_btn_comment", @On, 709, 576)
+		if (@显示注释 == @On){
+			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].patno = @Operate
+		}
 	}
 	// テキスト--------------------------------------------------------------------------------------------------------
 	elseif (@SysCFPage == 1)	{
@@ -372,7 +377,7 @@ return
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBar01e].clip_right = @ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtCtl01].x
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBar01e].clip_bottom = 720
 		// 初期設定に戻す
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn04].create(sys_cf_btn31, @On, 450, 99)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn04].create(cn_sys_cf_btn31, @On, 450, 99)
 		// ウィンドウ背景[赤]
 		@WB_R_SET = @WBState01 + @S_CTL_BAR_MWBG_STPOS01
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBar02].create(sys_cf_bar02, @On, 284, 262-1)
@@ -1077,6 +1082,7 @@ return
 			@exif_(@Off, @Off,                   45, @ObjSysCF02, _ObjSysCFMovSetBtn00)
 			// 汉化版添加：手柄设置
 			@exif_(@Off, @Off,                   48, @ObjSysCF02, _ObjSysCFControllerSetBtn00)
+			@exif_(@Off, @Off,                   49, @ObjSysCF02, _ObjSysCFCommentSetBtn00)
 
 		}
 		// テキスト--------------------------------------------------------------------------------------------------------
@@ -1415,6 +1421,11 @@ return
 			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].patno = @ObjBtnState[45]
 			//汉化版添加：手柄设置
 			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].patno = @ObjBtnState[48]
+			//汉化版添加：注释显示
+			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].patno = @ObjBtnState[49]
+			if (@显示注释 == @On) {
+				@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].patno += @Operate
+			}
 		}
 		// テキストページ
 		elseif (@SysCFPage == 1)	{
@@ -2230,6 +2241,9 @@ return
 						
 						// ゲームパッドの設定ダイアログを呼び出す
 						syscom.call_config_joypad_menu
+					case (49)
+						//汉化版添加：注释设置
+						@显示注释 = (1 - @显示注释)
 				}
 			}
 			// テキスト

@@ -11,7 +11,12 @@ command $$create_comment(property $index : int)
 	$comment_text = database[@DB_COMMENT].get_str($index, 0) //读取下方文字
 	$comment_ruby = database[@DB_COMMENT].get_str($index, 1) //读取上方注释
 
-	ruby($comment_ruby) print($comment_text) ruby
+	if(@显示注释 == @On){
+		ruby($comment_ruby) print($comment_text) ruby
+	}
+	else{
+		print($comment_text)
+	}
 }
 
 command $$clear_comment()

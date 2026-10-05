@@ -190,6 +190,7 @@ command $sys_set_gsd
 		@CdState[+7]  = @On		// ゲームを終了する
 		@EmDispState  = @On		// エモーションＯＮ
 		@EsAutoSave   = @On		// オートセーブを有効化
+		@显示注释 = @On	//显示汉化的注释
 		@SetMusicStateDefault
 		@EsSelSkipReset = @On	// 分岐でスキップモード - 解除する
 		@初回起動設定 = @On

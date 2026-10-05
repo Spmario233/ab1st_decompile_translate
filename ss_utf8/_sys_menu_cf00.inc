@@ -83,8 +83,9 @@
 // 実績システム（仮）
 #define		_ObjSysCFResultBtn01			 43			// 表示する
 #define		_ObjSysCFResultBtn02			 44			// 表示しない
-//汉化版添加：手柄设置按钮
-#define		_ObjSysCFControllerSetBtn00			 45			// 手柄设置
+//汉化版添加：手柄设置按钮和注释设置按钮
+#define		_ObjSysCFControllerSetBtn00		 45			// 手柄设置
+#define		_ObjSysCFCommentSetBtn00		 46			// 注释设置
 
 // ----------------------------------------------------------------------------
 // テキスト
@@ -355,6 +356,9 @@
 #define		@MsgSkipState						$msg_skip_state		// メッセージスキップ
 #define		@MRActionState						G[1307]				// 右クリック動作
 #define		@AllChkState						$all_chk_state		// 全て ＯＮ／ＯＦＦ
+//汉化版加入：注释的显示状态
+#define		@显示注释						G[1308]				//是否显示注释
+
 #define		@AllVolState						$all_vol_state		// 全てボリューム
 #define		@BgmChkState						$bgm_chk_state		// ＢＧＭ ＯＮ／ＯＦＦ
 #define		@BgmVolState						$bgm_vol_state		// ＢＧＭボリューム
@@ -435,7 +439,7 @@
 #define		@EsState[8]							$es_state[8]		// 選択肢でスキップモードを解除する…チェック
 #define		@EsState[9]							$es_state[9]		// 再生されるＢＧＭの詳細を表示する…チェック
 #define		@EsState[10]						$es_state[10]		// サウンドの再生時に…
-#define		@EsState[11]						$es_state[11]		// その他の設定・予備
+#define		@EsState[11]						$es_state[11]		// 汉化版注释设置
 #define		@EsState[12]						$es_state[12]		// その他の設定・予備
 #define		@EsState[13]						$es_state[13]		// その他の設定・予備
 #define		@EsState[14]						$es_state[14]		// その他の設定・予備

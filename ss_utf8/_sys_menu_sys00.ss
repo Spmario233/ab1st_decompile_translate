@@ -13,14 +13,14 @@ if (@TM_STATE != 0)	{
 }
 
 // ウィンドウ消去以外はＳＥ再生
-if (@MRActionState != 1 || @当前注释编号 > 0) {
+if (@MRActionState != 1 || (@当前注释编号 > 0 && @显示注释 == @On)) {
 	@se_play(001)
 }
 
 //汉化版添加：有注释时强行打开固定菜单
-if (@当前注释编号 == 0){
+if (@当前注释编号 == 0 || @显示注释 == @Off){
 	// 右クリックをウィンドウ消去に割り当てている場合、マップ画面ではクイックメニューを表示するようにする
-	if ((@MRActionState == 1) && (@マップ選択 == 2))	{	// if ((@MRActionState == 1) && (@マップ選択 == @On))	{	■2015.07.07修正
+	if ((@MRActionState == 1) && (@マップ選択 == 2))	{	// if ((@MRActionState == 1) && (@マップ選択 == @On))	{	■2015.07.07n修正
 		goto #z01
 	}
 
@@ -86,8 +86,7 @@ gosub #ObjErase
 
 #z02
 //汉化版添加：有注释时不进入下列菜单
-//TODO：考虑是否添加禁用注释的选项
-if(@当前注释编号 == 0){
+if(@当前注释编号 == 0 || @显示注释 == @Off){
 	if (@MRActionState == 2) {@ex.F[$sys_sa_mode] = @On}	// セーブ画面
 	elseif (@MRActionState == 3) {@ex.F[$sys_lo_mode] = @On}	// ロード画面
 	elseif (@MRActionState == 4) {@ex.F[$sys_cf_mode] = @On}	// コンフィグ画面
@@ -268,7 +267,7 @@ return
 	$_L[0] = @Init
 	$_L[1] = @Init
 
-	if (@当前注释编号 > 0) {
+	if (@当前注释编号 > 0 && @显示注释 == @On) {
 		// 注释编号大于0的情况，预留左半750像素和上半510像素给注释
 		if ((@MX > 750) && (@MX < 1120))	{
 			$_L[0] = @MX
@@ -371,7 +370,7 @@ return
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuLoad02     ].tr_eve.set(255, L[20], L[25], 2)
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuSave02     ].tr_eve.set(255, L[20], L[26], 2)
 	
-	if (@当前注释编号 > 0) {
+	if (@当前注释编号 > 0 && @显示注释 == @On) {
 		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].create("cn_comment_" + math.tostr_zero(@当前注释编号, 2), @On, 0, 0)	// 替换新的注释背景
 		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].tr_eve.set(255, L[20], L[22], 2)
 	}
@@ -412,7 +411,7 @@ return
 	@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenuBg01].tr_eve.set(0, L[20], L[26], 2)
 
 	//如果当前对话存在注释，则显示注释图层
-	if (@当前注释编号 > 0) {
+	if (@当前注释编号 > 0 && @显示注释 == @On) {
 		@ex.f.obj[@ObjSysMenu00].@cd[_ObjSysMenu_Comment].tr_eve.set(0, L[20], L[21], 2)
 	}
 
