@@ -51,11 +51,11 @@ ABOUT_TEXT = """《Angel Beats! -1st beat-》简体中文重编译汉化版
 
 翻译：苏婆玛丽奥
 
-引擎技术支持：Jirehov
+引擎技术支持：Jirehlov
 
 引用来源：ExchangeRate.fun API（动态汇率引用）
 
-外围辅助AI：DeepSeek、 ChatGPT
+外围辅助AI：DeepSeek、ChatGPT、Qwen-Image
 """
 
 OLD_TRANSLATE_TEXT = """本汉化的程序和文本基于GPL v3协议开源。您可在遵循该许可证的情况下，对
