@@ -1937,7 +1937,7 @@ IF(@かなでの名前を知った==1){
 
 		"不不，不仅如此…"R //いやいやそれどころか…R
 		size(25)"『请在（　）中填写合适的单词』"nl
-		"『Paul left his book at home again. He's so (　　　　　　　)!』"size R //『"Paul left his book at home again. He's so (　　　　　　　)!"』size R
+		"『Paul left his book at home again. He's so (　　　　　　)!』"size R //『"Paul left his book at home again. He's so (　　　　　　　)!"』size R
 		script.set_message_nowait_flag(1)
 		script.set_msg_back_off
 		size(25)"『请在（　）中填写合适的单词』"nl
