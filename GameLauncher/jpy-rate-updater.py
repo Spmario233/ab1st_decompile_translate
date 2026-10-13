@@ -51,7 +51,7 @@ ABOUT_TEXT = """《Angel Beats! -1st beat-》简体中文重编译汉化版
 
 翻译：苏婆玛丽奥
 
-引擎技术支持：Jirehlov
+引擎技术支持：Jirehlov、FFmpeg
 
 引用来源：ExchangeRate.fun API（动态汇率引用）
 

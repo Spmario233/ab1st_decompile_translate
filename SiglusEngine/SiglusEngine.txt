@@ -3342,10 +3342,10 @@ Windows Media Player（默认）
 关闭
 #@0x831358|rsrc|id=124|item=1|f=title|cap 90
 ムービーの再生方法を変更できます。\nゲーム中、ムービーがうまく再生されない場合に変更して下さい。\n※問題ない場合は 『 Windows Media Player 』 にして下さい。
-可以在此设置视频文件的播放方式。\n如果游戏内无法正常播放视频的话，请调整次设置。\n※没问题的情况下，请选择『Windows Media Player』。
+可以在此设置视频文件的播放方式。
 #@0x831358|rsrc|id=124|item=2|f=title|cap 93
 『 Windows Media Player 』 を利用するには\nWindows Media Player のバージョン９以上が必要です。\n※環境によってうまく動作しない場合があります。
-如果要使用『Windows Media Player』的话，\nWindows Media Player 的版本号需要在9以上。\n※即使版本号满足，也可能因为运行环境而无法播放。
+汉化版已经把游戏内视频的播放实现方式改为FFmpeg，这里你选什么都一样。
 #@0x831358|rsrc|id=124|item=3|f=title|cap 3
 ＭＣＩ
 MCI
@@ -3450,13 +3450,13 @@ Windows Media Player（默认）
 视频播放方式的设置
 #@0x832098|rsrc|id=129|item=0|f=title|cap 9
 決定 （再生する）
-
+确定（播放视频）
 #@0x832098|rsrc|id=129|item=1|f=title|cap 84
 前回、ムービーがうまく再生できなかった可能性があります。\n再生方法を変更して下さい。\n※問題ない場合は 『 Windows Media Player 』 にして下さい。
-可以在此设置视频文件的播放方式。\n如果游戏内无法正常播放视频的话，请调整次设置。\n※没问题的情况下，请选择『Windows Media Player』。
+可以在此设置视频文件的播放方式。
 #@0x832098|rsrc|id=129|item=2|f=title|cap 93
 『 Windows Media Player 』 を利用するには\nWindows Media Player のバージョン９以上が必要です。\n※環境によってうまく動作しない場合があります。
-如果要使用『Windows Media Player』的话，\nWindows Media Player 的版本号需要在9以上。\n※即使版本号满足，也可能因为运行环境而无法播放。
+汉化版已经把游戏内视频的播放实现方式改为FFmpeg，这里你选什么都一样。
 #@0x832098|rsrc|id=129|item=3|f=title|cap 3
 ＭＣＩ
 MCI
@@ -3465,7 +3465,7 @@ Windows Media Player （標準）
 Windows Media Player（默认）
 #@0x832098|rsrc|id=129|item=5|f=title|cap 5
 再生しない
-
+不进行播放
 #@0x832370|rsrc|id=130|f=htitle|cap 7
 システムの設定
 

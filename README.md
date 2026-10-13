@@ -26,6 +26,8 @@ Siglus引擎的`Scene.pck`剧本在生成过程中会进行编译，将UTF-8字�
 
 本次汉化通过将SiglusEngine.exe升级到**anemoi所使用的版本**，为游戏提供了原生Xbox手柄支持。由于鼠标点击事件的`input.decide.is_up`属性在最新版本的Siglus引擎中已经被废弃，故将其全部等效替代为`input.decide.is_down`的反向布尔值判断。
 
+本次汉化将游戏内播放外部视频文件的方式从默认的`Windows Media Player或MCI`改为了`FFmpeg`，解决了部分设备上的兼容性问题。
+
 本次汉化还原了部分**在开发过程中被注释掉的原剧情**，并补全了相关的成就。上述操作可能会导致游戏原有成就的编号发生变化，还请查阅攻略时多加注意。
 
 所有的人名翻译，均通过将文本映射挂载到Gameexe.ini的方式实现，不对原本的姓名进行改动。
@@ -40,6 +42,7 @@ Siglus引擎的`Scene.pck`剧本在生成过程中会进行编译，将UTF-8字�
 | GameLauncher | 外部启动器的源代码文件，用于实现汇率换算，音乐播放等功能。 |
 | SiglusEngine | 对游戏引擎文件内字符串进行翻译的脚本和工具。原始二进制exe文件未放到仓库中，请自行从releases中下载。 |
 | ss_utf8 | Scene.pck中的主要代码文件。 |
+| SiglusMovieFF | 大肥鱼狠活TV：将游戏内原有的视频播放方式改为FFmpeg |
 
 # 免责声明
 

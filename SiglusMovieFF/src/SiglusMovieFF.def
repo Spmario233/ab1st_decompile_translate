@@ -1,0 +1,11 @@
+LIBRARY SiglusMovieFF
+EXPORTS
+    Smf_mciSendStringW
+    Smf_mciGetErrorStringW
+    SmfInjectionHook
+    SmfImportAnchor
+    ; The following are exported under the real MCI names as well, so the module
+    ; can also be used as a plain winmm proxy (e.g. with a loader that resolves
+    ; mciSendStringW from us).
+    mciSendStringW = Smf_mciSendStringW
+    mciGetErrorStringW = Smf_mciGetErrorStringW
