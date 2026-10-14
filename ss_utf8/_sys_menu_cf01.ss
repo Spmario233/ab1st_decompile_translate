@@ -336,8 +336,8 @@ return
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk02].create(cn_sys_cf_chk02, @On, 709, 477)					// 本プログラムの動作を…
 		if (@EsState[3]  == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk01].patno = @Operate}
 		if (@EsState[0]  == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk02].patno = @Operate}
-		// ムービー設定
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].create(cn_sys_cf_btn27, @On, 1073, 532)
+		// ムービー設定 //这个不需要了
+		//@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].create(cn_sys_cf_btn27, @On, 1073, 532)
 		// 汉化版添加：手柄设置
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].create("cn_sys_cf_btn_controller", @On, 1073, 572)
 		// 汉化版添加：注释设置
@@ -1079,7 +1079,7 @@ return
 			@exif_(@Off, @Off,                   43, @ObjSysCF02, _ObjSysCFESChk01)				// マウスホイールボタンの…
 			@exif_(@Off, @Off,                   44, @ObjSysCF02, _ObjSysCFESChk02)				// 本プログラムの動作を…
 			// ムービー設定
-			@exif_(@Off, @Off,                   45, @ObjSysCF02, _ObjSysCFMovSetBtn00)
+			//@exif_(@Off, @Off,                   45, @ObjSysCF02, _ObjSysCFMovSetBtn00)
 			// 汉化版添加：手柄设置
 			@exif_(@Off, @Off,                   48, @ObjSysCF02, _ObjSysCFControllerSetBtn00)
 			@exif_(@Off, @Off,                   49, @ObjSysCF02, _ObjSysCFCommentSetBtn00)
@@ -1418,7 +1418,7 @@ return
 			if (@EsState[+3]  == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk01].patno += @Operate}
 			if (@EsState[+0]  == @On) {@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFESChk02].patno += @Operate}
 			// ムービー設定
-			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].patno = @ObjBtnState[45]
+			//@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFMovSetBtn00].patno = @ObjBtnState[45]
 			//汉化版添加：手柄设置
 			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].patno = @ObjBtnState[48]
 			//汉化版添加：注释显示
