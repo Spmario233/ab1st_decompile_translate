@@ -6,7 +6,7 @@
 - 只处理从 00_AB01a_day00.ss 到 44_バッドエンド.ss（含首尾）的文件。
 
 规则：
-1. 如果某一行包含“@创建注释”，且下一行既不包含“@创建注释”也不包含“@清除注释”，
+1. 如果某一行包含“@注”，且下一行既不包含“@注”也不包含“@清除注释”，
    则在终端输出警告，包含文件名、行号和行内容。
 2. 检查所有被英文双引号包裹的字符串。若其中出现 CODES_NEED_TO_CHECK 中的字符，
    并且该字符后面没有紧接半角空格，则输出同样格式的警告。
@@ -18,7 +18,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 SS_DIR = BASE_DIR / "ss_utf8"
-CREATE_MARK = "@创建注释"
+CREATE_MARK = "@注"
 CLEAR_MARK = "@清除注释"
 IGNORE_MARK = "check-ignore"
 CODES_NEED_TO_CHECK = "・♪"
@@ -69,23 +69,23 @@ def main() -> int:
 
         for i, line in enumerate(lines):
             line_no = i + 1
-            content = line.rstrip("\r\n")
+            content = line.rstrip("\r\n").replace("\t","")
 
-            # 原有检查：@创建注释 后必须紧跟 @创建注释 或 @清除注释
+            # 原有检查：@注 后必须紧跟 @注 或 @清除注释
             if CREATE_MARK in line :
                 if IGNORE_MARK in line:
                     ignored.append((file_path.name, line_no, "已被标记为不被自检"))
                 elif i + 1 < len(lines):
                     next_line = lines[i + 1]
                     if CREATE_MARK not in next_line and CLEAR_MARK not in next_line:
-                        warnings.append((file_path.name, line_no, content))
+                        warnings.append((file_path.name, line_no, f"【未清除注释】{content}"))
                 else:
-                    # 如果“@创建注释”出现在文件最后一行，同样视为缺少下一行清理标记
-                    warnings.append((file_path.name, line_no, f"{content}（文件末尾，无下一行）"))
+                    # 如果“@注”出现在文件最后一行，同样视为缺少下一行清理标记
+                    warnings.append((file_path.name, line_no, f"【未清除注释】{content}（文件末尾，无下一行）"))
 
             # 新增检查：双引号字符串中的待检字符后必须紧跟半角空格
             if has_code_without_following_space(line):
-                warnings.append((file_path.name, line_no, content))
+                warnings.append((file_path.name, line_no, f"【标点后未加空格】{content}"))
     if ignored:
         for file_name, line_no, content in ignored:
             print(f"忽略：{file_name} 第 {line_no} 行：{content}")

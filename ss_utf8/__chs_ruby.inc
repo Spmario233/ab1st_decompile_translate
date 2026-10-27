@@ -19,7 +19,7 @@
 #define @ruby道路总是会人多拥挤的 ruby("どのみち混むでしょ") "道路总是会人多拥挤的" ruby
 
 //代码部分
-#macro @创建注释(@index)
+#macro @注(@index)
 	$$create_comment(@index)
 
 #command	$$create_comment(int)
@@ -29,7 +29,7 @@
 
 #command $$clear_comment
 
-#define		@DB_COMMENT 2
+#define @DB_COMMENT 2
 
 // ---------------------------------------------------------------
 // 右键注释编号
@@ -90,3 +90,4 @@
 #define @成吉思汗烤肉 54
 #define @煎饺套餐 55
 #define @烤松饼 56
+#define @助六便当 57
