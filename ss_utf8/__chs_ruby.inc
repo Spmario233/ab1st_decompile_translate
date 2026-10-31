@@ -91,3 +91,5 @@
 #define @煎饺套餐 55
 #define @烤松饼 56
 #define @助六便当 57
+#define @味噌拉面 58
+#define @煮面 59
