@@ -341,9 +341,14 @@ return
 		// 汉化版添加：手柄设置
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFControllerSetBtn00].create("cn_sys_cf_btn_controller", @On, 1073, 572)
 		// 汉化版添加：注释设置
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].create("cn_sys_cf_btn_comment", @On, 709, 576)
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].create("cn_sys_cf_btn_comment", @On, 709, 477+35)
 		if (@显示注释 == @On){
 			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].patno = @Operate
+		}
+		// 汉化版添加：歌词设置
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLyricSetBtn00].create("cn_sys_cf_btn_lyric", @On, 709, 477+70)
+		if (@显示歌词 == @On){
+			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLyricSetBtn00].patno = @Operate
 		}
 	}
 	// テキスト--------------------------------------------------------------------------------------------------------
@@ -1080,9 +1085,10 @@ return
 			@exif_(@Off, @Off,                   44, @ObjSysCF02, _ObjSysCFESChk02)				// 本プログラムの動作を…
 			// ムービー設定
 			//@exif_(@Off, @Off,                   45, @ObjSysCF02, _ObjSysCFMovSetBtn00)
-			// 汉化版添加：手柄设置
+			// 汉化版添加：手柄设置、注释设置、歌词设置
 			@exif_(@Off, @Off,                   48, @ObjSysCF02, _ObjSysCFControllerSetBtn00)
 			@exif_(@Off, @Off,                   49, @ObjSysCF02, _ObjSysCFCommentSetBtn00)
+			@exif_(@Off, @Off,                   50, @ObjSysCF02, _ObjSysCFLyricSetBtn00)
 
 		}
 		// テキスト--------------------------------------------------------------------------------------------------------
@@ -1425,6 +1431,11 @@ return
 			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].patno = @ObjBtnState[49]
 			if (@显示注释 == @On) {
 				@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFCommentSetBtn00].patno += @Operate
+			}
+			//汉化版添加：歌词显示
+			@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLyricSetBtn00].patno = @ObjBtnState[50]
+			if (@显示歌词 == @On) {
+				@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFLyricSetBtn00].patno += @Operate
 			}
 		}
 		// テキストページ
@@ -2244,6 +2255,9 @@ return
 					case (49)
 						//汉化版添加：注释设置
 						@显示注释 = (1 - @显示注释)
+					case (50)
+						//汉化版添加：歌词设置
+						@显示歌词 = (1 - @显示歌词)
 				}
 			}
 			// テキスト

@@ -14,6 +14,9 @@
 #define @CrowSongINDEX 0
 #define @CrowSongDB 3
 
+#define @AlchemyINDEX 1
+#define @AlchemyDB 4
+
 // ---- 逐帧处理使用的 frame action 频道 ----
 // 本作已用 0-4、11-14，声音系统占 9-15，这里取 20
 #define @歌词FA频道 20
@@ -23,11 +26,11 @@
 //（300 是那边的 @OBJ_FOR_FADE，别用），所以 303-309 才是真正空闲的
 #define @歌词对象 303
 #define @歌词层 10000			// 高于消息窗口(1000)与角色(100)，低于淡入淡出层(100000)和菜单(1000000)
-#define @歌词X 24
+#define @歌词X 16
 #define @歌词Y 16
 #define @歌词行高 28
 #define @歌词字号 20
-#define @歌词前缀 "♪ "		// 每行歌词前面加一个♪和一个全角空格
+#define @歌词前缀 "♪  "		// 每行歌词前面加一个♪和一个全角空格
 
 // ---- 描边 / 阴影 ----
 // 和 _ex_achievement_main.ss 的 $start_effect 一样，用 set_string_param 的第 7 个参数控制：
@@ -47,6 +50,9 @@
 //   结束位置 5525973 采样 = 125305 毫秒，循环位置 1846726 采样 = 41875 毫秒
 #define @CrowSong曲长 125305
 #define @CrowSong循环点 41875
+
+#define @Alchemy曲长 97313
+#define @Alchemy循环点 15860
 
 // ---- 对外接口 ----
 #macro @歌词开始 $$lyrics_start

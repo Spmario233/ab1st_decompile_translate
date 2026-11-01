@@ -34,7 +34,7 @@ command $$lyrics_stop()
 // 所以读档后必须重新 start；@播放歌词 会随存档恢复，只在读档前正在显示时才恢复
 command $$lyrics_resume()
 {
-	if (@播放歌词 == 1) {
+	if (@播放歌词 == 1 && @显示歌词 == 1) {
 		$$lyrics_start					// 内部会重置 @歌词状态 并重挂 frame action
 	}
 }
@@ -51,7 +51,7 @@ command $$lyrics_tick(property $fa : frameaction)
 	$now = $fa.counter.get
 
 	//---------- 1. @播放歌词 = 0：0.1 秒淡出，然后复位 ----------
-	if (@播放歌词 != 1) {
+	if (@播放歌词 == 0 ||  @显示歌词 == 0) {
 		if (@歌词状态 == 1) {
 			if (@歌词目标 != 0) {
 				@歌词目标 = 0
@@ -164,6 +164,10 @@ command $$lyrics_begin()
 			@歌词数据库 = @CrowSongDB
 			@歌词曲长 = @CrowSong曲长
 			@歌词循环点 = @CrowSong循环点
+		case (@AlchemyIndex)
+			@歌词数据库 = @AlchemyDB
+			@歌词曲长 = @Alchemy曲长
+			@歌词循环点 = @Alchemy循环点
 	}
 
 	if (@歌词数据库 < 0) {

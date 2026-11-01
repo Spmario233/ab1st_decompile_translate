@@ -86,6 +86,7 @@
 //汉化版添加：手柄设置按钮和注释设置按钮
 #define		_ObjSysCFControllerSetBtn00		 45			// 手柄设置
 #define		_ObjSysCFCommentSetBtn00		 46			// 注释设置
+#define		_ObjSysCFLyricSetBtn00			 47			// 歌词设置
 
 // ----------------------------------------------------------------------------
 // テキスト
@@ -357,7 +358,8 @@
 #define		@MRActionState						G[1307]				// 右クリック動作
 #define		@AllChkState						$all_chk_state		// 全て ＯＮ／ＯＦＦ
 //汉化版加入：注释的显示状态
-#define		@显示注释						G[1308]				//是否显示注释
+#define		@显示注释							G[1308]				//是否显示注释
+#define		@显示歌词							G[1309]				//是否显示歌词
 
 #define		@AllVolState						$all_vol_state		// 全てボリューム
 #define		@BgmChkState						$bgm_chk_state		// ＢＧＭ ＯＮ／ＯＦＦ
