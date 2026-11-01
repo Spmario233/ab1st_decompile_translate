@@ -257,7 +257,7 @@ return
 
 		// 背景
 		//@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFSysBg00].create(sys_cf_bg01, @On, 0, 0)
-		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFSysBg00].create(cn_sys_cf_bg01_FZFWQYT, @On, 0, 0)
+		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFSysBg00].create(cn_sys_cf_bg01, @On, 0, 0)
 		// 画面モード
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow01].create(cn_sys_cf_btn01, @On, 224, 99)					// 標準ウィンドウ
 		@ex.f.obj[@ObjSysCF02].@cd[_ObjSysCFWindow02].create(cn_sys_cf_btn02, @On, 349, 99)					// フルスクリーン
@@ -356,7 +356,7 @@ return
 
 		// 下地
 		//@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBg00].create(sys_cf_bg02, @On, 0, 0)
-		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBg00].create(cn_sys_cf_bg02_FZFWQYT, @On, 0, 0)
+		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBg00].create(cn_sys_cf_bg02, @On, 0, 0)
 		// フォント
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn01].create(cn_sys_cf_btn28, @On, 220, 99)						// フォントＡ
 		@ex.f.obj[@ObjSysCF03].@cd[_ObjSysCFTtBtn02].create(cn_sys_cf_btn29, @On, 320, 99)						// フォントＢ
@@ -490,7 +490,7 @@ return
 
 		// 背景
 		//@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndBg00].create(sys_cf_bg03, @On, 0, 0)
-		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndBg00].create(cn_sys_cf_bg03_FZFWQYT, @On, 0, 0)
+		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndBg00].create(cn_sys_cf_bg03, @On, 0, 0)
 		// 全体
 		L[0] = @AllVolState + @S_CTL_BAR_VOL_ALL_STPOS
 		@ex.f.obj[@ObjSysCF04].@cd[_ObjSysCFSndVolChk01 ].create(cn_sys_cf_chk05, @On,   78, 147)

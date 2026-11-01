@@ -93,3 +93,4 @@
 #define @助六便当 57
 #define @味噌拉面 58
 #define @煮面 59
+#define @干布摩擦 60
