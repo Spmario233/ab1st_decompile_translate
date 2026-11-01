@@ -156,6 +156,10 @@ command $$lyrics_begin()
 	switch ($name.lower) {
 		case ("crowsong")
 			@歌词歌曲ID = @CrowSongINDEX
+		case ("alchemy")
+			@歌词歌曲ID = @AlchemyINDEX
+		case ("mysong")
+			@歌词歌曲ID = @MySongINDEX
 	}
 
 	// 2) 按歌曲 ID 确认要读取的数据库和循环参数
@@ -168,6 +172,10 @@ command $$lyrics_begin()
 			@歌词数据库 = @AlchemyDB
 			@歌词曲长 = @Alchemy曲长
 			@歌词循环点 = @Alchemy循环点
+		case (@MySongIndex)
+			@歌词数据库 = @MySongDB
+			@歌词曲长 = @MySong曲长
+			@歌词循环点 = @MySong循环点
 	}
 
 	if (@歌词数据库 < 0) {

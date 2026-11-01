@@ -17,6 +17,9 @@
 #define @AlchemyINDEX 1
 #define @AlchemyDB 4
 
+#define @MySongINDEX 2
+#define @MySongDB 5
+
 // ---- 逐帧处理使用的 frame action 频道 ----
 // 本作已用 0-4、11-14，声音系统占 9-15，这里取 20
 #define @歌词FA频道 20
@@ -53,6 +56,9 @@
 
 #define @Alchemy曲长 97313
 #define @Alchemy循环点 15860
+
+#define @MySong曲长 165670
+#define @MySong循环点 12592
 
 // ---- 对外接口 ----
 #macro @歌词开始 $$lyrics_start
