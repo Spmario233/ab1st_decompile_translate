@@ -138,3 +138,73 @@ FFmpeg 开发包来源：`kusaanko/FFmpeg-Auto-Build` 的 `win32_win32_<date>.zi
   只有 `.wmv` / `.mpg` / `.avi` 这类原始视频文件会经过 MCI。
 * FFmpeg 为 LGPL 共享构建。既然整个补丁按 GPL 发布，请注意 FFmpeg 的 LGPL 条款与
   GPL 的兼容性要求（保留其许可声明与源码获取方式）。
+
+## 9. Editbox 字体 hook（1.1.1）
+
+Siglus 的 editbox（存档备注框等）走的是标准 Win32 `Edit` 控件。引擎在
+`C_elm_editbox::create` 里直接调用 `CreateFontW`，字体名硬编码为
+`"ＭＳ ゴシック"`，然后 `WM_SETFONT` 给 EDIT 控件；`set_focus` 只是
+`SetFocus`，不会重新选字体。Gameexe 的 `#CONFIG.FONT.NAME`（本作是
+`KaiGenSP`）只用于引擎自己的文本渲染器，所以备注框会显示成 MS Gothic。
+
+本 DLL 在 `installHooks()` 里做两层处理：
+
+1. 把宿主 EXE 的 IAT 槽 `GDI32.dll!CreateFontW` 改成 `Smf_CreateFontW`。
+   包装函数只替换字体名：
+
+```text
+ＭＳ ゴシック  ->  KaiGenSP
+```
+
+2. 再 hook `USER32.dll!SendMessageW`，在 `WM_SETFONT` 时读取 HFONT 的实际
+   LOGFONT。如果字体不是经 `CreateFontW` 创建的（例如 `CreateFontIndirectW`、
+   或在 hook 安装前就创建好），这里会再做一次兜底替换，并记录 EDIT 控件最终拿到的
+   字体：
+
+```text
+WM_SETFONT Edit: face=KaiGenSP height=15 weight=0
+```
+
+匹配时同时接受全角日文名和 ASCII `MS Gothic`，其他参数（高度、字重、字符集、
+quality）原样传递，因此不会影响字号和游戏正文。
+
+### 验证
+
+1. 正常启动游戏，进入存档/读档画面，点某个存档的备注栏。
+2. 查看 DLL 同目录的 `SiglusMovieFF.log`，应出现：
+
+```text
+IAT GDI32.dll!CreateFontW: ... -> ...
+CreateFontW hook installed (editbox face -> KaiGenSP)
+IAT USER32.dll!SendMessageW: ... -> ...
+SendMessageW hook installed (WM_SETFONT observer/fallback)
+CreateFontW: editbox face -> KaiGenSP (height=15 weight=0 charset=1 caller=... rva=0x1CAE2F)
+WM_SETFONT Edit: face=KaiGenSP height=15 weight=0
+```
+
+启动时引擎会为 `#EDITBOX.CNT` 个 editbox 预创建字体（本作 12 个），日志里可能先出现
+若干 `height=0` 的替换；进入存档备注后还会出现 `height=15` 的那一次，属正常。
+如果 `WM_SETFONT Edit` 行显示 `face=MS Gothic`，说明 EDIT 拿到的仍是旧 HFONT，
+本 hook 会紧跟一条 `MS Gothic -> KaiGenSP` 并替换；如果显示 `face=KaiGenSP`，说明
+字体已经是 KaiGenSP，剩下的差异只可能来自字号/字重/抗锯齿或周围 UI 的不同字体。
+
+3. 备注框里的文字应变成 `KaiGenSP`（和周围 UI 一致），不再是 MS Gothic。
+
+> **重要**：DLL 只有在宿主 EXE 的导入表里有 `SiglusMovieFF.dll` 时才会加载。
+> `SiglusEngine.exe` 已经由 `patch_game.bat` 打上导入；`SiglusEngine_CHS_RECOMPILE.exe`
+> 默认没有。要测 RECOMPILE 版，请先对它执行 `patch_game.bat`（或
+> `DllInjector.exe SiglusMovieFF.dll SiglusEngine_CHS_RECOMPILE.exe`），否则日志里
+> 根本不会有本次运行的会话。
+
+### 排错
+
+* 没有 `CreateFontW hook installed`：当前 EXE 的导入表里没有
+  `GDI32.dll!CreateFontW`，或 DLL 加载得太晚。先确认日志里的 host module 和
+  IAT 行。
+* 有 `hook installed` 但没有 `editbox face -> KaiGenSP`：引擎实际传入的字体名
+  不是这两个字符串之一。把 `isEditboxFace()` 里的匹配改成实际值，或在包装函数里
+  临时打印 `pszFaceName` 的码点。
+* 字体没有变化但日志显示替换成功：确认 `dat\font02_chs.ttf` 已由
+  `#FONT_FILE` 加载；如果字体没加载，GDI 会回退到默认字体。
+* 这个 hook 只改宿主 EXE 的 IAT。如果将来 editbox 改由另一个模块创建，需要把
+  那个模块的 `CreateFontW` IAT 也纳入。
