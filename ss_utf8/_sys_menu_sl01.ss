@@ -1699,7 +1699,7 @@ return(@MSCHK)
 			@SLComData00[+@SysSLDate00]  = editbox[0].get_text
 			@SLComDataS00[+@SysSLDate00] = @SLComData00[+@SysSLDate00].left_len(34)
 			// コメント
-			@ex.f.obj[@ObjSysSL03].@cd[_ObjSysSLComText01+@SysSLDate00].create_string(@SLComDataS00[+@SysSLDate00], @On, 48+$_L[1], 282+$_L[2])
+			@ex.f.obj[@ObjSysSL03].@cd[_ObjSysSLComText01+@SysSLDate00].create_string(@SLComDataS00[+@SysSLDate00], @On, 48+$_L[1], 281+$_L[2]+$_L[3])
 			@ex.f.obj[@ObjSysSL03].@cd[_ObjSysSLComText01+@SysSLDate00].set_string_param(12, 0, 0, 0, 101, 1, 0)
 			syscom.set_save_comment(@StateData01, @SLComData00[+@SysSLDate00])
 			break
