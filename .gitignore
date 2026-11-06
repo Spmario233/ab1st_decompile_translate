@@ -30,3 +30,5 @@ exe_export/SiglusEngine_CHS_RECOMPILE.exe.bak
 /GameLauncher/dist
 *.bak
 SiglusEngine/SiglusEngine_CHS_RECOMPILE.exe
+/SiglusMovieFF/build
+/SiglusMovieFF/dist

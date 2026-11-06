@@ -310,6 +310,186 @@ DWORD WINAPI initThread(LPVOID) {
     return 0;
 }
 
+// ---------------------------------------------------------------------------
+// Game resource completeness check.
+//
+// The translation patch can be dropped into a folder that only contains the
+// patched files (Scene.pck.recompile / Gameexe.dat.recompile / exe / DLLs) but
+// not the original game resources.  The engine's own missing-file handling then
+// shows an endless, non-closable message loop.  Check the manifest before the
+// host's entry point runs, so a missing resource produces exactly one clear
+// error box and terminates the process.
+// ---------------------------------------------------------------------------
+static bool IsRegularFile(const std::wstring& path) {
+    DWORD attrs = GetFileAttributesW(path.c_str());
+    return attrs != INVALID_FILE_ATTRIBUTES &&
+           (attrs & FILE_ATTRIBUTE_DIRECTORY) == 0;
+}
+
+static std::wstring GetHostDirectory() {
+    wchar_t path[MAX_PATH] = { 0 };
+    DWORD n = GetModuleFileNameW(nullptr, path, _countof(path));
+    std::wstring s(path, n);
+    size_t p = s.find_last_of(L"\\/");
+    if (p != std::wstring::npos) s.resize(p);
+    return s;
+}
+
+static bool IsSiglusHost() {
+    wchar_t path[MAX_PATH] = { 0 };
+    DWORD n = GetModuleFileNameW(nullptr, path, _countof(path));
+    const wchar_t* base = path;
+    for (DWORD i = 0; i < n; ++i) {
+        if (path[i] == L'\\' || path[i] == L'/') base = path + i + 1;
+    }
+    return _wcsnicmp(base, L"SiglusEngine", 12) == 0;
+}
+
+static void FatalResourceError(const std::wstring& message) {
+    MessageBoxW(nullptr, message.c_str(), L"SiglusMovieFF - 游戏资源检查失败",
+                MB_OK | MB_ICONERROR | MB_TOPMOST | MB_SETFOREGROUND);
+    TerminateProcess(GetCurrentProcess(), 1);
+}
+
+static bool ReadAllBytes(const std::wstring& path, std::string& out) {
+    HANDLE h = CreateFileW(path.c_str(), GENERIC_READ,
+                           FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+                           OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (h == INVALID_HANDLE_VALUE) return false;
+    LARGE_INTEGER size = {};
+    if (!GetFileSizeEx(h, &size) || size.QuadPart <= 0 ||
+        size.QuadPart > 16 * 1024 * 1024) {
+        CloseHandle(h);
+        return false;
+    }
+    out.resize(static_cast<size_t>(size.QuadPart));
+    DWORD read = 0;
+    BOOL ok = ReadFile(h, out.data(), static_cast<DWORD>(out.size()), &read, nullptr);
+    CloseHandle(h);
+    return ok && read == out.size();
+}
+
+static std::wstring Utf8ToWide(const char* text, int length) {
+    if (!text || length <= 0) return std::wstring();
+    int n = MultiByteToWideChar(CP_UTF8, 0, text, length, nullptr, 0);
+    if (n <= 0) return std::wstring();
+    std::wstring w(static_cast<size_t>(n), L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, text, length, w.data(), n);
+    return w;
+}
+
+static bool CheckGameResources(const std::wstring& gameDir) {
+    std::wstring manifest = gameDir + L"\\SiglusMovieFF.resources.txt";
+    if (!IsRegularFile(manifest)) {
+        std::wstring alt = g_moduleDir + L"\\SiglusMovieFF.resources.txt";
+        if (IsRegularFile(alt)) {
+            manifest = alt;
+        } else {
+            FatalResourceError(L"找不到游戏资源清单文件：\n" + manifest +
+                               L"\n\n请确认补丁文件完整。");
+            return false;
+        }
+    }
+
+    std::string bytes;
+    if (!ReadAllBytes(manifest, bytes)) {
+        FatalResourceError(L"无法读取游戏资源清单：\n" + manifest +
+                           L"\n\n请确认文件未被占用且补丁完整。");
+        return false;
+    }
+
+    size_t pos = 0;
+    if (bytes.size() >= 3 &&
+        static_cast<unsigned char>(bytes[0]) == 0xEF &&
+        static_cast<unsigned char>(bytes[1]) == 0xBB &&
+        static_cast<unsigned char>(bytes[2]) == 0xBF) {
+        pos = 3;
+    }
+
+    std::vector<std::wstring> entries;
+    size_t expected = 0;
+    bool hasExpected = false;
+
+    while (pos < bytes.size()) {
+        size_t end = bytes.find('\n', pos);
+        if (end == std::string::npos) end = bytes.size();
+        std::string line = bytes.substr(pos, end - pos);
+        pos = (end < bytes.size()) ? end + 1 : end;
+
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (line.empty()) continue;
+        if (line[0] == '#') {
+            const char* p = line.c_str() + 1;
+            while (*p == ' ' || *p == '\t') ++p;
+            if (_strnicmp(p, "count=", 6) == 0) {
+                char* endp = nullptr;
+                unsigned long v = strtoul(p + 6, &endp, 10);
+                if (endp && endp != p + 6 && v > 0 && v < 1000000) {
+                    expected = static_cast<size_t>(v);
+                    hasExpected = true;
+                }
+            }
+            continue;
+        }
+
+        std::wstring entry = Utf8ToWide(line.data(), static_cast<int>(line.size()));
+        if (!entry.empty()) entries.push_back(entry);
+    }
+
+    if (entries.empty()) {
+        FatalResourceError(L"游戏资源清单为空：\n" + manifest +
+                           L"\n\n请重新生成清单。");
+        return false;
+    }
+    if (hasExpected && entries.size() != expected) {
+        FatalResourceError(L"游戏资源清单文件损坏：清单声明 " +
+                           std::to_wstring(expected) + L" 个文件，实际读取 " +
+                           std::to_wstring(entries.size()) +
+                           L" 个。\n\n请重新生成清单。");
+        return false;
+    }
+
+    std::vector<std::wstring> missing;
+    for (const std::wstring& rel : entries) {
+        std::wstring p = rel;
+        for (wchar_t& c : p) {
+            if (c == L'/') c = L'\\';
+        }
+        if (p.empty() || p[0] == L'\\' || (p.size() >= 2 && p[1] == L':')) {
+            missing.push_back(rel);
+            continue;
+        }
+        if (!IsRegularFile(gameDir + L"\\" + p)) {
+            missing.push_back(rel);
+        }
+    }
+
+    if (!missing.empty()) {
+        std::wstring msg = L"游戏资源文件不完整，无法启动。\n\n缺少以下文件（共 " +
+                           std::to_wstring(missing.size()) + L" 个）：\n";
+        size_t show = missing.size() < 12 ? missing.size() : 12;
+        for (size_t i = 0; i < show; ++i) {
+            msg += L"  ";
+            msg += missing[i];
+            msg += L"\n";
+        }
+        if (missing.size() > show) msg += L"  ...\n";
+        msg += L"\n请将汉化补丁复制到完整的原版游戏文件夹内并重试。";
+        FatalResourceError(msg);
+        return false;
+    }
+
+    OutputDebugStringW(L"SiglusMovieFF: resource check passed\n");
+    return true;
+}
+
+static bool CheckResourcesIfGame() {
+    if (!IsSiglusHost()) return true;
+    std::wstring gameDir = GetHostDirectory();
+    if (gameDir.empty()) return true;
+    return CheckGameResources(gameDir);
+}
+
 } // namespace
 
 // ---------------------------------------------------------------------------
@@ -350,6 +530,11 @@ BOOL APIENTRY DllMain(HMODULE self, DWORD reason, LPVOID) {
         g_moduleDir = path;
         size_t p = g_moduleDir.find_last_of(L'\\');
         if (p != std::wstring::npos) g_moduleDir = g_moduleDir.substr(0, p);
+        // The resource check must run before the host's entry point starts
+        // touching game files.  DllMain is the earliest reliable place.
+        if (!CheckResourcesIfGame()) {
+            return FALSE;
+        }
         // Do the heavy lifting on our own thread: loader lock safety.
         HANDLE h = CreateThread(nullptr, 0, initThread, nullptr, 0, nullptr);
         if (h) CloseHandle(h);

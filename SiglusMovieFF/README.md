@@ -35,6 +35,7 @@ patch_game.bat <游戏目录>\SiglusEngine.exe
 ```
 SiglusEngine.exe          <- 运行 patch_game.bat 打上导入
 SiglusMovieFF.dll         <- 本模块
+SiglusMovieFF.resources.txt <- 原版资源清单（缺文件时启动报错）
 avcodec-61.dll  avformat-61.dll  avutil-59.dll
 swscale-8.dll   swresample-5.dll
 ```
@@ -208,3 +209,38 @@ WM_SETFONT Edit: face=KaiGenSP height=15 weight=0
   `#FONT_FILE` 加载；如果字体没加载，GDI 会回退到默认字体。
 * 这个 hook 只改宿主 EXE 的 IAT。如果将来 editbox 改由另一个模块创建，需要把
   那个模块的 `CreateFontW` IAT 也纳入。
+
+## 10. 启动时游戏资源完整性检查（1.2.0）
+
+汉化补丁可能被放进一个只有补丁文件（`Scene.pck.recompile`、`Gameexe.dat.recompile`、
+EXE、DLL）而没有原版资源（`bgm`/`dat`/`g00`/`gan`/`koe`/`mov`/`wav`）的文件夹。
+引擎自己的缺文件处理不会中止游戏，而是进入无限弹窗。
+
+本 DLL 在 `DllMain(DLL_PROCESS_ATTACH)` 里、宿主进入 `WinMain` 之前做一次检查：
+
+1. 只对 `SiglusEngine*.exe` 宿主生效（`FakeMovieHost.exe` 等测试宿主跳过）。
+2. 从宿主 EXE 目录（找不到时回退到 DLL 目录）读取
+   `SiglusMovieFF.resources.txt`。
+3. 清单第一行是 `# count=N`；条目逐行列出相对宿主目录的文件。
+   清单为空、count 不匹配、清单缺失或任一文件不存在，都会弹出一个错误框，
+   列出前 12 个缺失文件，然后 `TerminateProcess` 结束游戏。
+4. 全部存在则静默通过（`OutputDebugString` 有一条 `resource check passed`）。
+
+### 生成清单
+
+清单来自原版游戏目录，排除 `Scene.pck` 和 `gameexe.dat`：
+
+```bat
+python tools\make_resource_manifest.py "C:\Program Files (x86)\Key\AngelBeats!\1st_beat" assets\SiglusMovieFF.resources.txt
+```
+
+本作原始目录生成 3178 个文件。`build.bat` 会把
+`assets\SiglusMovieFF.resources.txt` 复制到 `dist`。发布时 DLL 和这个清单必须
+放在同一个补丁目录（通常就是游戏 EXE 所在目录）。
+
+### 注意
+
+* 检查是**只查存在性**，不校验大小/哈希；它只负责阻止“补丁目录没有原版资源”
+  导致的无限弹窗。
+* 清单里的路径相对宿主 EXE 目录，使用 `/` 分隔；运行时自动转成 `\`。
+* 如果以后原版资源有增删，重新运行上面的命令生成清单。
