@@ -20,6 +20,9 @@
 #define @MySongINDEX 2
 #define @MySongDB 5
 
+#define @ThousandEnemiesINDEX 3
+#define @ThousandEnemiesDB 6
+
 // ---- 逐帧处理使用的 frame action 频道 ----
 // 本作已用 0-4、11-14，声音系统占 9-15，这里取 20
 #define @歌词FA频道 20
@@ -33,7 +36,7 @@
 #define @歌词Y 16
 #define @歌词行高 28
 #define @歌词字号 20
-#define @歌词前缀 "♪  "		// 每行歌词前面加一个♪和一个全角空格
+#define @歌词前缀 "♪  "		// 每行歌词前面加一个♪和两个半角空格
 
 // ---- 描边 / 阴影 ----
 // 和 _ex_achievement_main.ss 的 $start_effect 一样，用 set_string_param 的第 7 个参数控制：
@@ -59,6 +62,9 @@
 
 #define @MySong曲长 165670
 #define @MySong循环点 12592
+
+#define @ThousandEnemies曲长 86671
+#define @ThousandEnemies循环点 25190
 
 // ---- 对外接口 ----
 #macro @歌词开始 $$lyrics_start

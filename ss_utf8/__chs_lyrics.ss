@@ -160,6 +160,8 @@ command $$lyrics_begin()
 			@歌词歌曲ID = @AlchemyINDEX
 		case ("mysong")
 			@歌词歌曲ID = @MySongINDEX
+		case ("thousandenemies")
+			@歌词歌曲ID = @ThousandEnemiesIndex
 	}
 
 	// 2) 按歌曲 ID 确认要读取的数据库和循环参数
@@ -176,6 +178,10 @@ command $$lyrics_begin()
 			@歌词数据库 = @MySongDB
 			@歌词曲长 = @MySong曲长
 			@歌词循环点 = @MySong循环点
+		case (@ThousandEnemiesIndex)
+			@歌词数据库 = @ThousandEnemiesDB
+			@歌词曲长 = @ThousandEnemies曲长
+			@歌词循环点 = @ThousandEnemies循环点
 	}
 
 	if (@歌词数据库 < 0) {

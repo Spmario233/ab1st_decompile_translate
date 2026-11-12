@@ -5,6 +5,7 @@ siglus-ssu -d --c dat\comments.csv binary\1st_beat\dat\comments.dbs
 siglus-ssu -d --c dat\crowsong.csv binary\1st_beat\dat\crowsong.dbs
 siglus-ssu -d --c dat\alchemy.csv binary\1st_beat\dat\alchemy.dbs
 siglus-ssu -d --c dat\mysong.csv binary\1st_beat\dat\mysong.dbs
+siglus-ssu -d --c dat\thousandenemies.csv binary\1st_beat\dat\thousandenemies.dbs
 
 @echo off
 
