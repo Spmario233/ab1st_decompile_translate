@@ -55,10 +55,12 @@ ABOUT_TEXT = """《Angel Beats! -1st beat-》简体中文重编译汉化版
 
 引用来源：ExchangeRate.fun API（动态汇率引用）
 
-外围辅助AI：DeepSeek、ChatGPT、Qwen-Image
+外围辅助AI：DeepSeek、ChatGPT、Qwen-Image、Gemini
 """
 
-OLD_TRANSLATE_TEXT = """本汉化的程序和文本基于GPL v3协议开源。您可在遵循该许可证的情况下，对
+OLD_TRANSLATE_TEXT = """==================================================================== 
+
+本汉化的程序和文本基于GPL v3协议开源。您可在遵循该许可证的情况下，对
 本汉化补丁进行二次分发、自行修改或跨平台移植。但在进行二次分发的过程
 中，必须保持遵守上述开源许可证，对源代码进行同步分发。不得对被分享者
 的二次分发行为进行限制，也不得更换为其他更宽松的许可证。

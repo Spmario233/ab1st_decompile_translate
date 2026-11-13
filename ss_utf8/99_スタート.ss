@@ -48,11 +48,11 @@ if (@1stboot == @On)	{
 	@b.obj[@OBJ_BGXX].create("cn_sys_tm_war00", @On)
 	wipe(0, 1000)
 	//汉化版专属提示文件
-	@timewaitkey(2000)
+	@timewaitkey(5000)
 	wipe(0, 1000)
 	@b.obj[@OBJ_BGXX].create("cn_warning_recompiled", @On)
 	wipe(0, 2000)
-	@timewaitkey(8000)
+	@timewaitkey(5000)
 	wipe(0, 2000)
 }
 
