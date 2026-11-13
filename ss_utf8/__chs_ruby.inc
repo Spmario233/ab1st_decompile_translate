@@ -5,7 +5,7 @@
 #define @ruby没有活着的感觉 ruby("含义为“活得提心吊胆”") "没有活着的感觉" ruby
 #define @ruby婚前忧郁症 ruby("Marriage Blues") "婚前忧郁症" ruby
 #define @ruby性取向 ruby("取向") "想法" ruby
-#define @ruby龙卷风行动_带省略号 ruby("龙卷风行动") "OPERATION…TORNADO" ruby
+#define @ruby龙卷风作战_带省略号 ruby("龙卷风作战") "OPERATION…TORNADO" ruby
 #define @ruby丑八怪由理 ruby("ユリブサイク") "yu ri bu sa i ku" ruby
 #define @ruby级进下行 ruby("cliché") "级进下行" ruby
 #define @ruby分贝 ruby("Decibal") "分贝" ruby
