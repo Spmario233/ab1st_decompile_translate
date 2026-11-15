@@ -17,6 +17,7 @@
 #define @ruby棒球封杀 ruby("force out") "封杀" ruby
 #define @ruby宝永四年 ruby("公元1707年") "宝永四年" ruby
 #define @ruby我_boku ruby("boku") "我" ruby
+#define @ruby凯瑟琳 ruby("凯瑟琳") "花纱铃" ruby
 
 //代码部分
 #macro @注(@index)
