@@ -162,16 +162,39 @@
 	@cg1_pos_event(0, @time, @dst_x, @dst_y, 0, 2)
 
 //-----------------------------------------------------------------
-// イベントＣＧ移動表示マクロ（等速＋減速の２段）
-//   0～@bp_time : (@src_x,@src_y) から等速で (@bp_x,@bp_y) へ
-//   その後      : 継ぎ目の速度が連続するよう逆算した時間で (@dst_x,@dst_y) へ減速
+// ３Ｄ事件ＣＧ（亚像素移动）用常量
+//
+//   2D 对象的 x/y 是整数像素，慢速移动时会出现 1px 的阶梯。
+//   而放进 world（３Ｄ空间）的 quad 在透视投影时会经过浮点变换，
+//   只要把它放得足够远、使 1 个世界单位在屏幕上只占 1/@CG3D_N 像素，
+//   即使坐标被取整，画面上也是亚像素级的移动。
+//
+//     屏幕像素 = 世界长度 × FOCAL / DIST
+//     ⇒ DIST = FOCAL × @CG3D_N      （FOCAL = 以像素为单位的焦距）
+//     ⇒ SIZE = 1500 × @CG3D_N       （1000 = 100%，与原 2D 版一样按 150% 显示）
+//
+//   FOCAL 是按 camera_view_angle = 700（70°）为竖直视角估算的值。
+//   实机里若大小对不上，只需按比例调整 FOCAL
+//   （DIST 会跟着变，画面尺寸与位移会一起校正）。
 //-----------------------------------------------------------------
-#macro	@cg1_move_base_split(@filename, @src_x, @src_y, @dst_x, @dst_y, @bp_x, @bp_y, @bp_time, @wipe_no(3))
+#define	@CG3D_OBJ		200
+#define	@CG3D_N			16
+#define	@CG3D_FOCAL		514
+#define	@CG3D_DIST		(@CG3D_FOCAL * @CG3D_N)
+#define	@CG3D_SIZE		(1500 * @CG3D_N)
+#define	@CG3D_FOV		700
+
+//-----------------------------------------------------------------
+// 事件ＣＧ移动显示宏（３Ｄ版・与原版 @cg1_move_base 演出一致）
+//   在 @time 毫秒内用速度模式 2（减速）从 (@src_x,@src_y) 移动到 (@dst_x,@dst_y)。
+//   与 2D 版一样，淡入过程中就开始移动（wipe 不等待）。
+//-----------------------------------------------------------------
+#macro	@cg1_move_base3d(@filename, @src_x, @src_y, @dst_x, @dst_y, @time(3000), @wipe_no(3))
 	close
-	@cg1_set(@filename, 0, @src_x, @src_y, 255, 0, 150, 150)
-	@wipe(@wipe_no)
-	@get_cg1_state(0)
-	$bg_pos_split_event(0, @bp_time, @bp_x, @bp_y, @dst_x, @dst_y)
+	$cg3d_setup(@filename, @src_x, @src_y)
+	$wipe_wait = 0
+	@WIPE(@wipe_no)
+	$cg3d_move(@src_x, @src_y, @dst_x, @dst_y, @time)
 
 
 #macro	@cg1_pan_zu(@filename, @wipe_no(3), @time(30000), @interep(0), @src_scale(120), @dst_scale(100))

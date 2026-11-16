@@ -318,54 +318,7 @@ command $bg_pos_event(property $bg_num    : int,
 
 }
 
-/********************************************************
-*	背景／イベントＣＧアクションセット[座標・分割]		*
-*	0～time1 は等速で (bx,by) へ、その後は減速で (dx,dy) へ	*
-*	後半の時間は、継ぎ目で速度が連続するように逆算する	*
-*********************************************************/
-command $bg_pos_split_event(property $bg_num : int,
-                            property $time1   : int,
-                            property $bx      : int,
-                            property $by      : int,
-                            property $dx      : int,
-                            property $dy      : int) : int
-{
-	// t2 = 2 * (dx - bx) / ((bx - x0) / time1)
-	L[10] = $dx - $bx
-	L[11] = $bx - $bg_posx_prev[$bg_num]
-	if (L[11] == 0)	{
-		L[12] = $time1
-	}
-	else	{
-		L[12] = 2 * $time1 * L[10] / L[11]
-	}
-	if (L[12] < 0)	{
-		L[12] = -L[12]
-	}
 
-	$bg_action_time[$bg_num] = $time1 + L[12]
-	$bg_action_time_delay[$bg_num] = 0
-	$bg_action_speed_mod[$bg_num] = 2
-	$bg_action_end_time[$bg_num] = $bg_action_time[$bg_num]
-
-	@b.obj[@OBJ_BG01+$bg_num].create_copy_from(@f.obj[@OBJ_BG01+$bg_num])
-	@b.obj[@OBJ_BG01+$bg_num].frame_action_ch.resize(4)
-	@b.obj[@OBJ_BG01+$bg_num].frame_action_ch[0].start($bg_action_end_time[$bg_num], "$bg_action_start06",
-	                                                        $bg_posx_prev[$bg_num],
-	                                                        $bg_posy_prev[$bg_num],
-	                                                        $bx, $by, $dx, $dy,
-	                                                        $time1, L[12])
-
-	@f.obj[@OBJ_BG01+$bg_num].frame_action_ch.resize(4)
-	@f.obj[@OBJ_BG01+$bg_num].frame_action_ch[0].start($bg_action_end_time[$bg_num], "$bg_action_start06",
-	                                                        $bg_posx_prev[$bg_num],
-	                                                        $bg_posy_prev[$bg_num],
-	                                                        $bx, $by, $dx, $dy,
-	                                                        $time1, L[12])
-
-	$bg_posx_prev[$bg_num] = $dx
-	$bg_posy_prev[$bg_num] = $dy
-}
 
 
 /********************************************************
@@ -758,31 +711,7 @@ command $bg_action_start01(
 	}
 }
 
-//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-// ■背景／イベントＣＧフレームアクション[座標・分割]
-//   0～time1 は等速、time1～time1+time2 は減速
-//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-command $bg_action_start06(
-	property $fa    : frameaction,
-	property $obj   : object,
-	property $x0    : int,
-	property $y0    : int,
-	property $bx    : int,
-	property $by    : int,
-	property $dx    : int,
-	property $dy    : int,
-	property $time1 : int,
-	property $time2 : int)
-{
-	L[0] = $fa.counter.get
-	if ($time1 <= 0)	{
-		$obj.x = math.timetable(L[0], 0, $x0, [0, $time2, $dx, 2])
-		$obj.y = math.timetable(L[0], 0, $y0, [0, $time2, $dy, 2])
-		return
-	}
-	$obj.x = math.timetable(L[0], 0, $x0, [0, $time1, $bx, 0], [$time1, $time1 + $time2, $dx, 2])
-	$obj.y = math.timetable(L[0], 0, $y0, [0, $time1, $by, 0], [$time1, $time1 + $time2, $dy, 2])
-}
+
 
 
 
@@ -1147,5 +1076,87 @@ command $bs_action_start(
 //			$obj.y_rep[0] = math.timetable(L[0], 0, 0, [0, $obj_time/2, $obj_y, 2], [$obj_time/2, $obj_time, 0, 2])
 
 	}
+}
+
+
+/********************************************************
+*	３Ｄ事件ＣＧ（亚像素移动）
+*	在 world[0] 里放一张 quad，用透视投影来移动
+*********************************************************/
+command $cg3d_setup(property $name : str, property $sx : int, property $sy : int) : int
+{
+	@b.obj[@CG3D_OBJ].init
+	@b.obj[@CG3D_OBJ].create($name, 0, 0, 0, 0)
+	@b.obj[@CG3D_OBJ].center_x = 640
+	@b.obj[@CG3D_OBJ].center_y = 360
+	@b.obj[@CG3D_OBJ].x = $sx * @CG3D_N
+	@b.obj[@CG3D_OBJ].y = 0 - ($sy * @CG3D_N)
+	@b.obj[@CG3D_OBJ].z = @CG3D_DIST
+	@b.obj[@CG3D_OBJ].scale_x = @CG3D_SIZE
+	// ３Ｄ的 quad 贴图上下是反的，把 Y 缩放取负来翻转
+	@b.obj[@CG3D_OBJ].scale_y = 0 - @CG3D_SIZE
+	@b.obj[@CG3D_OBJ].world = 0
+	@b.obj[@CG3D_OBJ].fog_use = 0
+	@b.obj[@CG3D_OBJ].culling = 0
+	@b.obj[@CG3D_OBJ].alpha_test = 0
+	@b.obj[@CG3D_OBJ].alpha_blend = 0
+	@b.obj[@CG3D_OBJ].layer = -10000
+	@b.obj[@CG3D_OBJ].wipe_copy = 1
+	@b.obj[@CG3D_OBJ].disp = 1
+
+	// 这版引擎里 world 是 stage 的成员（不是全局变量）
+	back.world[0].set_camera_eye(0, 0, 0)
+	back.world[0].set_camera_pint(0, 0, 1000)
+	back.world[0].set_camera_up(0, 1, 0)
+	back.world[0].camera_view_angle = @CG3D_FOV
+
+	front.world[0].set_camera_eye(0, 0, 0)
+	front.world[0].set_camera_pint(0, 0, 1000)
+	front.world[0].set_camera_up(0, 1, 0)
+	front.world[0].camera_view_angle = @CG3D_FOV
+}
+
+// 屏幕坐标 → 世界坐标（1px = @CG3D_N 单位，y 轴上下翻转）
+// 然后挂帧动作；速度模式 2（减速），与 2D 版 @cg1_move_base 一致
+command $cg3d_move(property $sx : int, property $sy : int,
+                   property $dx : int, property $dy : int,
+                   property $cg3d_time : int) : int
+{
+	L[0] = $sx * @CG3D_N
+	L[1] = 0 - ($sy * @CG3D_N)
+	L[2] = $dx * @CG3D_N
+	L[3] = 0 - ($dy * @CG3D_N)
+
+	@b.obj[@CG3D_OBJ].frame_action_ch.resize(4)
+	@b.obj[@CG3D_OBJ].frame_action_ch[0].start($cg3d_time, "$cg3d_action", L[0], L[1], L[2], L[3], $cg3d_time)
+	@f.obj[@CG3D_OBJ].frame_action_ch.resize(4)
+	@f.obj[@CG3D_OBJ].frame_action_ch[0].start($cg3d_time, "$cg3d_action", L[0], L[1], L[2], L[3], $cg3d_time)
+}
+
+// ３Ｄ版帧动作（坐标是世界单位）
+command $cg3d_action(property $fa : frameaction,
+                     property $obj : object,
+                     property $x0 : int, property $y0 : int,
+                     property $dx : int, property $dy : int,
+                     property $cg3d_time : int)
+{
+	L[0] = $fa.counter.get
+	$obj.x = math.timetable(L[0], 0, $x0, [0, $cg3d_time, $dx, 2])
+	$obj.y = math.timetable(L[0], 0, $y0, [0, $cg3d_time, $dy, 2])
+}
+
+// 拆除３Ｄ事件ＣＧ：停掉帧动作、清空对象（world 是固定大小，无法销毁）
+command $cg3d_kill(property $dummy : int)
+{
+	@f.obj[@CG3D_OBJ].frame_action_ch.resize(4)
+	@f.obj[@CG3D_OBJ].frame_action_ch[0].end
+	@b.obj[@CG3D_OBJ].frame_action_ch.resize(4)
+	@b.obj[@CG3D_OBJ].frame_action_ch[0].end
+
+	// init 之后对象不再引用 world[0]，之后 3D 通道就没有可绘制的内容了
+	@f.obj[@CG3D_OBJ].init
+	@f.obj[@CG3D_OBJ].disp = 0
+	@b.obj[@CG3D_OBJ].init
+	@b.obj[@CG3D_OBJ].disp = 0
 }
 
