@@ -319,6 +319,56 @@ command $bg_pos_event(property $bg_num    : int,
 }
 
 /********************************************************
+*	背景／イベントＣＧアクションセット[座標・分割]		*
+*	0～time1 は等速で (bx,by) へ、その後は減速で (dx,dy) へ	*
+*	後半の時間は、継ぎ目で速度が連続するように逆算する	*
+*********************************************************/
+command $bg_pos_split_event(property $bg_num : int,
+                            property $time1   : int,
+                            property $bx      : int,
+                            property $by      : int,
+                            property $dx      : int,
+                            property $dy      : int) : int
+{
+	// t2 = 2 * (dx - bx) / ((bx - x0) / time1)
+	L[10] = $dx - $bx
+	L[11] = $bx - $bg_posx_prev[$bg_num]
+	if (L[11] == 0)	{
+		L[12] = $time1
+	}
+	else	{
+		L[12] = 2 * $time1 * L[10] / L[11]
+	}
+	if (L[12] < 0)	{
+		L[12] = -L[12]
+	}
+
+	$bg_action_time[$bg_num] = $time1 + L[12]
+	$bg_action_time_delay[$bg_num] = 0
+	$bg_action_speed_mod[$bg_num] = 2
+	$bg_action_end_time[$bg_num] = $bg_action_time[$bg_num]
+
+	@b.obj[@OBJ_BG01+$bg_num].create_copy_from(@f.obj[@OBJ_BG01+$bg_num])
+	@b.obj[@OBJ_BG01+$bg_num].frame_action_ch.resize(4)
+	@b.obj[@OBJ_BG01+$bg_num].frame_action_ch[0].start($bg_action_end_time[$bg_num], "$bg_action_start06",
+	                                                        $bg_posx_prev[$bg_num],
+	                                                        $bg_posy_prev[$bg_num],
+	                                                        $bx, $by, $dx, $dy,
+	                                                        $time1, L[12])
+
+	@f.obj[@OBJ_BG01+$bg_num].frame_action_ch.resize(4)
+	@f.obj[@OBJ_BG01+$bg_num].frame_action_ch[0].start($bg_action_end_time[$bg_num], "$bg_action_start06",
+	                                                        $bg_posx_prev[$bg_num],
+	                                                        $bg_posy_prev[$bg_num],
+	                                                        $bx, $by, $dx, $dy,
+	                                                        $time1, L[12])
+
+	$bg_posx_prev[$bg_num] = $dx
+	$bg_posy_prev[$bg_num] = $dy
+}
+
+
+/********************************************************
 *														*
 *	背景／イベントＣＧアクションセット[不透明度]		*
 *														*
@@ -707,6 +757,33 @@ command $bg_action_start01(
 		$obj.y = math.timetable(L[0], $obj_time_dealy, $obj_y_prev, [0, $obj_time, $obj_y_next, $obj_speed_mod])
 	}
 }
+
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+// ■背景／イベントＣＧフレームアクション[座標・分割]
+//   0～time1 は等速、time1～time1+time2 は減速
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+command $bg_action_start06(
+	property $fa    : frameaction,
+	property $obj   : object,
+	property $x0    : int,
+	property $y0    : int,
+	property $bx    : int,
+	property $by    : int,
+	property $dx    : int,
+	property $dy    : int,
+	property $time1 : int,
+	property $time2 : int)
+{
+	L[0] = $fa.counter.get
+	if ($time1 <= 0)	{
+		$obj.x = math.timetable(L[0], 0, $x0, [0, $time2, $dx, 2])
+		$obj.y = math.timetable(L[0], 0, $y0, [0, $time2, $dy, 2])
+		return
+	}
+	$obj.x = math.timetable(L[0], 0, $x0, [0, $time1, $bx, 0], [$time1, $time1 + $time2, $dx, 2])
+	$obj.y = math.timetable(L[0], 0, $y0, [0, $time1, $by, 0], [$time1, $time1 + $time2, $dy, 2])
+}
+
 
 
 //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝

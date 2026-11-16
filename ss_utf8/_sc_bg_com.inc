@@ -447,6 +447,7 @@
 
 #command	$bg_set(str, int, int, int, int, int, int, int, int, int, int) : int
 #command	$bg_pos_event(int, int, int, int, int, int) : int
+#command	$bg_pos_split_event(int, int, int, int, int, int) : int
 #command	$bg_tr_event(int, int, int, int, int) : int
 #command	$bg_sc_event(int, int, int, int, int, int) : int
 #command	$bg_ro_event(int, int, int, int, int, int) : int

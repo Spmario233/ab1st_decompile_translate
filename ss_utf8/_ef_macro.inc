@@ -161,6 +161,19 @@
 	@get_cg1_state(0)
 	@cg1_pos_event(0, @time, @dst_x, @dst_y, 0, 2)
 
+//-----------------------------------------------------------------
+// イベントＣＧ移動表示マクロ（等速＋減速の２段）
+//   0～@bp_time : (@src_x,@src_y) から等速で (@bp_x,@bp_y) へ
+//   その後      : 継ぎ目の速度が連続するよう逆算した時間で (@dst_x,@dst_y) へ減速
+//-----------------------------------------------------------------
+#macro	@cg1_move_base_split(@filename, @src_x, @src_y, @dst_x, @dst_y, @bp_x, @bp_y, @bp_time, @wipe_no(3))
+	close
+	@cg1_set(@filename, 0, @src_x, @src_y, 255, 0, 150, 150)
+	@wipe(@wipe_no)
+	@get_cg1_state(0)
+	$bg_pos_split_event(0, @bp_time, @bp_x, @bp_y, @dst_x, @dst_y)
+
+
 #macro	@cg1_pan_zu(@filename, @wipe_no(3), @time(30000), @interep(0), @src_scale(120), @dst_scale(100))
 	@CG1_SET(@filename, 0, 0, 0, 255, 0, @src_scale, @src_scale)
 	@WIPE(@wipe_no)
