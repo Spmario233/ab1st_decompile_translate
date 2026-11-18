@@ -96,3 +96,4 @@
 #define @煮面 59
 #define @干布摩擦 60
 #define @Carnival 61
+#define @吃面不加蒜 62
