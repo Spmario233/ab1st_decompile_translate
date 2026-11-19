@@ -499,7 +499,7 @@ command $$initialize_achievement_system() {
 	$array_idx = $add_achievement_to_list($array_idx,568, $_f,69, F_FLAG,1209, "ネイキッド竹山を見た", "")	// @ネイキッド竹山を見た
 	$array_idx = $add_achievement_to_list($array_idx,569, $_f,70, F_FLAG,1210, "ネイキッド高松を見た", "")	// @ネイキッド高松を見た
 	//汉化版补全部分
-	$array_idx = $add_achievement_to_list($array_idx,700, $_f,71, F_FLAG,1231, "见到了TK的裸体", "")
+	$array_idx = $add_achievement_to_list($array_idx,700, $_f,71, F_FLAG,1231, "ネイキッドＴＫを見た", "")
 	//分歧点：在此插入汉化版添加到新成就
 	//VA你他妈是真傻逼啊，这种东西不写到数据库里，在这手写一大串flag指针和序列号，还要我手动+1
 	$array_idx = $add_achievement_to_list($array_idx,570, $_f,72, F_FLAG,0463, "両刀使い疑惑が浮かんだ", "")	// @AB06音無両刀使いと疑問覚える
@@ -629,9 +629,9 @@ command $$initialize_achievement_system() {
 	$array_idx = $add_achievement_to_list($array_idx,694, $_f,196, F_FLAG,1105, "直井とルームメイトになった", "")	// @直井とルームメイトになった
 	$array_idx = $add_achievement_to_list($array_idx,695, $_f,197, F_FLAG,1103, "直井の催眠術でこの世界から去った", "")	// @直井の催眠術でこの世界から去った
 	$array_idx = $add_achievement_to_list($array_idx,696, $_f,198, F_FLAG,1102, "日向の腕の中でこの世界から去った", "")	// @日向の腕の中でこの世界から去った
-	$array_idx = $add_achievement_to_list($array_idx,697, $_f,199, G_FLAG,0000, "ユイルートをクリアした", "")	// @ユイルートクリアした
-	$array_idx = $add_achievement_to_list($array_idx,698, $_f,200, G_FLAG,0001, "岩沢ルートをクリアした", "")	// @岩沢ルートクリアした
-	$array_idx = $add_achievement_to_list($array_idx,699, $_f,201, G_FLAG,0002, "松下ルートをクリアした", "")	// @松下ルートクリアした
+	$array_idx = $add_achievement_to_list($array_idx,697, $_f,199, G_FLAG,0000, "通关了由依线", "")	// @ユイルートクリアした
+	$array_idx = $add_achievement_to_list($array_idx,698, $_f,200, G_FLAG,0001, "通关了岩泽线", "")	// @岩沢ルートクリアした
+	$array_idx = $add_achievement_to_list($array_idx,699, $_f,201, G_FLAG,0002, "通关了松下线", "")	// @松下ルートクリアした
 
 	
 	
