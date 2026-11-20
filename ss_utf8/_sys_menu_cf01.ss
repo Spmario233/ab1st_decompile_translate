@@ -244,12 +244,12 @@ return
 	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn01+@SysCFPage].patno = @Operate
 
 	// 下部メニューボタン----------------------------------------------------------------------------------------------
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn04].create(sys_sm_page01, @On,   30, 648)						// ゲームを終了
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn05].create(sys_sm_page02, @On,  233, 648)						// タイトルに戻る
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn06].create(sys_sm_page03, @On,  438, 648)						// セーブ
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn07].create(sys_sm_page04, @On,  641, 648)						// ロード
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn08].create(sys_sm_page05, @On,  844, 648)						// コンフィグ
-	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn09].create(sys_sm_page06, @On, 1047, 648)						// ゲームに戻る
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn04].create(cn_sys_sm_page01, @On,   30, 648)						// ゲームを終了
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn05].create(cn_sys_sm_page02, @On,  233, 648)						// タイトルに戻る
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn06].create(cn_sys_sm_page03, @On,  438, 648)						// セーブ
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn07].create(cn_sys_sm_page04, @On,  641, 648)						// ロード
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn08].create(cn_sys_sm_page05, @On,  844, 648)						// コンフィグ
+	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn09].create(cn_sys_sm_page06, @On, 1047, 648)						// ゲームに戻る
 	@ex.f.obj[@ObjSysCF01].@cd[_ObjSysCFBtn08].patno = @Operate
 
 	// システム--------------------------------------------------------------------------------------------------------

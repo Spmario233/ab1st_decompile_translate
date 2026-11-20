@@ -949,7 +949,7 @@ command $initialize_extra_mode() {
 	// タイトルボタン
 	// ====================================
 	front.object[@OBJ_TITLE_BUTTON].init
-	front.object[@OBJ_TITLE_BUTTON].create(sys_sm_page02, 1)
+	front.object[@OBJ_TITLE_BUTTON].create(cn_sys_sm_page02, 1)
 	front.object[@OBJ_TITLE_BUTTON].wipe_copy = 1
 	front.object[@OBJ_TITLE_BUTTON].layer = 110
 	front.object[@OBJ_TITLE_BUTTON].set_pos(1076,662)
