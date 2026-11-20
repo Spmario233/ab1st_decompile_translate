@@ -62,8 +62,10 @@ FakeMovieHost.exe "<游戏>\mov\OP00.wmv" 20
 | `FakeMovieHost.exe` | 独立测试宿主 |
 | `patch_game.bat` + `tools\patch_add_import.py` | 给 EXE 加导入（脚本内有详细注释说明 PE 层面的三个坑） |
 
-运行时在 DLL 所在目录生成 `SiglusMovieFF.log`（共享读，游戏运行中也能看）。
-放一个空文件 `SiglusMovieFF.debug` 可打开 debug 级日志。
+运行时只在**游戏文件夹存在 `SiglusDebugger3.dll`** 时，才在 DLL 所在目录追加写
+`SiglusMovieFF.log`（共享读，游戏运行中也能看）；没有这个标记文件时完全不产生日志，
+详见第 11 节。放一个空文件 `SiglusMovieFF.debug` 可打开 debug 级日志（同样只在日志
+启用时有效）。
 
 ## 4. 功能与语义对照
 
@@ -172,7 +174,8 @@ quality）原样传递，因此不会影响字号和游戏正文。
 ### 验证
 
 1. 正常启动游戏，进入存档/读档画面，点某个存档的备注栏。
-2. 查看 DLL 同目录的 `SiglusMovieFF.log`，应出现：
+2. 查看 DLL 同目录的 `SiglusMovieFF.log`（需要游戏目录下存在
+   `SiglusDebugger3.dll`，见第 11 节），应出现：
 
 ```text
 IAT GDI32.dll!CreateFontW: ... -> ...
@@ -244,3 +247,24 @@ python tools\make_resource_manifest.py "C:\Program Files (x86)\Key\AngelBeats!\1
   导致的无限弹窗。
 * 清单里的路径相对宿主 EXE 目录，使用 `/` 分隔；运行时自动转成 `\`。
 * 如果以后原版资源有增删，重新运行上面的命令生成清单。
+
+## 11. 日志开关：只有存在 SiglusDebugger3.dll 时才写日志（1.3.0）
+
+发布用的补丁不应该在玩家机器上留下调试痕迹，所以日志改为**默认完全关闭**：
+
+* `SmfLogInit` 在宿主进程启动后检查**宿主 EXE 所在目录**（即游戏文件夹，不是当前
+  工作目录）下是否存在 `SiglusDebugger3.dll`。
+* 存在：照旧在 DLL 所在目录追加写 `SiglusMovieFF.log`，内容和格式与以前一致。
+* 不存在：
+  * 不创建 `SiglusMovieFF.log`；
+  * 不打开、不追加、不改写已经存在的 `SiglusMovieFF.log`（旧日志原样保留）；
+  * `SmfLog` 直接返回，连 `OutputDebugString` 也不输出；
+  * `SIGLUSMF_MEMLOG=1` 时原本会写的 `memcpy_last.log` 同样不生成。
+
+只按**存在性**判断，不加载、不校验内容；放一个空文件也有效。调试时把它放到游戏
+EXE 旁边，发布时删掉或改名（本仓库的游戏目录里用的是 `SiglusDebugger3.dll.xxx`）。
+`FakeMovieHost.exe` 自测也遵守同一规则：标记文件要放在 `FakeMovieHost.exe` 旁边才会
+生成日志。
+
+> 检查只在日志初始化时做一次。游戏运行期间新建/删除 `SiglusDebugger3.dll` 不会让
+> 当前会话的日志中途开启或关闭。

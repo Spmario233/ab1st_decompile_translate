@@ -6,7 +6,37 @@
 static HANDLE          g_logHandle = INVALID_HANDLE_VALUE;
 static std::mutex      g_logMutex;
 static std::atomic<int> g_logLevel{ SMF_LOG_INFO };
+static std::atomic<bool> g_logEnabled{ false };
 static wchar_t         g_logPath[MAX_PATH] = { 0 };
+
+// Logging is a debugging aid and must leave no trace in a released patch.
+// It is only enabled when the game folder contains SiglusDebugger3.dll, the
+// debugger used while working on the translation.  The marker is looked up next
+// to the host executable (the game folder), not in the current working
+// directory, so launching the game from a shortcut cannot change the outcome.
+static bool debuggerMarkerPresent(const wchar_t* moduleDir) {
+    std::wstring dir;
+    wchar_t host[MAX_PATH] = { 0 };
+    DWORD n = GetModuleFileNameW(nullptr, host, _countof(host));
+    if (n > 0 && n < _countof(host)) {
+        dir.assign(host, n);
+        size_t p = dir.find_last_of(L"\\/");
+        if (p != std::wstring::npos) dir.resize(p);
+    }
+    // GetModuleFileNameW should never fail for the main module; keep a sane
+    // fallback for unusual hosts.
+    if (dir.empty() && moduleDir) dir = moduleDir;
+    if (dir.empty()) return false;
+
+    std::wstring marker = dir + L"\\SiglusDebugger3.dll";
+    DWORD attrs = GetFileAttributesW(marker.c_str());
+    return attrs != INVALID_FILE_ATTRIBUTES &&
+           (attrs & FILE_ATTRIBUTE_DIRECTORY) == 0;
+}
+
+bool SmfLogIsEnabled() {
+    return g_logEnabled.load(std::memory_order_relaxed);
+}
 
 static void makeDirFor(const wchar_t* file) {
     wchar_t buf[MAX_PATH];
@@ -24,6 +54,15 @@ static void makeDirFor(const wchar_t* file) {
 void SmfLogInit(const wchar_t* moduleDir) {
     std::lock_guard<std::mutex> lk(g_logMutex);
     if (g_logHandle != INVALID_HANDLE_VALUE) return;
+
+    // Without the debugger marker: do not create a log file, and do not append
+    // anything to a log left over from an earlier debug session.
+    if (!debuggerMarkerPresent(moduleDir)) {
+        g_logEnabled.store(false, std::memory_order_relaxed);
+        return;
+    }
+    g_logEnabled.store(true, std::memory_order_relaxed);
+
     // NOTE: this is a wide format string, so the argument must be %ls.  Using %s
     // here makes swprintf_s read the UTF-16 argument as ANSI, which overruns the
     // destination and corrupted memory at load time.
@@ -98,7 +137,7 @@ static void probeNotify(unsigned site, const void* dst, const void* src, size_t 
         wchar_t v[8] = { 0 };
         return GetEnvironmentVariableW(L"SIGLUSMF_MEMLOG", v, 8) && v[0] == L'1';
     }();
-    if (enabled) {
+    if (enabled && SmfLogIsEnabled()) {
         FILE* f = nullptr;
         if (fopen_s(&f, "memcpy_last.log", "wb") == 0 && f) {
             fprintf(f, "site=%u(%s) dst=%p src=%p bytes=%llu\n",
@@ -155,6 +194,9 @@ static const char* levelName(SmfLogLevel l) {
 }
 
 void SmfLog(SmfLogLevel level, const char* fmt, ...) {
+    // Complete no-op when the debugger marker is absent: no file is opened or
+    // written, and no debug string is emitted either.
+    if (!SmfLogIsEnabled()) return;
     if (level > g_logLevel.load()) return;
     char body[2048];
     va_list ap;

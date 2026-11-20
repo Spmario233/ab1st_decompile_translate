@@ -27,9 +27,9 @@ except Exception:
 
 MUSIC_FOLDER_NAME = "注释歌曲"
 ORDER_SEQUENTIAL = "顺序播放"
-ORDER_LIST_LOOP = "列表循环"
+ORDER_SINGLE_LOOP = "单曲循环"
 ORDER_RANDOM = "随机播放"
-ORDER_MODES = (ORDER_SEQUENTIAL, ORDER_LIST_LOOP, ORDER_RANDOM)
+ORDER_MODES = (ORDER_SEQUENTIAL, ORDER_SINGLE_LOOP, ORDER_RANDOM)
 
 
 def _format_time(ms):
@@ -175,7 +175,7 @@ class MusicPlayer:
         self.current_index = -1
         self.playing = False
         self.paused = False
-        self.order = ORDER_LIST_LOOP
+        self.order = ORDER_SEQUENTIAL
 
         # 以下三个变量用于在 pygame 上维护一个较准确的播放进度。
         self._length_ms = 0
@@ -645,12 +645,9 @@ class MusicPlayer:
 
         current = self.current_index
         if self.order == ORDER_SEQUENTIAL:
-            if current < len(self.playlist) - 1:
-                self.play_index(current + 1)
-            else:
-                self.stop()
-        elif self.order == ORDER_LIST_LOOP:
             self.play_index((current + 1) % len(self.playlist))
+        elif self.order == ORDER_SINGLE_LOOP:
+            self.play_index(current)
         else:  # 随机播放
             if len(self.playlist) <= 1:
                 self.play_index(0)

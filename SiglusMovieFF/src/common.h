@@ -31,7 +31,7 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 
-#define SMF_VERSION L"1.2.0"
+#define SMF_VERSION L"1.3.0"
 
 // ---------------------------------------------------------------- logging ---
 
@@ -41,6 +41,9 @@ void SmfLogInit(const wchar_t* moduleDir);
 void SmfLogShutdown();
 void SmfLogSetLevel(SmfLogLevel level);
 void SmfLog(SmfLogLevel level, const char* fmt, ...);
+// False unless the game folder contains SiglusDebugger3.dll (see log.cpp).
+// Other diagnostic writers must consult this before creating a file.
+bool SmfLogIsEnabled();
 
 #define SMF_ERR(...)  SmfLog(SMF_LOG_ERROR, __VA_ARGS__)
 #define SMF_WARN(...) SmfLog(SMF_LOG_WARN,  __VA_ARGS__)
