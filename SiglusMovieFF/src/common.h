@@ -31,7 +31,7 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 
-#define SMF_VERSION L"1.3.0"
+#define SMF_VERSION L"1.4.0"
 
 // ---------------------------------------------------------------- logging ---
 

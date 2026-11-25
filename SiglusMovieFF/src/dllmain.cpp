@@ -6,6 +6,7 @@
 // implements so that every engine call reaches us instead of the system DLL.
 #include "common.h"
 #include "mci.h"
+#include "fontdlg.h"
 #include <intrin.h>
 
 #pragma comment(lib, "winmm.lib")
@@ -285,6 +286,9 @@ void installHooks() {
     } else {
         SMF_WARN("SendMessageW hook: user32!SendMessageW IAT slot not found");
     }
+
+    // High-DPI layout repair for the engine's font settings window.
+    SmfFontDialogInit();
 }
 
 DWORD WINAPI initThread(LPVOID) {
@@ -491,6 +495,11 @@ static bool CheckResourcesIfGame() {
 }
 
 } // namespace
+
+// Lets other translation units patch the host's IAT with our replacements.
+bool SmfPatchHostIat(const char* dll, const char* name, void* replacement) {
+    return patchIatSlot(GetModuleHandleW(nullptr), dll, name, replacement);
+}
 
 // ---------------------------------------------------------------------------
 // Exported API

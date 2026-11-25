@@ -39,11 +39,11 @@ set "CFLAGS=%CFLAGS% /I"%SRC%" /I"%TP%\include""
 set "LDFLAGS=/nologo /DLL /DEF:"%SRC%\SiglusMovieFF.def" /OUT:"%DIST%\SiglusMovieFF.dll" /IMPLIB:"%BUILD%\SiglusMovieFF.lib" /PDB:"%BUILD%\SiglusMovieFF.pdb" /MAP:"%BUILD%\SiglusMovieFF.map" /OPT:REF /OPT:ICF"
 
 echo [build] compiling...
-cl %CFLAGS% /Fo"%BUILD%\\" "%SRC%\log.cpp" "%SRC%\audio_out.cpp" "%SRC%\video_out.cpp" "%SRC%\player.cpp" "%SRC%\mci.cpp" "%SRC%\dllmain.cpp"
+cl %CFLAGS% /Fo"%BUILD%\\" "%SRC%\log.cpp" "%SRC%\audio_out.cpp" "%SRC%\video_out.cpp" "%SRC%\player.cpp" "%SRC%\mci.cpp" "%SRC%\fontdlg.cpp" "%SRC%\dllmain.cpp"
 if errorlevel 1 exit /b 1
 
 echo [build] linking...
-link %LDFLAGS% "%BUILD%\log.obj" "%BUILD%\audio_out.obj" "%BUILD%\video_out.obj" "%BUILD%\player.obj" "%BUILD%\mci.obj" "%BUILD%\dllmain.obj" ^
+link %LDFLAGS% "%BUILD%\log.obj" "%BUILD%\audio_out.obj" "%BUILD%\video_out.obj" "%BUILD%\player.obj" "%BUILD%\mci.obj" "%BUILD%\fontdlg.obj" "%BUILD%\dllmain.obj" ^
      "%TP%\lib\avformat.lib" "%TP%\lib\avcodec.lib" "%TP%\lib\avutil.lib" "%TP%\lib\swscale.lib" "%TP%\lib\swresample.lib" ^
      winmm.lib ole32.lib oleaut32.lib user32.lib gdi32.lib advapi32.lib shell32.lib
 if errorlevel 1 exit /b 1
