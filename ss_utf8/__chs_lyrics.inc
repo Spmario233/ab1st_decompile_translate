@@ -36,7 +36,7 @@
 #define @歌词Y 16
 #define @歌词行高 28
 #define @歌词字号 20
-#define @歌词前缀 "♪  "		// 每行歌词前面加一个♪和两个半角空格
+#define @歌词前缀 "♪ "		// 每行歌词前面加一个♪和一个半角空格
 
 // ---- 描边 / 阴影 ----
 // 和 _ex_achievement_main.ss 的 $start_effect 一样，用 set_string_param 的第 7 个参数控制：

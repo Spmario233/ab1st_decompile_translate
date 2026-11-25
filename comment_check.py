@@ -9,7 +9,7 @@
 1. 如果某一行包含“@注”，且下一行既不包含“@注”也不包含“@清除注释”，
    则在终端输出警告，包含文件名、行号和行内容。
 2. 检查所有被英文双引号包裹的字符串。若其中出现 CODES_NEED_TO_CHECK 中的字符，
-   并且该字符后面没有紧接半角空格，则输出同样格式的警告。
+   并且该字符后面紧接半角空格，则输出同样格式的警告。
 """
 
 import re
@@ -30,7 +30,7 @@ END_FILE = "44_バッドエンド.ss"
 
 
 def has_code_without_following_space(line: str) -> bool:
-    """检查一行中是否有双引号字符串里的待检字符后缺少半角空格。"""
+    """检查一行中是否有双引号字符串里的待检字符后包含了半角空格。"""
     # 查找所有由英文双引号包裹的字符串；此处按简单的 "([^"]*)" 规则匹配
     for match in re.finditer(r'"([^"]*)"', line):
         text = match.group(1)
@@ -38,7 +38,7 @@ def has_code_without_following_space(line: str) -> bool:
             if ch not in CODES_NEED_TO_CHECK:
                 continue
             # 若该字符是字符串最后一个字符，也算作后面没有半角空格
-            if i + 1 >= len(text) or text[i + 1] != HALF_WIDTH_SPACE:
+            if i + 1 < len(text) and text[i + 1] == HALF_WIDTH_SPACE:
                 return True
     return False
 
@@ -85,7 +85,7 @@ def main() -> int:
 
             # 新增检查：双引号字符串中的待检字符后必须紧跟半角空格
             if has_code_without_following_space(line):
-                warnings.append((file_path.name, line_no, f"【标点后未加空格】{content}"))
+                warnings.append((file_path.name, line_no, f"【标点后加空格】{content}"))
     if ignored:
         for file_name, line_no, content in ignored:
             print(f"忽略：{file_name} 第 {line_no} 行：{content}")

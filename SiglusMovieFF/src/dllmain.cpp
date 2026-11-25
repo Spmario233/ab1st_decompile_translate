@@ -7,6 +7,7 @@
 #include "common.h"
 #include "mci.h"
 #include "fontdlg.h"
+#include "textfix.h"
 #include <intrin.h>
 
 #pragma comment(lib, "winmm.lib")
@@ -289,6 +290,8 @@ void installHooks() {
 
     // High-DPI layout repair for the engine's font settings window.
     SmfFontDialogInit();
+    // Line-break / glyph-width fixes for the Chinese build.
+    SmfTextFixInit();
 }
 
 DWORD WINAPI initThread(LPVOID) {
@@ -544,6 +547,9 @@ BOOL APIENTRY DllMain(HMODULE self, DWORD reason, LPVOID) {
         if (!CheckResourcesIfGame()) {
             return FALSE;
         }
+        // Text layout patches must be in place before the host renders its
+        // first frame, so they run here rather than on the worker thread.
+        SmfTextFixPatch();
         // Do the heavy lifting on our own thread: loader lock safety.
         HANDLE h = CreateThread(nullptr, 0, initThread, nullptr, 0, nullptr);
         if (h) CloseHandle(h);
